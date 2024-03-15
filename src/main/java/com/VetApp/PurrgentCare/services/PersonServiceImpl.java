@@ -29,6 +29,7 @@ public class PersonServiceImpl implements PersonServiceInterface {
 
     @Override
     public List<Person> getAllPersons() {
+        /*Todo: Add business logic.*/
         return personRepository.findAll();
     }
 
