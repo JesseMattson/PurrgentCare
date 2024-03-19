@@ -33,8 +33,8 @@ public class PersonServiceImpl implements PersonServiceInterface {
     }
 
     @Override
-    public void addPerson(Payload) {
-        personRepository.addPerson();
+    public void addPerson() {
+        //personRepository.addPerson();
     }
 
     private static Person buildDefaultPerson() {
