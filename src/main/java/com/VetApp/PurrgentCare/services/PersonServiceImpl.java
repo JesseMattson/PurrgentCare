@@ -32,8 +32,8 @@ public class PersonServiceImpl implements PersonServiceInterface {
     }
 
     @Override
-    public Person addPerson(Person person) {
-        return personRepository.save(person);
+    public void addPerson(Person person) {
+        personRepository.save(person);
     }
 
     private static Person buildDefaultPerson() {

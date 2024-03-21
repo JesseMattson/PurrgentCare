@@ -10,6 +10,6 @@ public interface PersonServiceInterface {
 
     List<Person> getAllPersons();
 
-    Person addPerson(Person person);
+    void addPerson(Person person);
 
 }
