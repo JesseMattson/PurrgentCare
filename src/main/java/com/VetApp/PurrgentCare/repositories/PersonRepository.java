@@ -9,5 +9,5 @@ public interface PersonRepository
 
     public Person findById(int id);
 
-    void addPerson(String name);
+    //void addPerson(Person person);
 }
