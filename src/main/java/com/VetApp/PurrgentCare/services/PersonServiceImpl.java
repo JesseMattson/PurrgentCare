@@ -2,7 +2,6 @@ package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
-import com.fasterxml.jackson.core.util.RequestPayload;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +32,8 @@ public class PersonServiceImpl implements PersonServiceInterface {
     }
 
     @Override
-    public void addPerson() {
-        //personRepository.addPerson();
+    public void addPerson(Person person) {
+        personRepository.save(person);
     }
 
     private static Person buildDefaultPerson() {

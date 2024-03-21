@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "4363bd7c-3178-4cb0-9a24-a742849833df",
+		"name": "PurrgentCare",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33776713"
+	},
+	"item": [
+		{
+			"name": "all Persons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{personsBaseURL}}all",
+					"host": [
+						"{{personsBaseURL}}all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Person",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{personsBaseURL}}{{personId}}",
+					"host": [
+						"{{personsBaseURL}}{{personId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Person",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"RandomName\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{personsBaseURL}}AddPerson",
+					"host": [
+						"{{personsBaseURL}}AddPerson"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "personId",
+			"value": "101"
+		},
+		{
+			"key": "personsBaseURL",
+			"value": "http://localhost:8080/persons/",
+			"type": "string"
+		}
+	]
+}
