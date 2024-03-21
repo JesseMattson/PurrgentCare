@@ -4,9 +4,7 @@ package com.VetApp.PurrgentCare.controllers;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.PersonServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,11 +32,11 @@ public class PersonController {
         return personService.getAllPersons();
     }
 
-    @GetMapping("/persons/AddPerson") // PathVariable is used to get ID from the URL
-    private void addPerson() {
+    @PostMapping("/persons/AddPerson")
+    private void addPerson(@RequestBody Person person) {
         //payloadService?
         //pass payload into a mapper
         //then after mapping use add person service to add to repository
-        personService.addPerson();
+        personService.addPerson(person);
     }
 }
