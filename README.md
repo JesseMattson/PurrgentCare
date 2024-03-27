@@ -8,7 +8,7 @@ and access the H2 in-memory database.
 
 ___
 
-### 💻 Application Purpose
+## 💻 Application Purpose
 
 This application provides functionality to veterinarian's offices to maintain client's information regarding
 their pets, their visits to the clinic, and diagnoses over time. Specific use cases will be built over time 
@@ -16,7 +16,7 @@ using an agile approach to continually expand functionality.
 
 ___
 
-### 🏛 Architecture
+## 🏛 Architecture
 
 This application is built on a [controller-service-repository architecture](https://tom-collings.medium.com/controller-service-repository-16e29a4684e5)
 to provide a good separation of concerns. This architecture leverages a [repository pattern](https://java-design-patterns.com/patterns/repository/)
@@ -25,7 +25,7 @@ leveraging the entity manager by following the [DAO pattern](https://www.baeldun
 
 ___
 
-### ⚙️ Pre-requisites
+## ⚙️ Pre-requisites
 
 - IDE (IntelliJ IDEA preferred)
 - Github
@@ -45,7 +45,11 @@ ___
 
 ___
 
-### 💾 Accessing the H2 Database Console
+## ⌨️ Development Workflow
+
+This project will leverage git flow for development workflow - See [Documentation][git-flow-doc]
+
+## 💾 Accessing the H2 Database Console
 
 H2 is a light weight in-memory database that enables fast local development without the leg work of wiring up
 a database, schema and connection settings. The database is only accessible while the application is running
@@ -55,9 +59,11 @@ and can be accessed through the built-in H2 console by URL only. [Additional Doc
 
 ___
 
-### 📫 Postman
+## 📫 Postman
 
 [Postman](https://www.postman.com/) is a software tool to test your API endpoints and
 validate backend functionality. This project leverages Postman and includes the collection
 that can be [imported](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-and-exporting-overview/)
 from the postman folder in this repository. 
+
+[git-flow-doc]: documentation/git-flow.md
