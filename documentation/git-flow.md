@@ -36,6 +36,7 @@ ___
 | **chore/**_{name}_    | documentation or administrative changes |
 | **bugfix/**_{name}_   | patching a bug or issue found           |       
 | **pipeline/**_{name}_ | new pipeline changes                    |
+| **test/**_{name}_     | new tests                               |
 
 ___
 

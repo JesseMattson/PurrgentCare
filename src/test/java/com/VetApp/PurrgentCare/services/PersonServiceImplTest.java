@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +19,32 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceImplTest {
+    private PersonServiceImpl serviceUnderTest;
+
     @Mock
     private PersonRepository mockPersonRepository;
 
-    private PersonServiceImpl serviceUnderTest;
-
     @BeforeEach
-    public void setUp() {
-        serviceUnderTest = new PersonServiceImpl(mockPersonRepository);
+    public void setup() {
+        this.serviceUnderTest = new PersonServiceImpl(mockPersonRepository);
+    }
+
+    @Test
+    public void getPerson_whenExist_returnOnePerson() {
+        // given
+        final var fakePerson = mock(Person.class);
+        final var fakePersonId = fakePerson.getId();
+        given(mockPersonRepository.findById(fakePersonId))
+                .willReturn(Optional.of(fakePerson));
+
+        // when
+        final var actual = serviceUnderTest.getPerson(fakePersonId);
+
+        // then
+        then(actual).isEqualTo(fakePerson);
     }
 
     @Test
@@ -69,3 +88,4 @@ public class PersonServiceImplTest {
         return personList;
     }
 }
+
