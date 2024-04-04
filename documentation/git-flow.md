@@ -16,6 +16,7 @@ ___
 | **git pull**                        | Updates your current local working branch with all new commits from the corresponding remote branch on GitHub |
 | **git checkout** _{branch-name}_    | Switches to the specified branch and updates the working directory                                            |
 | **git branch** _{branch-name}_      | Creates a new branch                                                                                          |
+| **git checkout -b** _{branch-name}_ | Creates and switches to the specified branch and updates the working directory                                |
 | **git status**                      | Show all files additions/deletions/modifications of the current local working branch                          |
 | **git add** _{document}_            | Adds the file in preparation for committing to version control                                                |
 | **git commit -m** _"{message}"_     | Records files permanently in version history with message                                                     |
@@ -35,6 +36,7 @@ ___
 | **chore/**_{name}_    | documentation or administrative changes |
 | **bugfix/**_{name}_   | patching a bug or issue found           |       
 | **pipeline/**_{name}_ | new pipeline changes                    |
+| **test/**_{name}_     | new tests                               |
 
 ___
 
@@ -47,7 +49,7 @@ ___
    1. ```git checkout main```
    2. ```git pull```
 2. Create branch from base branch
-   1. ```git branch feature/{feature_name}```
+   1. ```git checkout -b feature/{feature_name}```
 3. Perform code changes to meet Definition of Done
    1. See future documentation for DoD (code changes, tests, etc.)
 4. Verify files to commit changes
@@ -64,4 +66,4 @@ ___
 
 ___
 
-### [Back to Documentation](../README.md)
+[Back to Documentation](../README.md)
