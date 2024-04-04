@@ -31,7 +31,7 @@ public class PersonServiceImplTest {
     @Test
     public void getAllPersons_withValidInput_returnsAllPersons() {
         // given
-        final var countOfPersons = 2;
+        final var countOfPersons = new Random().nextInt(1000);
         final var expected = buildPersonList(countOfPersons);
         given(mockPersonRepository.findAll())
                 .willReturn(expected);
