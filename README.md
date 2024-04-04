@@ -59,6 +59,13 @@ and can be accessed through the built-in H2 console by URL only. [Additional Doc
 
 ___
 
+<<<<<<< HEAD
+# 🛠 Tools used in this project
+
+## 📘 [Markdown][markdown-doc]
+
+=======
+>>>>>>> main
 ## 📫 Postman
 
 [Postman](https://www.postman.com/) is a software tool to test your API endpoints and
@@ -66,4 +73,9 @@ validate backend functionality. This project leverages Postman and includes the 
 that can be [imported](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-and-exporting-overview/)
 from the postman folder in this repository. 
 
+<<<<<<< HEAD
 [git-flow-doc]: documentation/git-flow.md
+[markdown-doc]: documentation/markdown.md
+=======
+[git-flow-doc]: documentation/git-flow.md
+>>>>>>> main
