@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,7 +18,7 @@ import java.util.Random;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -76,6 +77,23 @@ public class PersonServiceImplTest {
         // then
         then(actual).isEqualTo(expected);
     }
+
+    @Test
+    public void addPerson_whenValidInput_returnsValidInput() {
+        // given
+        // any mocks we need to simulate a person/repo etc
+        final var fakePerson = mock(Person.class);
+
+        // when
+        // Mocked Person added
+        serviceUnderTest.addPerson(fakePerson);
+
+        // then
+        // check repo to see if person was added once
+        verify(mockPersonRepository,times(1)).save(fakePerson);
+    }
+
+
 
     private List<Person> buildPersonList(Integer countOfPersons) {
         List<Person> personList = new ArrayList<>(List.of());
