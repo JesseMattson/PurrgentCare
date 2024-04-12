@@ -23,12 +23,15 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceImplTest {
+
+    // Visibility (private) Type (PersonServiceImpl) Name(serviceUnderTest)
     private PersonServiceImpl serviceUnderTest;
 
     @Mock
     private PersonRepository mockPersonRepository;
 
     @BeforeEach
+    // Allows serviceUnderTest to use new Instance (class) for each test.
     public void setup() {
         this.serviceUnderTest = new PersonServiceImpl(mockPersonRepository);
     }
