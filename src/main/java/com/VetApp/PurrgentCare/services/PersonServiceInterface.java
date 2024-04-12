@@ -12,4 +12,5 @@ public interface PersonServiceInterface {
 
     void addPerson(Person person);
 
+    void deletePerson(Integer personId);
 }
