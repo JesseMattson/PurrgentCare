@@ -36,6 +36,11 @@ public class PersonServiceImpl implements PersonServiceInterface {
         personRepository.save(person);
     }
 
+    @Override
+    public void deletePerson (Integer personId) {
+        personRepository.deleteById(personId);
+    }
+
     private static Person buildDefaultPerson() {
         final var defaultPerson = new Person();
         defaultPerson.setId(99);
