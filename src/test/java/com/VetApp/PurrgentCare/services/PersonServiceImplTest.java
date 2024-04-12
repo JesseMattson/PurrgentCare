@@ -96,7 +96,18 @@ public class PersonServiceImplTest {
         verify(mockPersonRepository,times(1)).save(fakePerson);
     }
 
+    @Test
+    public void deletePerson_whenValidInput () {
+        // given
+        final var fakePersonID = new Random().nextInt(1000);
 
+        // when
+        serviceUnderTest.deletePerson(fakePersonID);
+
+        // then
+        verify(mockPersonRepository,times(1)).deleteById(fakePersonID);
+
+    }
 
     private List<Person> buildPersonList(Integer countOfPersons) {
         List<Person> personList = new ArrayList<>(List.of());
