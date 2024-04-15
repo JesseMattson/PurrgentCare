@@ -28,4 +28,4 @@ jobs:
       - name: Test
         run: mvn test
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag purrgent-care:${date +%s}
+        run: docker build . --file Dockerfile --tag purrgent-care:$(date +%s)
