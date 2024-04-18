@@ -39,4 +39,12 @@ public class PersonController {
         //then after mapping use add person service to add to repository
         personService.addPerson(person);
     }
+
+    @DeleteMapping("/persons/DeletePerson/{id}")
+    private void deletePerson(@PathVariable("id") Integer personId) {
+        personService.deletePerson(personId);
+
+    }
+
+
 }
