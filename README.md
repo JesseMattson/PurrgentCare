@@ -47,7 +47,9 @@ ___
 
 ## ⌨️ Development Workflow
 
-This project will leverage git flow for development workflow - See [Documentation][git-flow-doc]
+###  [GitFlow][git-flow-doc]
+
+This project will leverage [git flow][git-flow-doc] for development workflow.
 
 ## 💾 Accessing the H2 Database Console
 
@@ -65,7 +67,7 @@ ___
 
 ## 📘 [Markdown][markdown-doc]
 
-## 📫 Postman
+## 📫 [Postman](https://www.postman.com/)
 
 [Postman](https://www.postman.com/) is a software tool to test your API endpoints and
 validate backend functionality. This project leverages Postman and includes the collection
