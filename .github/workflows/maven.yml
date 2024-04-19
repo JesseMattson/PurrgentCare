@@ -1,4 +1,4 @@
-name: CI/CD with Maven
+name: Package, Build and Test
 
 on:
   push:
@@ -6,8 +6,11 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: read
+
 jobs:
-  build:
+  package-build-test-containerize:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +27,5 @@ jobs:
         run: mvn clean install -DskipTests
       - name: Test
         run: mvn test
+      - name: Build Docker image
+        run: docker build . --file Dockerfile --tag purrgent-care:$(date +%s)
