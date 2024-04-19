@@ -2,6 +2,7 @@ package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +41,15 @@ public class PersonServiceImpl implements PersonServiceInterface {
     public void deletePerson (Integer personId) {
         personRepository.deleteById(personId);
     }
+
+    @Override
+    public Person updatePerson(Person newPerson, Integer personId) {
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(personId)));
+        person.setName(newPerson.getName());
+        return personRepository.save(person);
+    }
+
 
     private static Person buildDefaultPerson() {
         final var defaultPerson = new Person();
