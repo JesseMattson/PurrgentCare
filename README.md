@@ -67,12 +67,9 @@ ___
 
 ## 📘 [Markdown][markdown-doc]
 
-## 📫 [Postman](https://www.postman.com/)
+## 📫 [Postman][postman-doc]
 
-[Postman](https://www.postman.com/) is a software tool to test your API endpoints and
-validate backend functionality. This project leverages Postman and includes the collection
-that can be [imported](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-and-exporting-overview/)
-from the postman folder in this repository. 
 
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
+[postman-doc]: documentation/postman.md

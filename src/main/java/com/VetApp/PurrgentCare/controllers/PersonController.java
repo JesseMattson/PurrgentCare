@@ -14,11 +14,6 @@ public class PersonController {
 
     @Autowired // You don't need to initialize the object.
     PersonServiceInterface personService;
-//TODO REPLACE WITH INTERFACE IN PersonServiceImpl
-//    @GetMapping("/persons") // URL end point
-//    public List<Person> getPersonsList() {
-//        return personRepository.findAll(); // JPA functions
-//    }
 
     @GetMapping("/persons/{id}") // PathVariable is used to get ID from the URL
     private Person getPerson(@PathVariable("id") Integer id) {
@@ -34,9 +29,14 @@ public class PersonController {
 
     @PostMapping("/persons/AddPerson")
     private void addPerson(@RequestBody Person person) {
-        //payloadService?
-        //pass payload into a mapper
-        //then after mapping use add person service to add to repository
-        personService.addPerson(person);
+       personService.addPerson(person);
     }
+
+    @DeleteMapping("/persons/DeletePerson/{id}")
+    private void deletePerson(@PathVariable("id") Integer personId) {
+        personService.deletePerson(personId);
+
+    }
+
+
 }
