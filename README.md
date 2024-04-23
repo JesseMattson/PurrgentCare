@@ -47,7 +47,7 @@ ___
 
 ## ⌨️ Development Workflow
 
-###  [GitFlow][git-flow-doc]
+### 🔀 [GitFlow][git-flow-doc]
 
 This project will leverage [git flow][git-flow-doc] for development workflow.
 

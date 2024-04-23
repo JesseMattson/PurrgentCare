@@ -16,7 +16,7 @@ This project abides by majority of best practices presented [here](https://www.b
 
 ___
 
-## Naming conventions
+## 📖 Naming conventions
 
 See example below as a template for testing creating test methods
 
@@ -34,7 +34,7 @@ See example below as a template for testing creating test methods
     }
 ```
 
-## Preferred Test Annotations
+## 📝 Preferred Test Annotations
 
 Refer to full documentation [here](https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations)
 
@@ -49,7 +49,7 @@ Refer to full documentation [here](https://junit.org/junit5/docs/current/user-gu
 @MethodSource
 ```
 
-## Mocking
+## 🎭 Mocking
 
 This project leverages Mockito as its Mocking framework. Mockito is an open source testing framework for Java released 
 under the MIT License. The framework allows the creation of test double objects in automated unit tests for the purpose 
@@ -59,7 +59,7 @@ Full Mockito documentation [here](https://javadoc.io/doc/org.mockito/mockito-cor
 
 Mockito Tutorials [here](https://www.baeldung.com/mockito-series)
 
-## Assertions
+## ❓ Assertions
 
 This project leverages AssertJ to provide the advantages of fluent assertions. See more info on comparison provided 
 [here](https://medium.com/nerd-for-tech/junit-vs-assertj-choosing-the-right-testing-framework-for-your-java-project-84d2664736dc)
