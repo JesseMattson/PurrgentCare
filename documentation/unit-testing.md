@@ -16,7 +16,7 @@ This project abides by majority of best practices presented [here](https://www.b
 
 ___
 
-## 📖 Naming conventions
+## 📖 Test Format
 
 See example below as a template for testing creating test methods
 
