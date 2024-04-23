@@ -51,7 +51,7 @@ ___
 
 This project will leverage [git flow][git-flow-doc] for development workflow.
 
-## 💾 Accessing the H2 Database Console
+### 💾 Accessing the H2 Database Console
 
 H2 is a light weight in-memory database that enables fast local development without the leg work of wiring up
 a database, schema and connection settings. The database is only accessible while the application is running
@@ -59,17 +59,21 @@ and can be accessed through the built-in H2 console by URL only. [Additional Doc
 
 - H2 console [link](http://localhost:8080/h2-console/)
 
+
+### 🧪 [Unit Testing][unit-testing-doc]
+
+This project requires unit testing as per the Definition of Done and meet code coverage requirements.
+
 ___
 
 # 🛠 Tools used in this project
 
-___
+- ### 📘 [Markdown][markdown-doc]
 
-## 📘 [Markdown][markdown-doc]
-
-## 📫 [Postman][postman-doc]
+- ### 📫 [Postman][postman-doc]
 
 
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
 [postman-doc]: documentation/postman.md
+[unit-testing-doc]: documentation/unit-testing.md
