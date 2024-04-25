@@ -4,11 +4,7 @@ package com.VetApp.PurrgentCare.controllers;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.PersonServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +35,12 @@ public class PersonController {
     @DeleteMapping("/persons/DeletePerson/{id}")
     private void deletePerson(@PathVariable("id") Integer personId) {
         personService.deletePerson(personId);
+
+    }
+
+    @PutMapping("/persons/UpdatePerson/{id}")
+    private Person updatePerson(@PathVariable("id")  Integer personId, @RequestBody Person person) {
+        return personService.updatePerson(person, personId);
 
     }
 
