@@ -13,7 +13,7 @@ Postman is an API platform for building and using APIs. Postman simplifies each 
 
 ---
 
-## Workflow
+## 🔄 Workflow
 1. [Import](https://learning.postman.com/docs/getting-started/importing-and-exporting/importing-data/) "postman_collection.json" from repository.
 2. Create new Postman [request](https://learning.postman.com/docs/getting-started/first-steps/sending-the-first-request/) in the apps [Collections](https://learning.postman.com/docs/collections/using-collections/)
 3. Add [variables](https://learning.postman.com/docs/sending-requests/variables/variables/) for requests as needed.

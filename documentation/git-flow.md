@@ -1,4 +1,4 @@
-# 🌳 Git flow
+# 🔀 Git flow
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 ___
 
-## Branching naming convention
+## 🌳 Branching naming convention
 
 | Base branch name      | Types of changes                        |
 |-----------------------|-----------------------------------------|
@@ -40,7 +40,7 @@ ___
 
 ___
 
-## Sample git flow on this project
+## 📖 Sample git flow on this project
 
 **Sample story**: Implement new feature for etc...
 
