@@ -13,4 +13,6 @@ public interface PersonServiceInterface {
     void addPerson(Person person);
 
     void deletePerson(Integer personId);
+
+    Person updatePerson(Person person, Integer personId);
 }

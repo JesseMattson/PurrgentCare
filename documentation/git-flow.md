@@ -28,7 +28,7 @@ ___
 
 ___
 
-## 📇 Branching naming convention
+## 🌳 Branching naming convention
 
 | Base branch name      | Types of changes                        |
 |-----------------------|-----------------------------------------|
