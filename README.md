@@ -68,6 +68,10 @@ ___
 
 # 🛠 Tools used in this project
 
+- ### ＠ [Annotations](https://medium.com/@himani.prasad016/spring-boot-annotations-2894594e3c4b):
+  - [Application annotations](https://www.geeksforgeeks.org/spring-boot-annotations/)
+  - [Model annotations](https://wkrzywiec.medium.com/project-lombok-how-to-make-your-model-class-simple-ad71319c35d5)
+
 - ### 📘 [Markdown][markdown-doc]
 
 - ### 📫 [Postman][postman-doc]
