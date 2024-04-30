@@ -33,7 +33,7 @@ public class PersonServiceImplTest {
     @BeforeEach
     // Allows serviceUnderTest to use new Instance (class) for each test.
     public void setup() {
-        this.serviceUnderTest = new PersonServiceImpl(mockPersonRepository);
+                this.serviceUnderTest = new PersonServiceImpl(mockPersonRepository);
     }
 
     @Test

@@ -4,36 +4,38 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.sql.Statement;
+
+@Getter
 @Entity(name = "Pet")
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
     private  int id;
 
-    @Getter
     @Setter
     private  String name;
 
-    @Getter
     @Setter
     private  String type;//TODO: Add Breed
 
-    @Getter
     @Setter
     private int age;
 
-    @Getter
     @Setter
     private  String gender;
 
 
+
+    @Override
+    public String toString() {
+        return "Pet [id=" + id + ", name=" + name + ", type=" + type + ", age=" + age + ", gender=" + gender
+               + "]";
+    }
 }

@@ -14,8 +14,7 @@ public class PersonServiceImpl implements PersonServiceInterface {
     public PersonServiceImpl(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
-
-    @Override
+ @Override
     public Person getPerson(Integer personId) {
 
         final var person = personRepository.findById(personId);
