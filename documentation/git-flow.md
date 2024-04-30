@@ -50,8 +50,7 @@ ___
    2. ```git pull```
 2. Create branch from base branch
    1. ```git checkout -b feature/{feature_name}```
-3. Perform code changes to meet Definition of Done
-   1. See future documentation for DoD (code changes, tests, etc.)
+3. Perform code changes to meet [Definition of Done](Definition-Of-Done.md)
 4. Verify files to commit changes
    1. ```git status```
    2. Review output for changes
@@ -60,6 +59,27 @@ ___
 6. Commit changes that were added with a descriptive message
    1. ```git commit -m {descriptive_message}```
 7. Push changes to remote branch in Github
+   1. ```git push origin feature/{feature_name}```
+
+**Sample story**: Resume work on new feature
+
+#### Logical steps with terminal commands:
+1. Get current base branch
+   1. ```git checkout main```
+   2. ```git pull```
+2. Create branch from base branch
+   1. ```git checkout feature/{feature_name}```
+3. Merge main into feature branch
+   1. ```git merge main```
+4. Perform code changes to meet [Definition of Done](Definition-Of-Done.md)
+5. Verify files to commit changes
+   1. ```git status```
+   2. Review output for changes
+6. Add changes to be committed in each commit
+   1. ```git add {filename}``` for each file
+7. Commit changes that were added with a descriptive message
+   1. ```git commit -m {descriptive_message}```
+8. Push changes to remote branch in Github
    1. ```git push origin feature/{feature_name}```
 
 ** All commands above are terminal based commands. For GUI usage in IntelliJ see [documentation](https://www.jetbrains.com/help/idea/using-git-integration.html)
