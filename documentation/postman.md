@@ -19,10 +19,10 @@ Postman is an API platform for building and using APIs. Postman simplifies each 
 3. Add [variables](https://learning.postman.com/docs/sending-requests/variables/variables/) for requests as needed.
 4. Save new postman request.
 5. Add any needed "seed" data to src/main/resources/import.sql
-5. Run local copy of app by clicking play button. [Shift + F10] (Windows Only). Make sure you're not running an individual test etc.
-6. Send Postman request(s). [Ctrl + <-] (Windows Only)
-7. [Export](https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/) data from Postman.
-8. Save over current "postman_collection.json" with latest collection export.
+6. Run local copy of app by clicking play button. [Shift + F10] (Windows Only). Make sure you're not running an individual test etc.
+7. Send Postman request(s). [Ctrl + <-] (Windows Only)
+8. [Export](https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/) data from Postman.
+9. Save over current "postman_collection.json" with latest collection export.
 ___
 
 ### [Back to Documentation](../README.md)
