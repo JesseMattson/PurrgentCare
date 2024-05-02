@@ -1,6 +1,7 @@
 package com.VetApp.PurrgentCare.services;
 
 
+import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.PetRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -45,6 +46,7 @@ public class PetServiceImplementationTest {
         then(actual).isEqualTo(fakePet);
     }
 
+
 //        //*TODO @Test public void getPet_whenNotExist_returnDefaultPet() {
 //            // given
 //            final var fakePet = mock(Pet.class);
@@ -58,4 +60,16 @@ public class PetServiceImplementationTest {
 //            // then
 //            then(actual).isEqualTo(fakePet);
 //  }
+
+    @Test
+    public void addPet_whenValidInput_returnsValidInput() {
+        // given
+        final var fakePet = mock(Pet.class);
+
+        // when
+        serviceUnderTest.addPet(fakePet);
+
+        // then
+        verify(mockPetRepository, times(1)).save(fakePet);
+    }
 }

@@ -6,4 +6,6 @@ public interface PetServiceInterface {
 
 
     Pet getPet(Integer petId);
+
+    void addPet(Pet pet);
 }
