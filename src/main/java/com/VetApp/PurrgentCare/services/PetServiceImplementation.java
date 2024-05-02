@@ -20,6 +20,9 @@ public class PetServiceImplementation implements PetServiceInterface {
             return pet.get();
         }
         return new Pet();
-
+    }
+    @Override
+    public void addPet(Pet pet) {
+        petRepository.save(pet);
     }
 }

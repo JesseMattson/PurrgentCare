@@ -2,6 +2,7 @@ package com.VetApp.PurrgentCare.controllers;
 
 
 
+import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.services.PetServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +22,9 @@ public class PetController {
 
         return petService.getPet(id);
     }
+    @PostMapping("/pet/AddPet")
+    private void addPet(@RequestBody Pet pet) {
+        petService.addPet(pet);
+    }
+
 }
