@@ -67,7 +67,7 @@ ___
 1. Get current base branch
    1. ```git checkout main```
    2. ```git pull```
-2. Create branch from base branch
+2. Switch to existing branch
    1. ```git checkout feature/{feature_name}```
 3. Merge main into feature branch
    1. ```git merge main```
