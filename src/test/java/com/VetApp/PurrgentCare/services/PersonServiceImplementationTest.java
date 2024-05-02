@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class PersonServiceImplTest {
+public class PersonServiceImplementationTest {
 
     // Visibility (private) Type (PersonServiceImpl) Name(serviceUnderTest)
-    private PersonServiceImpl serviceUnderTest;
+    private PersonServiceImplementation serviceUnderTest;
 
     @Mock
     private PersonRepository mockPersonRepository;
@@ -33,7 +33,7 @@ public class PersonServiceImplTest {
     @BeforeEach
     // Allows serviceUnderTest to use new Instance (class) for each test.
     public void setup() {
-                this.serviceUnderTest = new PersonServiceImpl(mockPersonRepository);
+                this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository);
     }
 
     @Test
