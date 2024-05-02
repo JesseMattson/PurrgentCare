@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PersonServiceImpl implements PersonServiceInterface {
+public class PersonServiceImplementation implements PersonServiceInterface {
     private final PersonRepository personRepository;
 
-    public PersonServiceImpl(PersonRepository personRepository) {
+    public PersonServiceImplementation(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
-
-    @Override
+ @Override
     public Person getPerson(Integer personId) {
 
         final var person = personRepository.findById(personId);
