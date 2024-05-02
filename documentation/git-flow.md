@@ -69,7 +69,7 @@ ___
    2. ```git pull```
 2. Switch to existing branch
    1. ```git checkout feature/{feature_name}```
-3. Merge main into feature branch
+3. Merge main into feature branch (if rebase required)
    1. ```git merge main```
 4. Perform code changes to meet [Definition of Done](Definition-Of-Done.md)
 5. Verify files to commit changes
