@@ -25,4 +25,7 @@ public class PetServiceImplementation implements PetServiceInterface {
     public void addPet(Pet pet) {
         petRepository.save(pet);
     }
+
+    @Override
+    public void deletePet (Integer petId) {petRepository.deleteById(petId);}
 }

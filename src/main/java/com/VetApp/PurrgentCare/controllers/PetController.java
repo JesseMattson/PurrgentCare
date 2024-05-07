@@ -27,4 +27,9 @@ public class PetController {
         petService.addPet(pet);
     }
 
-}
+    @DeleteMapping("/pet/DeletePet/{id}")
+    private void deletePerson(@PathVariable("id") Integer petId) {
+        petService.deletePet(petId);
+    }
+
+    }
