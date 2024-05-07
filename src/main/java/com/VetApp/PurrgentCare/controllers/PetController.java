@@ -27,4 +27,9 @@ public class PetController {
         petService.addPet(pet);
     }
 
+    @PutMapping("/pet/UpdatePet/{id}")
+    private Pet updatePet(@PathVariable("id")  Integer petId, @RequestBody Pet pet) {
+        return petService.updatePet(pet, petId);
+    }
+
 }
