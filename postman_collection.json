@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bb4c7a05-317b-486b-8e70-4b49940473dd",
+		"_postman_id": "e7602c36-439f-4264-a1b4-ff6bf9501460",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33908379"
@@ -11,9 +11,21 @@
 			"item": [
 				{
 					"name": "all Persons",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{personsBaseURL}}all",
 							"host": [
@@ -161,6 +173,20 @@
 							"raw": "{{petBaseURL}}{{petId}}",
 							"host": [
 								"{{petBaseURL}}{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all Pets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{petBaseURL}}all",
+							"host": [
+								"{{petBaseURL}}all"
 							]
 						}
 					},

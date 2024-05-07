@@ -8,7 +8,7 @@ import com.VetApp.PurrgentCare.services.PetServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.List;
 
 
 @RestController
@@ -27,4 +27,9 @@ public class PetController {
         petService.addPet(pet);
     }
 
+    @GetMapping("/pet/all")
+    private List<Pet> getAllPets() {
+
+        return petService.getAllPets();
+    }
 }
