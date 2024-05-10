@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "631ee048-98c4-452f-a807-a0b204d33c5c",
+		"_postman_id": "bb4c7a05-317b-486b-8e70-4b49940473dd",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33908379"
@@ -198,6 +198,23 @@
 							"raw": "{{petBaseURL}}UpdatePet/{{petId}}",
 							"host": [
 								"{{petBaseURL}}UpdatePet"
+							],
+							"path": [
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletePet",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{petBaseURL}}DeletePet/{{petId}}",
+							"host": [
+								"{{petBaseURL}}DeletePet"
 							],
 							"path": [
 								"{{petId}}"
