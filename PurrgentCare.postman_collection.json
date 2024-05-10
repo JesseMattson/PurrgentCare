@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e7602c36-439f-4264-a1b4-ff6bf9501460",
+		"_postman_id": "631ee048-98c4-452f-a807-a0b204d33c5c",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33908379"
@@ -11,21 +11,9 @@
 			"item": [
 				{
 					"name": "all Persons",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{personsBaseURL}}all",
 							"host": [
@@ -130,6 +118,20 @@
 			"name": "Pet",
 			"item": [
 				{
+					"name": "all Pet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{petBaseURL}}all",
+							"host": [
+								"{{petBaseURL}}all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Pet",
 					"request": {
 						"method": "POST",
@@ -179,14 +181,26 @@
 					"response": []
 				},
 				{
-					"name": "all Pets",
+					"name": "UpdatePet",
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"RandomName\",\r\n    \"type\": \"Cat\",\r\n    \"age\": \"5\",\r\n    \"gender\": \"Female\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{petBaseURL}}all",
+							"raw": "{{petBaseURL}}UpdatePet/{{petId}}",
 							"host": [
-								"{{petBaseURL}}all"
+								"{{petBaseURL}}UpdatePet"
+							],
+							"path": [
+								"{{petId}}"
 							]
 						}
 					},

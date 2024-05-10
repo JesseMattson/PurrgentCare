@@ -12,4 +12,6 @@ public interface PetServiceInterface {
     void addPet(Pet pet);
 
     List<Pet> getAllPets();
+
+    Pet updatePet (Pet pet, Integer petId);
 }
