@@ -30,6 +30,9 @@ public class PetServiceImplementation implements PetServiceInterface {
     }
 
     @Override
+    public void deletePet (Integer petId) {petRepository.deleteById(petId);}
+
+    @Override
     public List<Pet> getAllPets() {return petRepository.findAll();}
 
 

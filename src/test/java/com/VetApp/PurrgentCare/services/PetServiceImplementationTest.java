@@ -78,6 +78,20 @@ public class PetServiceImplementationTest {
         verify(mockPetRepository, times(1)).save(fakePet);
     }
 
+    @Test
+    public void deletePet_whenValidInput () {
+        // given
+        final var fakePetId = new Random().nextInt(1000);
+
+        // when
+        serviceUnderTest.deletePet(fakePetId);
+
+        // then
+        verify(mockPetRepository,times(1)).deleteById(fakePetId);
+
+    }
+
+
 
     @Test
     public void getAllPets_withValidInput_returnsAllPets() {
