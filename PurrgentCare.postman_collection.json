@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "565bb00c-cf83-45d0-a89f-d610a98fcd0d",
+		"_postman_id": "631ee048-98c4-452f-a807-a0b204d33c5c",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33908379"
@@ -117,6 +117,20 @@
 		{
 			"name": "Pet",
 			"item": [
+				{
+					"name": "all Pet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{petBaseURL}}all",
+							"host": [
+								"{{petBaseURL}}all"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Pet",
 					"request": {

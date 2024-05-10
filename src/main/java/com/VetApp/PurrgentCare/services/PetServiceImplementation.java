@@ -1,10 +1,11 @@
 package com.VetApp.PurrgentCare.services;
 
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PetServiceImplementation implements PetServiceInterface {
@@ -27,6 +28,10 @@ public class PetServiceImplementation implements PetServiceInterface {
     public void addPet(Pet pet) {
         petRepository.save(pet);
     }
+
+    @Override
+    public List<Pet> getAllPets() {return petRepository.findAll();}
+
 
     @Override
     public Pet updatePet(Pet newPet, Integer petId) {
