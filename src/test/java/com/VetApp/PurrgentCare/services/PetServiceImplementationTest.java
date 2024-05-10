@@ -1,7 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
 
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -76,6 +77,50 @@ public class PetServiceImplementationTest {
         // then
         verify(mockPetRepository, times(1)).save(fakePet);
     }
+
+
+    @Test
+    public void getAllPets_withValidInput_returnsAllPets() {
+        // given
+        final var countOfPets = new Random().nextInt(1000);
+        final var expected = buildPetList(countOfPets);
+        given(mockPetRepository.findAll())
+                .willReturn(expected);
+
+        // when
+        final var actual = serviceUnderTest.getAllPets();
+
+        // then
+        then(actual).isEqualTo(expected);
+        then(actual).hasSize(countOfPets);
+    }
+
+    @Test
+    public void getAllPets_whenNoPets_returnsEmptyList() {
+        // given
+        final List<Pet> expected = buildPetList(0);
+        given(mockPetRepository.findAll())
+                .willReturn(expected);
+
+        // when
+        final var actual = serviceUnderTest.getAllPets();
+
+        // then
+        then(actual).isEqualTo(expected);
+    }
+
+private List <Pet> buildPetList (Integer countOfPets) {
+        List<Pet> petList = new ArrayList<>(List.of());
+        var i = 1;
+        while (i <= countOfPets) {
+            var pet = mock(Pet.class);
+            petList.add(pet);
+            i++;
+        }
+      return petList;
+}
+
+
 
     @Test
     public void updatePet_whenPetExists_returnsUpdatedPet () {
