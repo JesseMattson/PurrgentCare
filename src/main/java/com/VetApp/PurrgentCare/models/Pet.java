@@ -11,7 +11,9 @@ import java.sql.Statement;
 @Getter
 @Entity(name = "Pet")
 @NoArgsConstructor
-//@RequiredArgsConstructor
+
+@AllArgsConstructor
+
 
 public class Pet {
 

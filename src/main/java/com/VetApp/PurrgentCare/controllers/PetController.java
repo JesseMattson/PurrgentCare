@@ -2,13 +2,12 @@ package com.VetApp.PurrgentCare.controllers;
 
 
 
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.services.PetServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.List;
 
 
 @RestController
@@ -28,8 +27,19 @@ public class PetController {
     }
 
     @DeleteMapping("/pet/DeletePet/{id}")
-    private void deletePerson(@PathVariable("id") Integer petId) {
+    private void deletePet(@PathVariable("id") Integer petId) {
         petService.deletePet(petId);
     }
 
+
+    @PutMapping("/pet/UpdatePet/{id}")
+    private Pet updatePet(@PathVariable("id")  Integer petId, @RequestBody Pet pet) {
+        return petService.updatePet(pet, petId);
     }
+
+    @GetMapping("/pet/all")
+    private List<Pet> getAllPets() {
+
+        return petService.getAllPets();
+    }
+}
