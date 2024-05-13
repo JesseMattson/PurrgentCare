@@ -35,6 +35,14 @@ ___
 
 ___
 
+### 🏗 Build the Application
+
+```shell
+mvn clean install -U
+```
+
+___
+
 ### ▶️ Running the Application
 
 - IntelliJ Run Configuration - See [Documentation](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html)
@@ -76,8 +84,10 @@ ___
 
 - ### 📫 [Postman][postman-doc]
 
+- ### 📊 [Jacoco][jacoco-doc]
 
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
 [postman-doc]: documentation/postman.md
 [unit-testing-doc]: documentation/unit-testing.md
+[jacoco-doc]: documentation/jacoco.md
