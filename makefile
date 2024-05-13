@@ -4,16 +4,18 @@ package:
 build:
 	mvn clean install -DskipTests
 
+run-tests:
+	mvn test
+
+compile: package build run-tests
+
 container:
 	docker build . --file Dockerfile --tag purrgent-care:latest
 
-test:
-	mvn test
-
-run:
+start-app:
 	mvn spring-boot:run
 
-pipeline: package build test container
+test-pipeline: compile container
 
 docker-clean:
 	docker system prune

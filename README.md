@@ -43,6 +43,12 @@ ___
 
 - Command Line (Jar or Maven) - See [Documentation](https://www.javaguides.net/2019/05/run-spring-boot-app-from-command-line.html)
 
+    **OR**
+
+```shell
+make start-app
+```
+
 ___
 
 ## ⌨️ Development Workflow
@@ -64,6 +70,10 @@ and can be accessed through the built-in H2 console by URL only. [Additional Doc
 
 This project requires unit testing as per the Definition of Done and meet code coverage requirements.
 
+- To run all tests run:
+  - ```mvn test```
+  - ```shell
+ run-tests```
 ___
 
 # 🛠 Tools used in this project
@@ -76,8 +86,11 @@ ___
 
 - ### 📫 [Postman][postman-doc]
 
+- ### [Makefile][makefile-doc]
+
 
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
 [postman-doc]: documentation/postman.md
+[makefile-doc]: documentation/makefile.md
 [unit-testing-doc]: documentation/unit-testing.md
