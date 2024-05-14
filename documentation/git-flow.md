@@ -40,16 +40,18 @@ ___
 
 ___
 
-## 📖 Sample git flow on this project
+## 📖 Sample git flows on this project
 
-**Sample story**: Implement new feature for etc...
+---
+
+### Sample story: Create new branch (IE: New Feature, Documentation, etc.)
 
 #### Logical steps with terminal commands:
 1. Get current base branch
    1. ```git checkout main```
    2. ```git pull```
 2. Create branch from base branch
-   1. ```git checkout -b feature/{feature_name}```
+   1. ```git checkout -b feature/{feature-name}```
 3. Perform code changes to meet [Definition of Done](Definition-Of-Done.md)
 4. Verify files to commit changes
    1. ```git status```
@@ -57,21 +59,49 @@ ___
 5. Add changes to be committed in each commit
    1. ```git add {filename}``` for each file
 6. Commit changes that were added with a descriptive message
-   1. ```git commit -m {descriptive_message}```
+   1. ```git commit -m {descriptive-message}```
 7. Push changes to remote branch in Github
-   1. ```git push origin feature/{feature_name}```
+   1. ```git push origin feature/{feature-name}```
 
-**Sample story**: Resume work on new feature
+---
+
+### Sample story: Resume work on branch
 
 #### Logical steps with terminal commands:
 1. Get current base branch
    1. ```git checkout main```
    2. ```git pull```
 2. Switch to existing branch
-   1. ```git checkout feature/{feature_name}```
+   1. ```git checkout feature/{feature-name}```
 3. Merge main into feature branch (if rebase required)
    1. ```git merge main```
 4. Perform code changes to meet [Definition of Done](Definition-Of-Done.md)
+5. Verify files to commit changes
+   1. ```git status```
+   2. Review output for changes
+6. Add changes to be committed in each commit
+   1. ```git add {filename}``` for each file
+7. Commit changes that were added with a descriptive message
+   1. ```git commit -m {descriptive-message}```
+8. Push changes to remote branch in Github
+   1. ```git push origin feature/{feature_name}```
+
+---
+
+### Sample story: Resolve conflicts between working branch and main branch
+
+#### Logical steps with terminal commands:
+1. Get working branch
+   1. ```git checkout feature/{feature-name}```
+   2. ```git pull```
+2. Get current main branch
+   1. ```git checkout main```
+   2. ```git pull```
+3. Merge working branch into main branch
+   1. ```git merge feature/{feature-name}```
+4. IntelliJ will prompt if conflicts exist
+   1. Follow IntelliJ [instructions][IntelliJ-Conflicts] to resolve conflicts
+   2. Note: Review each change carefully one by one.
 5. Verify files to commit changes
    1. ```git status```
    2. Review output for changes
@@ -82,8 +112,13 @@ ___
 8. Push changes to remote branch in Github
    1. ```git push origin feature/{feature_name}```
 
+---
+
+
 ** All commands above are terminal based commands. For GUI usage in IntelliJ see [documentation](https://www.jetbrains.com/help/idea/using-git-integration.html)
 
 ___
 
 ### [Back to Documentation](../README.md)
+
+[IntelliJ-Conflicts]:https://www.jetbrains.com/help/idea/resolve-conflicts.html
