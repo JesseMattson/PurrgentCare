@@ -32,6 +32,7 @@ ___
 - Bash (Windows) or Zsh (Mac) shell
 - Maven CLI
 - Postman
+- Gnu Make (Makefile)
 
 ___
 
