@@ -72,8 +72,7 @@ This project requires unit testing as per the Definition of Done and meet code c
 
 - To run all tests run:
   - ```mvn test```
-  - ```shell
- run-tests```
+  - ```make run-tests```
 ___
 
 # 🛠 Tools used in this project
