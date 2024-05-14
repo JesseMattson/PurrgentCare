@@ -23,6 +23,7 @@ Postman is an API platform for building and using APIs. Postman simplifies each 
 7. Send Postman request(s). [Ctrl + <-] (Windows Only)
 8. [Export](https://learning.postman.com/docs/getting-started/importing-and-exporting/exporting-data/) data from Postman.
 9. Save over current "postman_collection.json" with latest collection export.
+
 ___
 
 ### [Back to Documentation](../README.md)
