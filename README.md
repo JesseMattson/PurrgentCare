@@ -32,6 +32,7 @@ ___
 - Bash (Windows) or Zsh (Mac) shell
 - Maven CLI
 - Postman
+- Lombok
 
 ___
 
@@ -86,8 +87,11 @@ ___
 
 - ### 📊 [Jacoco][jacoco-doc]
 
+- ### 🌶 [Lombok][lombok-doc]
+
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
 [postman-doc]: documentation/postman.md
 [unit-testing-doc]: documentation/unit-testing.md
 [jacoco-doc]: documentation/jacoco.md
+[lombok-doc]: documentation/lombok.md
