@@ -32,6 +32,7 @@ ___
 - Bash (Windows) or Zsh (Mac) shell
 - Maven CLI
 - Postman
+- Gnu Make (Makefile)
 - Lombok
 
 ___
@@ -51,6 +52,12 @@ ___
     **OR**
 
 - Command Line (Jar or Maven) - See [Documentation](https://www.javaguides.net/2019/05/run-spring-boot-app-from-command-line.html)
+
+    **OR**
+
+```shell
+make start-app
+```
 
 ___
 
@@ -73,6 +80,9 @@ and can be accessed through the built-in H2 console by URL only. [Additional Doc
 
 This project requires unit testing as per the Definition of Done and meet code coverage requirements.
 
+- To run all tests run:
+  - ```mvn test```
+  - ```make run-tests```
 ___
 
 # 🛠 Tools used in this project
@@ -87,11 +97,14 @@ ___
 
 - ### 📊 [Jacoco][jacoco-doc]
 
+- ### [Makefile][makefile-doc]
+
 - ### 🌶 [Lombok][lombok-doc]
 
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
 [postman-doc]: documentation/postman.md
-[unit-testing-doc]: documentation/unit-testing.md
 [jacoco-doc]: documentation/jacoco.md
+[makefile-doc]: documentation/makefile.md
 [lombok-doc]: documentation/lombok.md
+[unit-testing-doc]: documentation/unit-testing.md
