@@ -1,5 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -113,8 +114,9 @@ public class PersonServiceImplementationTest {
     public void updatePerson_whenPersonExists_returnsUpdatedPerson () {
         // given
         final var fakePersonId = new Random().nextInt(1000);
-        final var originalPerson = new Person(fakePersonId, "John notTest");
-        final var updatedPerson = new Person(fakePersonId, "Gerald Test");
+        final var fakeAccount = new Account();
+        final var originalPerson = new Person(fakePersonId, "John notTest", fakeAccount);
+        final var updatedPerson = new Person(fakePersonId, "Gerald Test",fakeAccount);
         given(mockPersonRepository.findById(fakePersonId))
                 .willReturn(Optional.of(originalPerson));
         when(mockPersonRepository.save(any(Person.class)))
@@ -131,7 +133,8 @@ public class PersonServiceImplementationTest {
     public void updatePerson_whenPersonNotExists_throwEntityNotFoundException () {
         // given
         final var fakePersonId = new Random().nextInt(1000);
-        final var updatedPerson = new Person(fakePersonId, "Gerald Test");
+        final var fakeAccount = new Account();
+        final var updatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
         given(mockPersonRepository.findById(fakePersonId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePersonId)));
 

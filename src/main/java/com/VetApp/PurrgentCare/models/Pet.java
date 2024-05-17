@@ -1,9 +1,6 @@
 package com.VetApp.PurrgentCare.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Statement;
@@ -18,8 +15,8 @@ import java.sql.Statement;
 public class Pet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private  Integer id;
 
     @Setter
     private  String name;
@@ -28,12 +25,14 @@ public class Pet {
     private  String type;//TODO: Add Breed
 
     @Setter
-    private int age;
+    private Integer age;
 
     @Setter
     private  String gender;
 
 
+    @ManyToOne
+    private Account account;
 
     @Override
     public String toString() {
