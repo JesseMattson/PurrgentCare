@@ -10,6 +10,7 @@ import java.util.List;
 
 
 @RestController // Specifies that this is a Rest API
+@CrossOrigin(origins = "http://localhost:3000") // This enables CORS for this controller
 public class PersonController {
 
     @Autowired // You don't need to initialize the object.
