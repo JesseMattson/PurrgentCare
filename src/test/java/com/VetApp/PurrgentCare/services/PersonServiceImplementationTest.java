@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -124,7 +125,9 @@ public class PersonServiceImplementationTest {
         final var actual = serviceUnderTest.updatePerson(updatedPerson, fakePersonId);
 
         // then
-        then(actual).isEqualTo(updatedPerson);
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(originalPerson);
     }
 
     @Test
