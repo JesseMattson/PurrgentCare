@@ -33,6 +33,7 @@ ___
 - Maven CLI
 - Postman
 - Gnu Make (Makefile)
+- Lombok
 
 ___
 
@@ -98,10 +99,12 @@ ___
 
 - ### [Makefile][makefile-doc]
 
+- ### 🌶 [Lombok][lombok-doc]
 
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
 [postman-doc]: documentation/postman.md
 [jacoco-doc]: documentation/jacoco.md
 [makefile-doc]: documentation/makefile.md
+[lombok-doc]: documentation/lombok.md
 [unit-testing-doc]: documentation/unit-testing.md
