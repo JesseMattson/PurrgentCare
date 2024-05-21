@@ -1,6 +1,7 @@
 package com.VetApp.PurrgentCare.services;
 
 
+import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -140,8 +141,9 @@ private List <Pet> buildPetList (Integer countOfPets) {
     public void updatePet_whenPetExists_returnsUpdatedPet () {
         // given
         final var fakePetId = new Random().nextInt(1000);
-        final var originalPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male");
-        final var updatedPet = new Pet(fakePetId, "Maggie", "Dog", 3, "Female");
+        final var fakeAccount = new Account();
+        final var originalPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
+        final var updatedPet = new Pet(fakePetId, "Maggie", "Dog", 3, "Female",fakeAccount);
         given(mockPetRepository.findById(fakePetId))
                 .willReturn(Optional.of(originalPet));
         when(mockPetRepository.save(any(Pet.class)))
@@ -151,16 +153,17 @@ private List <Pet> buildPetList (Integer countOfPets) {
         final var actual = serviceUnderTest.updatePet(updatedPet, fakePetId);
 
         // then
-//        then(actual).isEqualTo(originalPet);
         assertThat(actual)
-                .isEqualToComparingFieldByFieldRecursively(originalPet);
+                .usingRecursiveComparison()
+                .isEqualTo(originalPet);
     }
 
     @Test
     public void updatePet_whenPetNotExists_throwEntityNotFoundException () {
         // given
         final var fakePetId = new Random().nextInt(1000);
-        final var updatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male");
+        final var fakeAccount = new Account();
+        final var updatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male",fakeAccount);
         given(mockPetRepository.findById(fakePetId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePetId)));
 
