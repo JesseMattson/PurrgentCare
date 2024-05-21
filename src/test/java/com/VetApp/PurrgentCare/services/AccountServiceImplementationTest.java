@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -69,5 +71,46 @@ public class AccountServiceImplementationTest {
 
     }
 
+    @Test
+    public void getAllAccounts_withValidInput_returnsAllAccounts() {
+        // given
+        final var countOfAccounts = new Random().nextInt(1000);
+        final var expected = buildAccountList(countOfAccounts);
+        given(mockAccountRepository.findAll())
+                .willReturn(expected);
 
+        // when
+        final var actual = serviceUnderTest.getAllAccounts();
+
+        // then
+        then(actual).isEqualTo(expected);
+        then(actual).hasSize(countOfAccounts);
+    }
+
+
+    @Test
+    public void getAllAccounts_whenNoAccounts_returnsEmptyList() {
+        // given
+        final List<Account> expected = buildAccountList(0);
+        given(mockAccountRepository.findAll())
+                .willReturn(expected);
+
+        // when
+        final var actual = serviceUnderTest.getAllAccounts();
+
+        // then
+        then(actual).isEqualTo(expected);
+    }
+
+
+    private List <Account> buildAccountList(Integer countOfAccounts) {
+        List<Account> accountList = new ArrayList<>(List.of());
+        var i = 1;
+        while (i <= countOfAccounts) {
+            var account = mock(Account.class);
+            accountList.add(account);
+            i++;
+        }
+        return accountList;
+    }
 }
