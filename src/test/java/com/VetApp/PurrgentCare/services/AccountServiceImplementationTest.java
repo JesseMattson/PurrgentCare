@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+import java.util.Random;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -55,5 +56,18 @@ public class AccountServiceImplementationTest {
         // then
         verify(mockAccountRepository, times(1)).save(fakeAccount);
     }
+    @Test
+    public void deleteAccount_whenValidInput () {
+        // given
+        final var fakeAccountId = new Random().nextInt(1000);
+
+        // when
+        serviceUnderTest.deleteAccount(fakeAccountId);
+
+        // then
+        verify(mockAccountRepository,times(1)).deleteById(fakeAccountId);
+
+    }
+
 
 }
