@@ -151,9 +151,9 @@ private List <Pet> buildPetList (Integer countOfPets) {
         final var actual = serviceUnderTest.updatePet(updatedPet, fakePetId);
 
         // then
-//        then(actual).isEqualTo(originalPet);
         assertThat(actual)
-                .isEqualToComparingFieldByFieldRecursively(originalPet);
+                .usingRecursiveComparison()
+                .isEqualTo(originalPet);
     }
 
     @Test
