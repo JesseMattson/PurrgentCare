@@ -23,11 +23,10 @@ public class Account {
     private Boolean active;
     @Setter
     private Date dateCreated;
-
+    @Setter
     @OneToMany(mappedBy = "account")
-
     private List<Person> accountHolders;
-
+    @Setter
     @OneToMany(mappedBy = "account")
     private List<Pet> pets;
 

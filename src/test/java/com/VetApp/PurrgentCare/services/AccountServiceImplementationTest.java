@@ -3,6 +3,7 @@ package com.VetApp.PurrgentCare.services;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -113,4 +116,48 @@ public class AccountServiceImplementationTest {
         }
         return accountList;
     }
+
+    // attempting to create tests for updating accounts but getting
+    // stuck because we do not have the ability to set accountHolders & pets
+    // --Unsure of how to continue as of now.
+
+
+//    @Test
+//    public void updateAccount_whenAccountExists_returnsUpdatedAccount () {
+//        // given
+//        final var fakeAccountId = new Random().nextInt(1000);
+//        final var fakeAccount = new Account();
+//        final var fakeAccountHolders = new ArrayList<accountHolders>()
+//        final var originalAccount = new Account(fakeAccountId, Boolean.TRUE, "05-21-2024", fakeAccountHolders, "Pharaoh");
+//        final var updatedAccount = new Account(fakeAccountId,"True", "05-21-2024");
+//        given(mockAccountRepository.findById(fakeAccountId))
+//                .willReturn(Optional.of(originalAccount));
+//        when(mockAccountRepository.save(any(Account.class)))
+//                .thenReturn(updatedAccount);
+//
+//        // when
+//        final var actual = serviceUnderTest.updatePet(updatedAccount, fakeAccountId);
+//
+//        // then
+//        assertThat(actual)
+//                .usingRecursiveComparison()
+//                .isEqualTo(originalAccount);
+//    }
+//
+//    @Test
+//    public void updatePet_whenPetNotExists_throwEntityNotFoundException () {
+//        // given
+//        final var fakePetId = new Random().nextInt(1000);
+//        final var fakeAccount = new Account();
+//        final var updatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male",fakeAccount);
+//        given(mockPetRepository.findById(fakePetId))
+//                .willThrow(new EntityNotFoundException(String.valueOf(fakePetId)));
+//
+//        // when && then
+//        final var exception = assertThrows(EntityNotFoundException.class,() -> {
+//            serviceUnderTest.updatePet(updatedPet, fakePetId);
+//        });
+//        then(exception.getMessage()).contains(String.valueOf(fakePetId));
+//    }
+
 }

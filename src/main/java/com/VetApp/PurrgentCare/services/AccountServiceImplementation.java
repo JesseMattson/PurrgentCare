@@ -6,6 +6,7 @@ import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,6 +50,8 @@ public class AccountServiceImplementation implements AccountServiceInterface {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
         account.setActive(newAccount.getActive());
         account.setDateCreated(newAccount.getDateCreated());
+        account.setAccountHolders(newAccount.getAccountHolders());
+        account.setPets(newAccount.getPets());
         return accountRepository.save(account);
     }
 
