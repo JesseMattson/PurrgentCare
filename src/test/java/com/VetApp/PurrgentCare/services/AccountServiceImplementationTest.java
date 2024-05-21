@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -42,6 +42,18 @@ public class AccountServiceImplementationTest {
 
         // then
         then(actual).isEqualTo(fakeAccount);
+    }
+
+    @Test
+    public void addAccount_whenValidInput_returnsValidInput() {
+        // given
+        final var fakeAccount = mock(Account.class);
+
+        // when
+        serviceUnderTest.addAccount(fakeAccount);
+
+        // then
+        verify(mockAccountRepository, times(1)).save(fakeAccount);
     }
 
 }
