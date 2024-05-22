@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.sql.Statement;
 
+@Builder
 @Getter
 @Entity(name = "Pet")
 @NoArgsConstructor

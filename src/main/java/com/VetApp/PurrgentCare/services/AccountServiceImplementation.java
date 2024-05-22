@@ -50,8 +50,6 @@ public class AccountServiceImplementation implements AccountServiceInterface {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
         account.setActive(newAccount.getActive());
         account.setDateCreated(newAccount.getDateCreated());
-        account.setAccountHolders(newAccount.getAccountHolders());
-        account.setPets(newAccount.getPets());
         return accountRepository.save(account);
     }
 

@@ -1,9 +1,7 @@
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,14 +9,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +28,8 @@ public class AccountServiceImplementationTest {
 
     @BeforeEach
     public void setup() {
-        this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository);}
+        this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository);
+    }
 
     @Test
     public void getAccount_whenExist_returnOneAccount() {
@@ -61,8 +56,9 @@ public class AccountServiceImplementationTest {
         // then
         verify(mockAccountRepository, times(1)).save(fakeAccount);
     }
+
     @Test
-    public void deleteAccount_whenValidInput () {
+    public void deleteAccount_whenValidInput() {
         // given
         final var fakeAccountId = new Random().nextInt(1000);
 
@@ -70,7 +66,7 @@ public class AccountServiceImplementationTest {
         serviceUnderTest.deleteAccount(fakeAccountId);
 
         // then
-        verify(mockAccountRepository,times(1)).deleteById(fakeAccountId);
+        verify(mockAccountRepository, times(1)).deleteById(fakeAccountId);
 
     }
 
@@ -106,7 +102,7 @@ public class AccountServiceImplementationTest {
     }
 
 
-    private List <Account> buildAccountList(Integer countOfAccounts) {
+    private List<Account> buildAccountList(Integer countOfAccounts) {
         List<Account> accountList = new ArrayList<>(List.of());
         var i = 1;
         while (i <= countOfAccounts) {
@@ -122,28 +118,34 @@ public class AccountServiceImplementationTest {
     // --Unsure of how to continue as of now.
 
 
-//    @Test
-//    public void updateAccount_whenAccountExists_returnsUpdatedAccount () {
-//        // given
-//        final var fakeAccountId = new Random().nextInt(1000);
-//        final var fakeAccount = new Account();
-//        final var fakeAccountHolders = new ArrayList<accountHolders>()
-//        final var originalAccount = new Account(fakeAccountId, Boolean.TRUE, "05-21-2024", fakeAccountHolders, "Pharaoh");
-//        final var updatedAccount = new Account(fakeAccountId,"True", "05-21-2024");
-//        given(mockAccountRepository.findById(fakeAccountId))
-//                .willReturn(Optional.of(originalAccount));
-//        when(mockAccountRepository.save(any(Account.class)))
-//                .thenReturn(updatedAccount);
-//
-//        // when
-//        final var actual = serviceUnderTest.updatePet(updatedAccount, fakeAccountId);
-//
-//        // then
-//        assertThat(actual)
-//                .usingRecursiveComparison()
-//                .isEqualTo(originalAccount);
-//    }
-//
+    @Test
+    public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
+        // given
+        final var accountId = new Random().nextInt(1000);
+        final var originalAccount = Account.builder()
+                .id(accountId)
+                .active(Boolean.TRUE)
+                .dateCreated(new Date())
+                .build();
+        final var updatedAccount = Account.builder()
+                .id(accountId)
+                .active(Boolean.FALSE)
+                .dateCreated(new Date(894561))
+                .build();
+        given(mockAccountRepository.findById(accountId))
+                .willReturn(Optional.of(originalAccount));
+        when(mockAccountRepository.save(originalAccount))
+                .thenReturn(updatedAccount);
+
+        // when
+        final var actual = serviceUnderTest.updateAccount(updatedAccount, accountId);
+
+        // then
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(originalAccount);
+    }
+
 //    @Test
 //    public void updatePet_whenPetNotExists_throwEntityNotFoundException () {
 //        // given
