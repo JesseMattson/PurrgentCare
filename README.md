@@ -22,6 +22,8 @@ This application is built on a [controller-service-repository architecture](http
 to provide a good separation of concerns. This architecture leverages a [repository pattern](https://java-design-patterns.com/patterns/repository/)
 for data access and retrieval. A repository pattern leverages pre-built JPA repositories and is preferable than 
 leveraging the entity manager by following the [DAO pattern](https://www.baeldung.com/java-dao-vs-repository).
+This application uses [React](https://react.dev/) for the UI portion of the application. More details can be seen
+in the [UI README][ui-readme]
 
 ___
 
@@ -34,6 +36,7 @@ ___
 - Postman
 - Gnu Make (Makefile)
 - Lombok
+- 
 
 ___
 
@@ -108,3 +111,4 @@ ___
 [makefile-doc]: documentation/makefile.md
 [lombok-doc]: documentation/lombok.md
 [unit-testing-doc]: documentation/unit-testing.md
+[ui-readme]: purrgent-care-ui/README.md

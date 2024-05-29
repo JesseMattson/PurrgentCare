@@ -73,3 +73,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 - [Video Link](https://www.youtube.com/watch?v=B5tcZoNyqGI)
 - [GitHub Link](https://github.com/oktadev/okta-spring-boot-react-crud-example)
+
+### [Back to Documentation](../README.md)

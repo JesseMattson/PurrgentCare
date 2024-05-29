@@ -1,21 +1,37 @@
-package:
+package-backend:
 	mvn -B package --file pom.xml -DskipTests
 
-build:
+build-backend:
 	mvn clean install -DskipTests
 
-run-tests:
-	mvn test
+test-backend:
+	mvn test jacoco:report
 
-compile: package build run-tests
+open-jacoco-report:
+	open target/site/jacoco/index.html
 
-container:
+test-and-coverage: test-backend open-jacoco-report
+
+compile-backend: package-backend build-backend test-backend
+
+container-backend:
 	docker build . --file Dockerfile --tag purrgent-care:latest
 
-start-app:
+start-backend:
+	make build-backend
 	mvn spring-boot:run
 
-test-pipeline: compile container
+test-backend-pipeline: compile-backend container-backend
 
 docker-clean:
 	docker system prune
+
+build-ui:
+	npm --prefix ./purrgent-care-ui install ./purrgent-care-ui
+
+test-ui:
+	npm test --prefix ./purrgent-care-ui -- --coverage
+
+start-ui:
+	make build-ui
+	npm start --prefix ./purrgent-care-ui
