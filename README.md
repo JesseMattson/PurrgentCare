@@ -36,31 +36,39 @@ ___
 - Postman
 - Gnu Make (Makefile)
 - Lombok
-- 
+- Node
+- Node Package Manager (npm)
 
 ___
 
 ### 🏗 Build the Application
 
 ```shell
+## Start Backend
 mvn clean install -U
 ```
+
+```shell
+## Start UI
+npm start --prefix ./purrgent-care-ui
+```
+- Also see commands in [makefile](./makefile)
 
 ___
 
 ### ▶️ Running the Application
 
-- IntelliJ Run Configuration - See [Documentation](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html)
-    
-    **OR**
-
-- Command Line (Jar or Maven) - See [Documentation](https://www.javaguides.net/2019/05/run-spring-boot-app-from-command-line.html)
-
-    **OR**
+```shell
+## Start Backend
+mvn spring-boot:run
+```
+- Backend alternatives: [Run config][run-config] or [Command line][run-command-line]
 
 ```shell
-make start-app
+## Start UI
+npm start --prefix ./purrgent-care-ui
 ```
+- Also see commands in [makefile](./makefile)
 
 ___
 
@@ -78,14 +86,24 @@ and can be accessed through the built-in H2 console by URL only. [Additional Doc
 
 - H2 console [link](http://localhost:8080/h2-console/)
 
+### 🖥️ [Accessing the UI](http://localhost:3000/)
 
 ### 🧪 [Unit Testing][unit-testing-doc]
 
 This project requires unit testing as per the Definition of Done and meet code coverage requirements.
 
 - To run all tests run:
-  - ```mvn test```
-  - ```make run-tests```
+```shell
+## Run Backend tests
+mvn test jacoco:report
+```
+
+```shell
+## Run UI tests
+npm test --prefix ./purrgent-care-ui
+```
+
+- Also see commands in [makefile](./makefile)
 ___
 
 # 🛠 Tools used in this project
@@ -100,7 +118,7 @@ ___
 
 - ### 📊 [Jacoco][jacoco-doc]
 
-- ### [Makefile][makefile-doc]
+- ### 📝 [Makefile][makefile-doc]
 
 - ### 🌶 [Lombok][lombok-doc]
 
@@ -112,3 +130,5 @@ ___
 [lombok-doc]: documentation/lombok.md
 [unit-testing-doc]: documentation/unit-testing.md
 [ui-readme]: purrgent-care-ui/README.md
+[run-config]: https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html
+[run-command-line]: https://www.javaguides.net/2019/05/run-spring-boot-app-from-command-line.html

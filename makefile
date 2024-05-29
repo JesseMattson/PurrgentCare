@@ -1,3 +1,4 @@
+## Backend section
 package-backend:
 	mvn -B package --file pom.xml -DskipTests
 
@@ -22,16 +23,22 @@ start-backend:
 	mvn spring-boot:run
 
 test-backend-pipeline: compile-backend container-backend
+## End Backend section
 
+## Docker section
 docker-clean:
 	docker system prune
+## End Docker section
 
+## UI section
+UI_DIRECTORY=./purrgent-care-ui
 build-ui:
-	npm --prefix ./purrgent-care-ui install ./purrgent-care-ui
+	npm --prefix ${UI_DIRECTORY} install ${UI_DIRECTORY}
 
 test-ui:
-	npm test --prefix ./purrgent-care-ui -- --coverage
+	npm test --prefix ${UI_DIRECTORY} -- --coverage
 
 start-ui:
 	make build-ui
-	npm start --prefix ./purrgent-care-ui
+	npm start --prefix ${UI_DIRECTORY}
+## End UI Section
