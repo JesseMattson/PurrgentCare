@@ -2,6 +2,7 @@ package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -146,20 +148,29 @@ public class AccountServiceImplementationTest {
                 .isEqualTo(originalAccount);
     }
 
-//    @Test
-//    public void updatePet_whenPetNotExists_throwEntityNotFoundException () {
-//        // given
-//        final var fakePetId = new Random().nextInt(1000);
-//        final var fakeAccount = new Account();
-//        final var updatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male",fakeAccount);
-//        given(mockPetRepository.findById(fakePetId))
-//                .willThrow(new EntityNotFoundException(String.valueOf(fakePetId)));
-//
-//        // when && then
-//        final var exception = assertThrows(EntityNotFoundException.class,() -> {
-//            serviceUnderTest.updatePet(updatedPet, fakePetId);
-//        });
-//        then(exception.getMessage()).contains(String.valueOf(fakePetId));
-//    }
+    @Test
+    public void updateAccount_whenAccountNotExists_throwEntityNotFoundException () {
+        // given
+        final var accountId = new Random().nextInt(1000);
+        final var originalAccount =  Account.builder()
+                .id(accountId)
+                .active(Boolean.TRUE)
+                .dateCreated(new Date())
+                .build();
+        final var updatedAccount =  Account.builder()
+                .id(accountId)
+                .active(Boolean.TRUE)
+                .dateCreated(new Date())
+                .build();
+                ;
+        given(mockAccountRepository.findById(accountId))
+                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+
+        // when && then
+        final var exception = assertThrows(EntityNotFoundException.class,() -> {
+            serviceUnderTest.updateAccount(updatedAccount, accountId);
+        });
+        then(exception.getMessage()).contains(String.valueOf(accountId));
+    }
 
 }
