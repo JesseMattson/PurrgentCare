@@ -20,7 +20,7 @@ const PetList = () => {
     }, []);
 
     const remove = async (id) => {
-        await fetch(`/pets/DeletePet/${id}`, {
+        await fetch(`/pet/DeletePet/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

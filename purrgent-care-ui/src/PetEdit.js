@@ -6,7 +6,10 @@ import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
 
 const PetEdit = () => {
     const initialFormState = {
-        name: ''
+        name: '',
+        type: '',
+        age: '',
+        gender: ''
     };
     const [pet, setPet] = useState(initialFormState);
     const navigate = useNavigate();
