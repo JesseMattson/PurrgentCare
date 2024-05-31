@@ -52,7 +52,6 @@ public class PersonServiceImplementation implements PersonServiceInterface {
 
     private static Person buildDefaultPerson() {
         final var defaultPerson = new Person();
-        defaultPerson.setId(99);
         defaultPerson.setName("default");
         return defaultPerson;
     }
