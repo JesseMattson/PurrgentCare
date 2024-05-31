@@ -11,6 +11,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") // This enables CORS for this controller
 public class PetController {
 
     @Autowired
