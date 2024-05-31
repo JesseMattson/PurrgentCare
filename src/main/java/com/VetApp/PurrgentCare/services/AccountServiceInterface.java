@@ -1,0 +1,21 @@
+package com.VetApp.PurrgentCare.services;
+
+import com.VetApp.PurrgentCare.models.Account;
+import com.VetApp.PurrgentCare.models.Person;
+
+import java.util.List;
+
+public interface AccountServiceInterface {
+
+
+    Account getAccount(Integer personId);
+
+    List<Account> getAllAccounts();
+
+    void addAccount(Account account);
+
+    void deleteAccount(Integer personId);
+
+    Account updateAccount(Account account, Integer personId);
+}
+
