@@ -513,9 +513,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{accountBaseURL}}all",
+							"raw": "{{accountBaseURL}}",
 							"host": [
-								"{{accountBaseURL}}all"
+								"{{accountBaseURL}}"
 							]
 						}
 					},
@@ -562,9 +562,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{accountBaseURL}}AddAccount",
+							"raw": "{{accountBaseURL}}",
 							"host": [
-								"{{accountBaseURL}}AddAccount"
+								"{{accountBaseURL}}"
 							]
 						}
 					},
@@ -588,8 +588,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -609,9 +612,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{accountBaseURL}}{{accountId}}",
+							"raw": "{{accountBaseURL}}/{{accountId}}",
 							"host": [
-								"{{accountBaseURL}}{{accountId}}"
+								"{{accountBaseURL}}"
+							],
+							"path": [
+								"{{accountId}}"
 							]
 						}
 					},
@@ -624,8 +630,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var json = JSON.parse(responseBody);\r",
-									"pm.variables.set(\"petId\", json.id);"
+									"pm.test(\"status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -655,9 +662,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{accountBaseURL}}UpdateAccount/{{accountId}}",
+							"raw": "{{accountBaseURL}}/{{accountId}}",
 							"host": [
-								"{{accountBaseURL}}UpdateAccount"
+								"{{accountBaseURL}}"
 							],
 							"path": [
 								"{{accountId}}"
@@ -718,7 +725,7 @@
 		},
 		{
 			"key": "accountBaseURL",
-			"value": "http://localhost:8080/accounts/",
+			"value": "http://localhost:8080/accounts",
 			"type": "string"
 		}
 	]
