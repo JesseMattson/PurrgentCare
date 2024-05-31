@@ -32,11 +32,13 @@ public class AccountController {
             accountService.addAccount(account);
         }
 
-    @DeleteMapping("/accounts/DeleteAccounts/{id}")
-        private void deleteAccount(@PathVariable("id") Integer accountId) {
-            accountService.deleteAccount(accountId);
 
-        }
+        // TODO: Need to create this with another feature.
+//    @DeleteMapping("/accounts/DeleteAccount/{id}")
+//        private void deleteAccount(@PathVariable("id") Integer accountId) {
+//            accountService.deleteAccount(accountId);
+//
+//        }
 
     @PutMapping("/accounts/UpdateAccount/{id}")
         private Account updateAccount(@PathVariable("id")  Integer accountId, @RequestBody Account account ) {
