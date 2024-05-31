@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import AppNavBar from "./AppNavBar";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
+import {PET_BASE_URL} from "./constants";
 
 
 const PetEdit = () => {
@@ -17,7 +18,7 @@ const PetEdit = () => {
 
     useEffect( () => {
         if (id !== 'new') {
-            fetch(`/pet/${id}`)
+            fetch(`${PET_BASE_URL}/${id}`)
                 .then(response => response.json())
                 .then(data => setPet(data));
         }
@@ -33,8 +34,8 @@ const PetEdit = () => {
         event.preventDefault();
         await fetch(
             (pet.id) ?
-                `/pet/UpdatePet/${pet.id}`
-                : `/pet/AddPet`,
+                `${PET_BASE_URL}/${pet.id}`
+                : `${PET_BASE_URL}`,
             {
                 method: (pet.id) ? 'PUT' : 'POST',
                 headers: {
@@ -44,7 +45,7 @@ const PetEdit = () => {
                 body: JSON.stringify(pet)
             });
         setPet(initialFormState);
-        navigate(`/pets`);
+        navigate(`${PET_BASE_URL}`);
     }
 
     const title = <h2>{pet.id ? 'Edit Pet' : 'Add Pet'}</h2>
@@ -76,7 +77,7 @@ const PetEdit = () => {
                 </FormGroup>
                 <FormGroup>
                     <Button color="primary" type="submit">Save</Button>{' '}
-                    <Button color="secondary" tag={Link} to="/pets">Cancel</Button>
+                    <Button color="secondary" tag={Link} to={`${PET_BASE_URL}`}>Cancel</Button>
                 </FormGroup>
             </Form>
         </Container>

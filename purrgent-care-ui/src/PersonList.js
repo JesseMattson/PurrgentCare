@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavBar';
 import { Link } from 'react-router-dom';
+import {PERSON_BASE_URL} from "./constants";
 
 const PersonList = () => {
 
@@ -11,7 +12,7 @@ const PersonList = () => {
     useEffect(() => {
         setLoading(true);
 
-        fetch('persons/all')
+        fetch(`${PERSON_BASE_URL}`)
             .then(response => response.json())
             .then(data => {
                 setPersons(data);
@@ -20,7 +21,7 @@ const PersonList = () => {
     }, []);
 
     const remove = async (id) => {
-        await fetch(`/persons/DeletePerson/${id}`, {
+        await fetch(`${PERSON_BASE_URL}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -42,7 +43,7 @@ const PersonList = () => {
             <td style={{ whiteSpace: 'nowrap' }}>{person.name}</td>
             <td>
                 <ButtonGroup>
-                    <Button size="sm" color="primary" tag={Link} to={"/persons/" + person.id}>Edit</Button>
+                    <Button size="sm" color="primary" tag={Link} to={`${PERSON_BASE_URL}/${person.id}`}>Edit</Button>
                     <Button size="sm" color="danger" onClick={() => remove(person.id)}>Delete</Button>
                 </ButtonGroup>
             </td>
@@ -54,7 +55,7 @@ const PersonList = () => {
             <AppNavbar/>
             <Container fluid>
                 <div className="float-end">
-                    <Button color="success" tag={Link} to="/persons/new">Add person</Button>
+                    <Button color="success" tag={Link} to={`${PERSON_BASE_URL}/new`}>Add person</Button>
                 </div>
                 <h3>Customers</h3>
                 <Table className="mt-4">
