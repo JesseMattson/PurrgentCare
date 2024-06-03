@@ -6,7 +6,9 @@ import PersonList from "./PersonList";
 import PersonEdit from "./PersonEdit";
 import PetList from "./PetList";
 import PetEdit from "./PetEdit";
-import {PERSON_BASE_URL, PET_BASE_URL} from "./constants";
+import {ACCOUNT_BASE_URL, PERSON_BASE_URL, PET_BASE_URL} from "./constants";
+import AccountList from "./AccountList";
+import AccountEdit from "./AccountEdit";
 
 const App = () => {
     return (
@@ -17,6 +19,8 @@ const App = () => {
                 <Route path={`${PERSON_BASE_URL}/:id`} exact={true} element={<PersonEdit/>}/>
                 <Route path={`${PET_BASE_URL}`} exact={true} element={<PetList/>}/>
                 <Route path={`${PET_BASE_URL}/:id`} exact={true} element={<PetEdit/>}/>
+                <Route path={`${ACCOUNT_BASE_URL}`} exact={true} element={<AccountList/>}/>
+                <Route path={`${ACCOUNT_BASE_URL}/:id`} exact={true} element={<AccountEdit/>}/>
             </Routes>
         </Router>
     )
