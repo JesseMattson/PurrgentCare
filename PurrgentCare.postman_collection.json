@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c069999b-8d1d-4d2a-ba1c-e043d1370edb",
+		"_postman_id": "0b156199-42d6-4767-aec1-9237c7d9b8f5",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24838144"
@@ -444,7 +444,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(204);\r",
 									"});\r",
 									"\r",
 									""
