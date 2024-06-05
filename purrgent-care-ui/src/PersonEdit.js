@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import AppNavBar from "./AppNavBar";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
+import {PERSON_BASE_URL} from "./constants";
 
 
 const PersonEdit = () => {
@@ -30,8 +31,8 @@ const PersonEdit = () => {
         event.preventDefault();
         await fetch(
             (person.id) ?
-                `UpdatePerson/${person.id}`
-                : `AddPerson`,
+                `${PERSON_BASE_URL}/${person.id}`
+                : `${PERSON_BASE_URL}`,
             {
                 method: (person.id) ? 'PUT' : 'POST',
                 headers: {
@@ -41,7 +42,7 @@ const PersonEdit = () => {
                 body: JSON.stringify(person)
             });
         setPerson(initialFormState);
-        navigate(`/persons`);
+        navigate(`${PERSON_BASE_URL}`);
     }
 
     const title = <h2>{person.id ? 'Edit Person' : 'Add Person'}</h2>
@@ -58,7 +59,7 @@ const PersonEdit = () => {
                 </FormGroup>
                 <FormGroup>
                     <Button color="primary" type="submit">Save</Button>{' '}
-                    <Button color="secondary" tag={Link} to="/persons">Cancel</Button>
+                    <Button color="secondary" tag={Link} to={`${PERSON_BASE_URL}`}>Cancel</Button>
                 </FormGroup>
             </Form>
         </Container>

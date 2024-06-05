@@ -2,6 +2,7 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavBar';
 import { Link } from 'react-router-dom';
 import {useEffect, useState} from "react";
+import {ACCOUNT_BASE_URL} from "./constants";
 
 const AccountList = () => {
 
@@ -11,7 +12,7 @@ const AccountList = () => {
     useEffect(() => {
         setLoading(true);
 
-        fetch('accounts/all')
+        fetch(`${ACCOUNT_BASE_URL}`)
             .then(response => response.json())
             .then(data => {
                 setAccounts(data);
@@ -20,7 +21,7 @@ const AccountList = () => {
     }, []);
 
     const remove = async (id) => {
-        await fetch(`/accounts/DeleteAccount/${id}`, {
+        await fetch(`${ACCOUNT_BASE_URL}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -39,10 +40,12 @@ const AccountList = () => {
 
     const accountList = accounts.map(account => {
         return <tr key={account.id}>
-            <td style={{ whiteSpace: 'nowrap' }}>{account.name}</td>
+            <td style={{ whiteSpace: 'nowrap' }}>{account.id}</td>
+            <td style={{ whiteSpace: 'nowrap' }}>{account.active.toString()}</td>
+            <td style={{ whiteSpace: 'nowrap' }}>{account.dateCreated}</td>
             <td>
                 <ButtonGroup>
-                    <Button size="sm" color="primary" tag={Link} to={"/accounts/" + account.id}>Edit</Button>
+                    <Button size="sm" color="primary" tag={Link} to={`${ACCOUNT_BASE_URL}/${account.id}`}>Edit</Button>
                     <Button size="sm" color="danger" onClick={() => remove(account.id)}>Delete</Button>
                 </ButtonGroup>
             </td>
@@ -54,13 +57,15 @@ const AccountList = () => {
             <AppNavbar/>
             <Container fluid>
                 <div className="float-end">
-                    <Button color="success" tag={Link} to="/accounts/new">Add Account</Button>
+                    <Button color="success" tag={Link} to={`${ACCOUNT_BASE_URL}/new`}>Add Account</Button>
                 </div>
                 <h3>Accounts</h3>
                 <Table className="mt-4">
                     <thead>
                     <tr>
-                        <th width="50%">Name</th>
+                        <th width="40%">Account Number</th>
+                        <th width="15%">Active</th>
+                        <th width="15%">Date Created</th>
                         <th width="20%">Action</th>
                     </tr>
                     </thead>

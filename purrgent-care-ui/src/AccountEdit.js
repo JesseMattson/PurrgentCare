@@ -2,11 +2,14 @@ import {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import AppNavBar from "./AppNavBar";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
+import {ACCOUNT_BASE_URL} from "./constants";
 
 
 const AccountEdit = () => {
     const initialFormState = {
-        name: ''
+        id: '',
+        active: '',
+        dateCreated: ''
     };
     const [account, setAccount] = useState(initialFormState);
     const navigate = useNavigate();
@@ -14,7 +17,7 @@ const AccountEdit = () => {
 
     useEffect( () => {
         if (id !== 'new') {
-            fetch(`${id}`)
+            fetch(`${ACCOUNT_BASE_URL}/${id}`)
                 .then(response => response.json())
                 .then(data => setAccount(data));
         }
@@ -30,8 +33,8 @@ const AccountEdit = () => {
         event.preventDefault();
         await fetch(
             (account.id) ?
-                `UpdateAccount/${account.id}`
-                : `AddAccount`,
+                `${ACCOUNT_BASE_URL}/${account.id}`
+                : `${ACCOUNT_BASE_URL}`,
             {
                 method: (account.id) ? 'PUT' : 'POST',
                 headers: {
@@ -41,7 +44,7 @@ const AccountEdit = () => {
                 body: JSON.stringify(account)
             });
         setAccount(initialFormState);
-        navigate(`/accounts`);
+        navigate(`${ACCOUNT_BASE_URL}`);
     }
 
     const title = <h2>{account.id ? 'Edit Account' : 'Add Account'}</h2>
@@ -52,13 +55,13 @@ const AccountEdit = () => {
             {title}
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
-                    <Label for="name">Name</Label>
-                    <Input type="text" name="name" value={account.name || ''}
-                           onChange={handleChange} autoComplete="name"/>
+                    <Label for="name">Active</Label>
+                    <Input type="text" name="active" value={account.active.toString() || ''}
+                           onChange={handleChange} autoComplete="active"/>
                 </FormGroup>
                 <FormGroup>
                     <Button color="primary" type="submit">Save</Button>{' '}
-                    <Button color="secondary" tag={Link} to="/accounts">Cancel</Button>
+                    <Button color="secondary" tag={Link} to={`${ACCOUNT_BASE_URL}`}>Cancel</Button>
                 </FormGroup>
             </Form>
         </Container>

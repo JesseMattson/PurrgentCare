@@ -13,21 +13,23 @@ import java.util.List;
 @RestController // Specifies that this is a Rest API
 public class AccountController {
 
+    private static final String BASE_URL = "/accounts";
+
     @Autowired // You don't need to initialize the object.
     AccountServiceInterface accountService;
 
-    @GetMapping("/accounts/{id}") // PathVariable is used to get ID from the URL
+    @GetMapping(BASE_URL + "/{id}") // PathVariable is used to get ID from the URL
     private Account getAccount(@PathVariable("id") Integer id) {
 
         return accountService.getAccount(id);
     }
 
-    @GetMapping("/accounts/all")
+    @GetMapping(BASE_URL)
     private List<Account> getAllAccounts() {
 
         return accountService.getAllAccounts();
     }
-    @PostMapping("/accounts/AddAccount")
+    @PostMapping(BASE_URL)
         private void addAccount(@RequestBody Account account) {
             accountService.addAccount(account);
         }
@@ -40,7 +42,7 @@ public class AccountController {
 //
 //        }
 
-    @PutMapping("/accounts/UpdateAccount/{id}")
+    @PutMapping(BASE_URL + "/{id}")
         private Account updateAccount(@PathVariable("id")  Integer accountId, @RequestBody Account account ) {
             return accountService.updateAccount(account, accountId);
 
