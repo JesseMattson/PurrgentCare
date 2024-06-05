@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c3d697cb-c01d-4fb0-a807-5d83fe7d4f2c",
+		"_postman_id": "c069999b-8d1d-4d2a-ba1c-e043d1370edb",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33908379"
+		"_exporter_id": "24838144"
 	},
 	"item": [
 		{
@@ -345,8 +345,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var json = JSON.parse(responseBody);\r",
-									"pm.variables.set(\"petId\", json.id);"
+									"pm.test(\"status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -355,8 +356,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
