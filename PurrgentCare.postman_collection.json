@@ -27,8 +27,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -36,9 +39,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{personsBaseURL}}all",
+							"raw": "{{personsBaseURL}}",
 							"host": [
-								"{{personsBaseURL}}all"
+								"{{personsBaseURL}}"
 							]
 						}
 					},
@@ -53,41 +56,6 @@
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{personsBaseURL}}{{personId}}",
-							"host": [
-								"{{personsBaseURL}}{{personId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Person",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
 									""
@@ -120,9 +88,103 @@
 							}
 						},
 						"url": {
-							"raw": "{{personsBaseURL}}AddPerson",
+							"raw": "{{personsBaseURL}}",
 							"host": [
-								"{{personsBaseURL}}AddPerson"
+								"{{personsBaseURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Person",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{personsBaseURL}}/{{personId}}",
+							"host": [
+								"{{personsBaseURL}}"
+							],
+							"path": [
+								"{{personId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePerson",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"UpdatedName\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{personsBaseURL}}/{{personId}}",
+							"host": [
+								"{{personsBaseURL}}"
+							],
+							"path": [
+								"{{personId}}"
 							]
 						}
 					},
@@ -136,7 +198,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(204);\r",
+									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									""
 								],
@@ -147,8 +209,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -165,35 +230,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{personsBaseURL}}DeletePerson/{{personId}}",
+							"raw": "{{personsBaseURL}}/{{personId}}",
 							"host": [
-								"{{personsBaseURL}}DeletePerson"
-							],
-							"path": [
-								"{{personId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "UpdatePerson",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"UpdatedName\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{personsBaseURL}}UpdatePerson/{{personId}}",
-							"host": [
-								"{{personsBaseURL}}UpdatePerson"
+								"{{personsBaseURL}}"
 							],
 							"path": [
 								"{{personId}}"
@@ -225,8 +264,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -234,9 +276,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{petBaseURL}}all",
+							"raw": "{{petBaseURL}}",
 							"host": [
-								"{{petBaseURL}}all"
+								"{{petBaseURL}}"
 							]
 						}
 					},
@@ -283,9 +325,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{petBaseURL}}AddPet",
+							"raw": "{{petBaseURL}}",
 							"host": [
-								"{{petBaseURL}}AddPet"
+								"{{petBaseURL}}"
 							]
 						}
 					},
@@ -309,8 +351,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -330,9 +375,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{petBaseURL}}{{petId}}",
+							"raw": "{{petBaseURL}}/{{petId}}",
 							"host": [
-								"{{petBaseURL}}{{petId}}"
+								"{{petBaseURL}}"
+							],
+							"path": [
+								"{{petId}}"
 							]
 						}
 					},
@@ -355,8 +403,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -373,9 +424,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{petBaseURL}}UpdatePet/{{petId}}",
+							"raw": "{{petBaseURL}}/{{petId}}",
 							"host": [
-								"{{petBaseURL}}UpdatePet"
+								"{{petBaseURL}}"
 							],
 							"path": [
 								"{{petId}}"
@@ -392,7 +443,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(204);\r",
+									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
 									""
@@ -404,8 +455,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -413,9 +467,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{petBaseURL}}DeletePet/{{petId}}",
+							"raw": "{{petBaseURL}}/{{petId}}",
 							"host": [
-								"{{petBaseURL}}DeletePet"
+								"{{petBaseURL}}"
 							],
 							"path": [
 								"{{petId}}"
@@ -459,9 +513,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{accountBaseURL}}all",
+							"raw": "{{accountBaseURL}}",
 							"host": [
-								"{{accountBaseURL}}all"
+								"{{accountBaseURL}}"
 							]
 						}
 					},
@@ -508,9 +562,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{accountBaseURL}}AddAccount",
+							"raw": "{{accountBaseURL}}",
 							"host": [
-								"{{accountBaseURL}}AddAccount"
+								"{{accountBaseURL}}"
 							]
 						}
 					},
@@ -534,8 +588,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -555,9 +612,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{accountBaseURL}}{{accountId}}",
+							"raw": "{{accountBaseURL}}/{{accountId}}",
 							"host": [
-								"{{accountBaseURL}}{{accountId}}"
+								"{{accountBaseURL}}"
+							],
+							"path": [
+								"{{accountId}}"
 							]
 						}
 					},
@@ -570,8 +630,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var json = JSON.parse(responseBody);\r",
-									"pm.variables.set(\"petId\", json.id);"
+									"pm.test(\"status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -601,9 +662,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{accountBaseURL}}UpdateAccount/{{accountId}}",
+							"raw": "{{accountBaseURL}}/{{accountId}}",
 							"host": [
-								"{{accountBaseURL}}UpdateAccount"
+								"{{accountBaseURL}}"
 							],
 							"path": [
 								"{{accountId}}"
@@ -644,12 +705,12 @@
 		},
 		{
 			"key": "personsBaseURL",
-			"value": "http://localhost:8080/persons/",
+			"value": "http://localhost:8080/persons",
 			"type": "string"
 		},
 		{
 			"key": "petBaseURL",
-			"value": "http://localhost:8080/pet/",
+			"value": "http://localhost:8080/pets",
 			"type": "string"
 		},
 		{
@@ -664,7 +725,7 @@
 		},
 		{
 			"key": "accountBaseURL",
-			"value": "http://localhost:8080/accounts/",
+			"value": "http://localhost:8080/accounts",
 			"type": "string"
 		}
 	]

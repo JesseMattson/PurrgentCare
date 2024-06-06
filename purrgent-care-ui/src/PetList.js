@@ -2,6 +2,7 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavBar';
 import { Link } from 'react-router-dom';
 import {useEffect, useState} from "react";
+import {PET_BASE_URL} from "./constants";
 
 const PetList = () => {
 
@@ -11,7 +12,7 @@ const PetList = () => {
     useEffect(() => {
         setLoading(true);
 
-        fetch('pet/all')
+        fetch(`${PET_BASE_URL}`)
             .then(response => response.json())
             .then(data => {
                 setPets(data);
@@ -20,7 +21,7 @@ const PetList = () => {
     }, []);
 
     const remove = async (id) => {
-        await fetch(`/pet/DeletePet/${id}`, {
+        await fetch(`${PET_BASE_URL}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -45,7 +46,7 @@ const PetList = () => {
             <td style={{ whiteSpace: 'nowrap' }}>{pet.gender}</td>
             <td>
                 <ButtonGroup>
-                    <Button size="sm" color="primary" tag={Link} to={"/pets/" + pet.id}>Edit</Button>
+                    <Button size="sm" color="primary" tag={Link} to={`${PET_BASE_URL}/${pet.id}`}>Edit</Button>
                     <Button size="sm" color="danger" onClick={() => remove(pet.id)}>Delete</Button>
                 </ButtonGroup>
             </td>
@@ -57,7 +58,7 @@ const PetList = () => {
             <AppNavbar/>
             <Container fluid>
                 <div className="float-end">
-                    <Button color="success" tag={Link} to="/pets/new">Add pet</Button>
+                    <Button color="success" tag={Link} to={`${PET_BASE_URL}/new`}>Add pet</Button>
                 </div>
                 <h3>Pets</h3>
                 <Table className="mt-4">
