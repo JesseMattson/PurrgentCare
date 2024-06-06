@@ -78,13 +78,12 @@ ___
 
 This project will leverage [git flow][git-flow-doc] for development workflow.
 
-### 💾 Accessing the H2 Database Console
+### 💾 [Accessing the H2 Database Console](http://localhost:8080/h2-console/)
 
 H2 is a light weight in-memory database that enables fast local development without the leg work of wiring up
 a database, schema and connection settings. The database is only accessible while the application is running
 and can be accessed through the built-in H2 console by URL only. [Additional Documentation](https://www.jetbrains.com/help/idea/h2.html)
 
-- H2 console [link](http://localhost:8080/h2-console/)
 
 ### 🖥️ [Accessing the UI](http://localhost:3000/)
 
