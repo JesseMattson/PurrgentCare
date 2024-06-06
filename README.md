@@ -105,7 +105,7 @@ npm test --prefix ./purrgent-care-ui
 - Also see commands in [makefile](./makefile)
 ___
 
-# 🛠 Tools used in this project
+## 🛠 Tools used in this project
 
 - ### ＠ [Annotations](https://medium.com/@himani.prasad016/spring-boot-annotations-2894594e3c4b):
   - [Application annotations](https://www.geeksforgeeks.org/spring-boot-annotations/)
