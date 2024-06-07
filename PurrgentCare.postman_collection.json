@@ -57,7 +57,8 @@
 									"pm.test(\"status test\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
-									""
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"personId\",jsonData.id);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -294,7 +295,8 @@
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
-									""
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"petId\",jsonData.id);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -532,6 +534,8 @@
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"accountId\",jsonData.id);\r",
 									""
 								],
 								"type": "text/javascript",
