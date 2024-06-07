@@ -24,22 +24,27 @@ public class PetServiceImplementation implements PetServiceInterface {
         }
         return new Pet();
     }
+
     @Override
-    public void addPet(Pet pet) {
-        petRepository.save(pet);
+    public Pet addPet(Pet pet) {
+        return petRepository.save(pet);
+
     }
 
     @Override
-    public void deletePet (Integer petId) {petRepository.deleteById(petId);}
+    public void deletePet(Integer petId) {
+        petRepository.deleteById(petId);
+    }
 
     @Override
-    public List<Pet> getAllPets() {return petRepository.findAll();}
+    public List<Pet> getAllPets() {
+        return petRepository.findAll();
+    }
 
 
     @Override
     public Pet updatePet(Pet newPet, Integer petId) {
-        Pet pet = petRepository.findById(petId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(petId)));
+        Pet pet = petRepository.findById(petId).orElseThrow(() -> new EntityNotFoundException(String.valueOf(petId)));
         pet.setName(newPet.getName());
         pet.setType(newPet.getType());
         pet.setAge(newPet.getAge());

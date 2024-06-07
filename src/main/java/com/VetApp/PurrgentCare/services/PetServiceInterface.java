@@ -9,7 +9,7 @@ public interface PetServiceInterface {
 
     Pet getPet(Integer petId);
 
-    void addPet(Pet pet);
+    Pet addPet(Pet pet);
 
     void deletePet (Integer petId);
 
