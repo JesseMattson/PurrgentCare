@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c3d697cb-c01d-4fb0-a807-5d83fe7d4f2c",
+		"_postman_id": "d13be318-4d74-45ae-94f2-6cc48ef4684c",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33908379"
@@ -55,9 +55,8 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(201);\r",
 									"});\r",
-									"\r",
 									""
 								],
 								"type": "text/javascript",
@@ -157,7 +156,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									""
 								],
@@ -198,7 +197,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(204);\r",
 									"});\r",
 									""
 								],
@@ -393,8 +392,9 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var json = JSON.parse(responseBody);\r",
-									"pm.variables.set(\"petId\", json.id);"
+									"pm.test(\"status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -443,7 +443,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(204);\r",
 									"});\r",
 									"\r",
 									""
@@ -529,7 +529,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
 									""
@@ -631,7 +631,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.have.status(201);\r",
 									"});"
 								],
 								"type": "text/javascript",
