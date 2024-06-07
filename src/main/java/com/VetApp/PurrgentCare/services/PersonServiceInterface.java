@@ -10,7 +10,7 @@ public interface PersonServiceInterface {
 
     List<Person> getAllPersons();
 
-    void addPerson(Person person);
+    Person addPerson(Person person);
 
     void deletePerson(Integer personId);
 
