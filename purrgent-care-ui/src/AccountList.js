@@ -3,6 +3,7 @@ import AppNavbar from './AppNavBar';
 import { Link } from 'react-router-dom';
 import {useEffect, useState} from "react";
 import {ACCOUNT_BASE_URL} from "./constants";
+import { format } from "date-fns";
 
 const AccountList = () => {
 
@@ -42,11 +43,12 @@ const AccountList = () => {
         return <tr key={account.id}>
             <td style={{ whiteSpace: 'nowrap' }}>{account.id}</td>
             <td style={{ whiteSpace: 'nowrap' }}>{account.active.toString()}</td>
-            <td style={{ whiteSpace: 'nowrap' }}>{account.dateCreated}</td>
+            <td style={{ whiteSpace: 'nowrap' }}>{format(account.dateCreated, 'yyyy/MM/dd')}</td>
             <td>
                 <ButtonGroup>
                     <Button size="sm" color="primary" tag={Link} to={`${ACCOUNT_BASE_URL}/${account.id}`}>Edit</Button>
                     <Button size="sm" color="danger" onClick={() => remove(account.id)}>Delete</Button>
+                    <Button size="sm" color={account.active ? "danger" : "success"}>{account.active ? "Disable" : "Enable"}</Button>
                 </ButtonGroup>
             </td>
         </tr>
