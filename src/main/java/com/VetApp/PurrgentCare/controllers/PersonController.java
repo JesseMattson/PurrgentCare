@@ -26,7 +26,7 @@ public class PersonController {
         return personService.getPerson(id);
     }
 
-    @GetMapping(BASE_URL )
+    @GetMapping(BASE_URL)
     @ResponseStatus(HttpStatus.OK)
     private List<Person> getAllPersons() {
 
@@ -35,8 +35,8 @@ public class PersonController {
 
     @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)
-    private void addPerson(@RequestBody Person person) {
-       personService.addPerson(person);
+    private Person addPerson(@RequestBody Person person) {
+       return personService.addPerson(person);
     }
 
     @DeleteMapping(BASE_URL + "/{id}")
@@ -48,7 +48,7 @@ public class PersonController {
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Person updatePerson(@PathVariable("id")  Integer personId, @RequestBody Person person) {
+    private Person updatePerson(@PathVariable("id") Integer personId, @RequestBody Person person) {
         return personService.updatePerson(person, personId);
 
     }

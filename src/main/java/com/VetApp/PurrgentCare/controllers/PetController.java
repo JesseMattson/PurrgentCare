@@ -1,7 +1,6 @@
 package com.VetApp.PurrgentCare.controllers;
 
 
-
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.services.PetServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,11 @@ public class PetController {
 
         return petService.getPet(id);
     }
-    @PostMapping(BASE_URL )
+
+    @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)
-    private void addPet(@RequestBody Pet pet) {
-        petService.addPet(pet);
+    private Pet addPet(@RequestBody Pet pet) {
+        return petService.addPet(pet);
     }
 
     @DeleteMapping(BASE_URL + "/{id}")
@@ -41,7 +41,7 @@ public class PetController {
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private Pet updatePet(@PathVariable("id")  Integer petId, @RequestBody Pet pet) {
+    private Pet updatePet(@PathVariable("id") Integer petId, @RequestBody Pet pet) {
         return petService.updatePet(pet, petId);
     }
 

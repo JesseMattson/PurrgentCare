@@ -34,8 +34,8 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     }
 
     @Override
-    public void addAccount(Account account) {
-        accountRepository.save(account);
+    public Account addAccount(Account account) {
+      return  accountRepository.save(account);
     }
 
     @Override

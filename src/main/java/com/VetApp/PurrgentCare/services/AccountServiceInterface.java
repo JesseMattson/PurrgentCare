@@ -12,7 +12,7 @@ public interface AccountServiceInterface {
 
     List<Account> getAllAccounts();
 
-    void addAccount(Account account);
+    Account addAccount(Account account);
 
     void deleteAccount(Integer personId);
 

@@ -14,7 +14,8 @@ public class PersonServiceImplementation implements PersonServiceInterface {
     public PersonServiceImplementation(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
- @Override
+
+    @Override
     public Person getPerson(Integer personId) {
 
         final var person = personRepository.findById(personId);
@@ -32,12 +33,13 @@ public class PersonServiceImplementation implements PersonServiceInterface {
     }
 
     @Override
-    public void addPerson(Person person) {
-        personRepository.save(person);
+    public Person addPerson(Person person) {
+        return personRepository.save(person);
+
     }
 
     @Override
-    public void deletePerson (Integer personId) {
+    public void deletePerson(Integer personId) {
         personRepository.deleteById(personId);
     }
 
