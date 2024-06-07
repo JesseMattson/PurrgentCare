@@ -34,8 +34,8 @@ public class AccountController {
     }
     @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)
-        private void addAccount(@RequestBody Account account) {
-            accountService.addAccount(account);
+        private Account addAccount(@RequestBody Account account) {
+         return accountService.addAccount(account);
         }
 
 
