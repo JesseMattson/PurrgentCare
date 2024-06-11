@@ -26,16 +26,16 @@ public class Account {
 
     @JsonManagedReference
     @Setter
-    @OneToMany(mappedBy = "account")
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "account", orphanRemoval = true)
     private List<Person> accountHolders;
 
     @JsonManagedReference
     @Setter
-    @OneToMany(mappedBy = "account")
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "account", orphanRemoval = true)
     private List<Pet> pets;
 
-    @OneToMany(cascade = CascadeType.REMOVE,
-            mappedBy = "post", orphanRemoval = true)
     @Override
     public String toString() {
         return "Account [id=" + id + ", active=" + active + " , dateCreated=" + dateCreated + "]";

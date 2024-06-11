@@ -40,7 +40,7 @@ public class AccountController {
 
 
         // TODO: Need to create this with another feature.
-    @DeleteMapping("/accounts/DeleteAccount/{id}")
+    @DeleteMapping(BASE_URL + "/{id}")
         private void deleteAccount(@PathVariable("id") Integer accountId) {
             accountService.deleteAccount(accountId);
 
