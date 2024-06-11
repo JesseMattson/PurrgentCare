@@ -41,6 +41,7 @@ public class AccountController {
 
         // TODO: Need to create this with another feature.
     @DeleteMapping(BASE_URL + "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
         private void deleteAccount(@PathVariable("id") Integer accountId) {
             accountService.deleteAccount(accountId);
 
