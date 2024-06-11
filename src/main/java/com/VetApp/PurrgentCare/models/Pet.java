@@ -1,5 +1,6 @@
 package com.VetApp.PurrgentCare.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +32,7 @@ public class Pet {
     @Setter
     private  String gender;
 
-
+    @JsonBackReference
     @ManyToOne
     private Account account;
 

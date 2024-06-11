@@ -40,11 +40,12 @@ public class AccountController {
 
 
         // TODO: Need to create this with another feature.
-//    @DeleteMapping("/accounts/DeleteAccount/{id}")
-//        private void deleteAccount(@PathVariable("id") Integer accountId) {
-//            accountService.deleteAccount(accountId);
-//
-//        }
+    @DeleteMapping("/accounts/DeleteAccount/{id}")
+        private void deleteAccount(@PathVariable("id") Integer accountId) {
+            accountService.deleteAccount(accountId);
+
+        }
+
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
