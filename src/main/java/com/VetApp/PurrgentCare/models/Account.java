@@ -1,11 +1,13 @@
 package com.VetApp.PurrgentCare.models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
 import java.util.List;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +24,17 @@ public class Account {
     @Setter
     private Date dateCreated;
 
+    @JsonManagedReference
+    @Setter
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "account", orphanRemoval = true)
+    private List<Person> accountHolders;
+
+    @JsonManagedReference
+    @Setter
+    @OneToMany(cascade = CascadeType.REMOVE,
+            mappedBy = "account", orphanRemoval = true)
+    private List<Pet> pets;
 
     @Override
     public String toString() {
