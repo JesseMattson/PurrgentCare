@@ -37,7 +37,7 @@ public class AccountController {
          return accountService.addAccount(account);
         }
 
-
+    @Deprecated
         // TODO: Need to create this with another feature.
     @DeleteMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -46,7 +46,6 @@ public class AccountController {
 
         }
 
-
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
         private Account updateAccount(@PathVariable("id")  Integer accountId, @RequestBody Account account ) {
@@ -54,7 +53,7 @@ public class AccountController {
 
         }
 
-    @PutMapping(BASE_URL + "/{id}")
+    @PutMapping(BASE_URL + "/status/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     private Account accountToggle(@PathVariable("id")  Integer accountId, @RequestBody Account account ) {
         return accountService.accountToggle(accountId);
