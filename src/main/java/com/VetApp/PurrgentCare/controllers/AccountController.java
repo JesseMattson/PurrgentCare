@@ -2,7 +2,6 @@ package com.VetApp.PurrgentCare.controllers;
 
 import com.VetApp.PurrgentCare.models.Account;
 
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.AccountServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,5 +54,11 @@ public class AccountController {
 
         }
 
+    @PutMapping(BASE_URL + "/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    private Account accountToggle(@PathVariable("id")  Integer accountId, @RequestBody Account account ) {
+        return accountService.accountToggle(accountId);
+
+    }
 
 }
