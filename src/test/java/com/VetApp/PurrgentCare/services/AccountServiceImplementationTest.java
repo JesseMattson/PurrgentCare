@@ -196,6 +196,29 @@ public class AccountServiceImplementationTest {
         // then
         assertThat(actual.getActive()).isNotEqualTo(Boolean.TRUE);
     }
+    @Test
+    public void toggleAccount_whenAccountNotExists_throwEntityNotFoundException() {
+        // given
+        final var accountId = new Random().nextInt(1000);
+        final var originalAccount = Account.builder()
+                .id(accountId)
+                .active(Boolean.TRUE)
+                .dateCreated(new Date())
+                .build();
+        final var updatedAccount = Account.builder()
+                .id(accountId)
+                .active(Boolean.TRUE)
+                .dateCreated(new Date())
+                .build();
+        ;
+        given(mockAccountRepository.findById(accountId))
+                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
 
+        // when && then
+        final var exception = assertThrows(EntityNotFoundException.class, () -> {
+            serviceUnderTest.accountToggle(accountId);
+        });
+        then(exception.getMessage()).contains(String.valueOf(accountId));
 
+    }
 }
