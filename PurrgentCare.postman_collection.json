@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9e661c8d-37b2-4fbb-bf14-bbd1cc178860",
+		"_postman_id": "4b11af10-cf33-4c3c-892e-5277fdb5cfb8",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33908379"
@@ -678,6 +678,57 @@
 					"response": []
 				},
 				{
+					"name": "ToggleAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{accountBaseURL}}/status/{{accountId}}",
+							"host": [
+								"{{accountBaseURL}}"
+							],
+							"path": [
+								"status",
+								"{{accountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DeleteAccount",
 					"event": [
 						{
@@ -708,6 +759,15 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{accountBaseURL}}/{{accountId}}",
 							"host": [
