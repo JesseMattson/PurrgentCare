@@ -183,8 +183,6 @@ public class AccountServiceImplementationTest {
                 .active(Boolean.TRUE)
                 .dateCreated(new Date())
                 .build();
-//        final var updatedAccount = originalAccount;
-//                updatedAccount.setActive(!updatedAccount.getActive());
         given(mockAccountRepository.findById(accountId))
                 .willReturn(Optional.of(originalAccount));
         when(mockAccountRepository.save(originalAccount))
