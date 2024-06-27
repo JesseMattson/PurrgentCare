@@ -198,17 +198,6 @@ public class AccountServiceImplementationTest {
     public void toggleAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
         final var accountId = new Random().nextInt(1000);
-        final var originalAccount = Account.builder()
-                .id(accountId)
-                .active(Boolean.TRUE)
-                .dateCreated(new Date())
-                .build();
-        final var updatedAccount = Account.builder()
-                .id(accountId)
-                .active(Boolean.TRUE)
-                .dateCreated(new Date())
-                .build();
-        ;
         given(mockAccountRepository.findById(accountId))
                 .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
 
