@@ -55,7 +55,7 @@ public class AccountController {
 
     @PutMapping(BASE_URL + "/status/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Account accountToggle(@PathVariable("id")  Integer accountId, @RequestBody Account account ) {
+    private Account accountToggle(@PathVariable("id")  Integer accountId) {
         return accountService.accountToggle(accountId);
 
     }
