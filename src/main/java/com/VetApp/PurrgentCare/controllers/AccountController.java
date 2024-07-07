@@ -2,7 +2,6 @@ package com.VetApp.PurrgentCare.controllers;
 
 import com.VetApp.PurrgentCare.models.Account;
 
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.AccountServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,13 +37,14 @@ public class AccountController {
          return accountService.addAccount(account);
         }
 
-
+    @Deprecated
         // TODO: Need to create this with another feature.
-//    @DeleteMapping("/accounts/DeleteAccount/{id}")
-//        private void deleteAccount(@PathVariable("id") Integer accountId) {
-//            accountService.deleteAccount(accountId);
-//
-//        }
+    @DeleteMapping(BASE_URL + "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+        private void deleteAccount(@PathVariable("id") Integer accountId) {
+            accountService.deleteAccount(accountId);
+
+        }
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,5 +53,11 @@ public class AccountController {
 
         }
 
+    @PutMapping(BASE_URL + "/status/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    private Account accountToggle(@PathVariable("id")  Integer accountId) {
+        return accountService.accountToggle(accountId);
+
+    }
 
 }

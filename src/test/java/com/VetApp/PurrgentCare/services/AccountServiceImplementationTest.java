@@ -149,28 +149,63 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
-    public void updateAccount_whenAccountNotExists_throwEntityNotFoundException () {
+    public void updateAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
         final var accountId = new Random().nextInt(1000);
-        final var originalAccount =  Account.builder()
+        final var originalAccount = Account.builder()
                 .id(accountId)
                 .active(Boolean.TRUE)
                 .dateCreated(new Date())
                 .build();
-        final var updatedAccount =  Account.builder()
+        final var updatedAccount = Account.builder()
                 .id(accountId)
                 .active(Boolean.TRUE)
                 .dateCreated(new Date())
                 .build();
-                ;
+        ;
         given(mockAccountRepository.findById(accountId))
                 .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
 
         // when && then
-        final var exception = assertThrows(EntityNotFoundException.class,() -> {
+        final var exception = assertThrows(EntityNotFoundException.class, () -> {
             serviceUnderTest.updateAccount(updatedAccount, accountId);
         });
         then(exception.getMessage()).contains(String.valueOf(accountId));
     }
 
+
+    @Test
+    public void toggleAccount_whenAccountExists_returnsToggledAccount() {
+        // given
+        final var accountId = new Random().nextInt(1000);
+        final var originalAccount = Account.builder()
+                .id(accountId)
+                .active(Boolean.TRUE)
+                .dateCreated(new Date())
+                .build();
+        given(mockAccountRepository.findById(accountId))
+                .willReturn(Optional.of(originalAccount));
+        when(mockAccountRepository.save(originalAccount))
+                .thenReturn(originalAccount);
+
+        // when
+        final var actual = serviceUnderTest.accountToggle(accountId);
+
+        // then
+        assertThat(actual.getActive()).isNotEqualTo(Boolean.TRUE);
+    }
+    @Test
+    public void toggleAccount_whenAccountNotExists_throwEntityNotFoundException() {
+        // given
+        final var accountId = new Random().nextInt(1000);
+        given(mockAccountRepository.findById(accountId))
+                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+
+        // when && then
+        final var exception = assertThrows(EntityNotFoundException.class, () -> {
+            serviceUnderTest.accountToggle(accountId);
+        });
+        then(exception.getMessage()).contains(String.valueOf(accountId));
+
+    }
 }

@@ -1,12 +1,10 @@
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,6 +48,15 @@ public class AccountServiceImplementation implements AccountServiceInterface {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
         account.setActive(newAccount.getActive());
         account.setDateCreated(newAccount.getDateCreated());
+        return accountRepository.save(account);
+    }
+
+    @Override
+    public Account accountToggle(Integer accountId) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
+        account.setActive(!account.getActive());
+
         return accountRepository.save(account);
     }
 

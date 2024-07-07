@@ -17,5 +17,7 @@ public interface AccountServiceInterface {
     void deleteAccount(Integer personId);
 
     Account updateAccount(Account account, Integer personId);
+
+    Account accountToggle(Integer accountId);
 }
 
