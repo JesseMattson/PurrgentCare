@@ -18,12 +18,17 @@ ___
 
 ## 🏛 Architecture
 
-This application is built on a [controller-service-repository architecture](https://tom-collings.medium.com/controller-service-repository-16e29a4684e5)
-to provide a good separation of concerns. This architecture leverages a [repository pattern](https://java-design-patterns.com/patterns/repository/)
-for data access and retrieval. A repository pattern leverages pre-built JPA repositories and is preferable than 
-leveraging the entity manager by following the [DAO pattern](https://www.baeldung.com/java-dao-vs-repository).
-This application uses [React](https://react.dev/) for the UI portion of the application. More details can be seen
-in the [UI README][ui-readme]
+This application is built on a [controller-service-repository architecture][mvc-doc] to provide a good separation
+of concerns. This application uses [React](https://react.dev/) for the UI portion of the application. More 
+details can be seen in the [UI README][ui-readme]. This application leverages [Java Spring Boot][spring-boot-doc] 
+as the back-end framework.
+
+
+### Patterns
+
+  - [Repository pattern][repository-doc] for data access and retrieval.
+  - [DAO pattern][dao-doc] (Data Access Object) for entity management.
+  - [DTO pattern][dto-doc] (Data Transfer Object) to decouple domain models from presentation models.
 
 ___
 
@@ -121,6 +126,12 @@ ___
 
 - ### 🌶 [Lombok][lombok-doc]
 
+[mvc-doc]: https://tom-collings.medium.com/controller-service-repository-16e29a4684e5
+[react-doc]: https://react.dev/
+[spring-boot-doc]: https://spring.io/projects/spring-boot
+[repository-doc]: https://java-design-patterns.com/patterns/repository/
+[dao-doc]: https://www.baeldung.com/java-dao-vs-repository
+[dto-doc]: https://www.baeldung.com/java-dto-pattern
 [git-flow-doc]: documentation/git-flow.md
 [markdown-doc]: documentation/markdown.md
 [postman-doc]: documentation/postman.md
