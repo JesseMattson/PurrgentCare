@@ -21,18 +21,19 @@ const AccountList = () => {
             })
     }, []);
 
-    const remove = async (id) => {
-        await fetch(`${ACCOUNT_BASE_URL}/${id}`, {
-            method: 'DELETE',
+    const toggle_status = async (id) => {
+        await fetch(`${ACCOUNT_BASE_URL}/status/${id}`, {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
         }).then(() => {
-            let updatedAccounts = [...accounts].filter(i => i.id !== id);
+            let updatedAccounts = [...accounts];
             setAccounts(updatedAccounts);
-        });
+            window.location.reload()
+        })
     }
 
     if (loading) {
@@ -46,9 +47,8 @@ const AccountList = () => {
             <td style={{ whiteSpace: 'nowrap' }}>{format(account.dateCreated, 'yyyy/MM/dd')}</td>
             <td>
                 <ButtonGroup>
-                    <Button size="sm" color="primary" tag={Link} to={`${ACCOUNT_BASE_URL}/${account.id}`}>Edit</Button>
-                    <Button size="sm" color="danger" onClick={() => remove(account.id)}>Delete</Button>
-                    <Button size="sm" color={account.active ? "danger" : "success"}>{account.active ? "Disable" : "Enable"}</Button>
+                    <Button size="sm" color={account.active ? "danger" : "success"} onClick={() =>
+                        toggle_status(account.id)}>{account.active ? "Disable" : "Enable"}</Button>
                 </ButtonGroup>
             </td>
         </tr>
