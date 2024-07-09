@@ -15,4 +15,6 @@ public interface PersonServiceInterface {
     void deletePerson(Integer personId);
 
     Person updatePerson(Person person, Integer personId);
+
+    Person LinkAccount(Integer personId);
 }
