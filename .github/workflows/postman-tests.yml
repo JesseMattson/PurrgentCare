@@ -44,7 +44,7 @@ jobs:
         run: mvn clean install
 
       - name: Start Spring Boot application
-        run: nohup mvn spring-boot:run &
+        run: nohup mvn spring-boot:run & echo $! > spring-boot.pid
 
       - name: Wait for Spring Boot to start
         run: |
@@ -68,4 +68,4 @@ jobs:
           newman run PurrgentCare.postman_collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PET_BASE_URL" --env-var "accountBaseURL=$ACCOUNT_BASE_URL"
 
       - name: Stop Spring Boot application
-        run: pkill -f 'java -jar'
+        run: kill $(cat spring-boot.pid)
