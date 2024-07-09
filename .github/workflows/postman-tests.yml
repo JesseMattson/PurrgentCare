@@ -1,6 +1,13 @@
 name: CI/CD Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
 
 jobs:
   build-and-test:
@@ -54,9 +61,9 @@ jobs:
 
       - name: Run Postman Collection
         env:
-          PERSONS_BASE_URL: http://localhost:8080
-          PET_BASE_URL: http://localhost:8080
-          ACCOUNT_BASE_URL: http://localhost:8080
+          PERSONS_BASE_URL: http://localhost:8080/persons
+          PET_BASE_URL: http://localhost:8080/pets
+          ACCOUNT_BASE_URL: http://localhost:8080/accounts
         run: |
           newman run path/to/your/collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PET_BASE_URL" --env-var "accountBaseURL=$ACCOUNT_BASE_URL"
 
