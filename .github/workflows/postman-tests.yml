@@ -65,7 +65,7 @@ jobs:
           PET_BASE_URL: http://localhost:8080/pets
           ACCOUNT_BASE_URL: http://localhost:8080/accounts
         run: |
-          newman run path/to/your/collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PET_BASE_URL" --env-var "accountBaseURL=$ACCOUNT_BASE_URL"
+          newman run PurrgentCare.postman_collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PET_BASE_URL" --env-var "accountBaseURL=$ACCOUNT_BASE_URL"
 
       - name: Stop Spring Boot application
         run: pkill -f 'java -jar'
