@@ -55,7 +55,7 @@ public class PersonController {
 
     @PutMapping(BASE_URL + "/LinkAccount/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Person updatePerson(@PathVariable("id") Integer personId) {
-        return personService.LinkAccount(personId);
-    }
+    private Person accountHolders(@PathVariable("id") Integer personId) {
+        return personService.accountHolders(personId);
+}
 }
