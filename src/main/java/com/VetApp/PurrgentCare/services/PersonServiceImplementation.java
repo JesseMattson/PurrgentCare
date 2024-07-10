@@ -50,7 +50,13 @@ public class PersonServiceImplementation implements PersonServiceInterface {
         person.setName(newPerson.getName());
         return personRepository.save(person);
     }
-
+    @Override
+    public Person accountHolders(Integer personId) {
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(personId)));
+        person.setName(person.getName());
+        return personRepository.save(person);
+    }
 
     private static Person buildDefaultPerson() {
         final var defaultPerson = new Person();
