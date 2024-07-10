@@ -1,7 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Person;
 
 import java.util.List;
 
