@@ -55,7 +55,7 @@ public class PersonController {
 
     @PutMapping(BASE_URL + "/accountHolders/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Person accountHolders(@PathVariable("id") Integer personId) {
-        return personService.accountHolders(personId);
+    private Person accountHolders(@PathVariable("id") Integer personId, Integer accountId) {
+        return personService.accountHolders(personId, accountId);
 }
 }

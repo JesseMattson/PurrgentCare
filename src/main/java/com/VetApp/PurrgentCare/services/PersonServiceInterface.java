@@ -16,5 +16,5 @@ public interface PersonServiceInterface {
 
     Person updatePerson(Person person, Integer personId);
 
-    Person accountHolders(Integer personId);
+    Person accountHolders(Integer personId, Integer accountId);
 }

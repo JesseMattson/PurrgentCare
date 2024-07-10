@@ -1,7 +1,9 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
+import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -51,9 +53,11 @@ public class PersonServiceImplementation implements PersonServiceInterface {
         return personRepository.save(person);
     }
     @Override
-    public Person accountHolders(Integer personId) {
+    public Person accountHolders(Integer personId, Integer accountID) {
         Person person = personRepository.findById(personId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(personId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(personId)))
+        Account account = accountRepository.findById(accountID)
+                        .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountID)));
         person.setName(person.getName());
         return personRepository.save(person);
     }
