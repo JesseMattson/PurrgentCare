@@ -20,8 +20,7 @@ public class AccountController {
     @Autowired // You don't need to initialize the object.
     private AccountServiceInterface accountService;
 
-
-    private ModelMapper mapper;
+    private final ModelMapper mapper = new ModelMapper();
 
     @GetMapping(BASE_URL + "/{id}") // PathVariable is used to get ID from the URL
     @ResponseStatus(HttpStatus.OK)
