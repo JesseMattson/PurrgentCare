@@ -18,6 +18,8 @@ public interface AccountServiceInterface {
 
     Account updateAccount(Account account, Integer personId);
 
+    Account updateAccount(Account newAccount, Integer accountId, List<Person> accountHolders);
+
     Account accountToggle(Integer accountId);
 }
 

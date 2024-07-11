@@ -1,5 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface PersonServiceInterface {
 
     Person updatePerson(Person person, Integer personId);
 
-    Person accountHolders(Integer personId, Integer accountId);
+
 }

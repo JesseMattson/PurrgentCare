@@ -1,6 +1,7 @@
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Account;
+import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     }
 
     @Override
-    public Account updateAccount(Account newAccount, Integer accountId) {
+    public Account updateAccount(Account newAccount, Integer accountId, List<Person> accountHolders) {
 
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
@@ -50,7 +51,12 @@ public class AccountServiceImplementation implements AccountServiceInterface {
         account.setDateCreated(newAccount.getDateCreated());
         return accountRepository.save(account);
     }
-
+    /* TODO:  we should be getting a list of PersonIDs from the front end.
+        We don't have a way to get a list of persons from a list of PersonIDs
+        We don't have a way to remove a person from an account.
+        We would need to be able to pass a list of persons and update the account
+        We don't have a way to add the list of accountHolders (to be added) to those already on the account
+*/
     @Override
     public Account accountToggle(Integer accountId) {
         Account account = accountRepository.findById(accountId)

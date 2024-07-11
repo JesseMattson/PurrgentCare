@@ -1,7 +1,7 @@
 package com.VetApp.PurrgentCare.controllers;
 
 import com.VetApp.PurrgentCare.models.Account;
-
+import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.AccountServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,33 +31,35 @@ public class AccountController {
 
         return accountService.getAllAccounts();
     }
+
     @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)
-        private Account addAccount(@RequestBody Account account) {
-         return accountService.addAccount(account);
-        }
+    private Account addAccount(@RequestBody Account account) {
+        return accountService.addAccount(account);
+    }
 
     @Deprecated
-        // TODO: Need to create this with another feature.
+    // TODO: Need to create this with another feature.
     @DeleteMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-        private void deleteAccount(@PathVariable("id") Integer accountId) {
-            accountService.deleteAccount(accountId);
+    private void deleteAccount(@PathVariable("id") Integer accountId) {
+        accountService.deleteAccount(accountId);
 
-        }
+    }
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-        private Account updateAccount(@PathVariable("id")  Integer accountId, @RequestBody Account account ) {
-            return accountService.updateAccount(account, accountId);
+    private Account updateAccount(@PathVariable("id") Integer accountId, @RequestBody Account account, @RequestBody List<Person> accountHolders) {
+        return accountService.updateAccount(account, accountId);
 
-        }
+    }
 
     @PutMapping(BASE_URL + "/status/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Account accountToggle(@PathVariable("id")  Integer accountId) {
+    private Account accountToggle(@PathVariable("id") Integer accountId) {
         return accountService.accountToggle(accountId);
 
     }
+
 
 }
