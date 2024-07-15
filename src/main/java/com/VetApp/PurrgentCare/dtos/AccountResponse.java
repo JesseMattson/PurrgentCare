@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AccountDto {
+public class AccountResponse {
     private Boolean active;
     private Date dateCreated;
     private List<Person> accountHolders;

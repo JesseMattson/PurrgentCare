@@ -1,6 +1,6 @@
 package com.VetApp.PurrgentCare.controllers;
 
-import com.VetApp.PurrgentCare.dtos.AccountDto;
+import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.models.Account;
 
 import com.VetApp.PurrgentCare.services.AccountServiceInterface;
@@ -24,9 +24,9 @@ public class AccountController {
 
     @GetMapping(BASE_URL + "/{id}") // PathVariable is used to get ID from the URL
     @ResponseStatus(HttpStatus.OK)
-    private AccountDto getAccount(@PathVariable("id") Integer id) {
+    private AccountResponse getAccount(@PathVariable("id") Integer id) {
         var account = accountService.getAccount(id);
-        return mapper.map(account, AccountDto.class);
+        return mapper.map(account, AccountResponse.class);
     }
 
     @GetMapping(BASE_URL)
