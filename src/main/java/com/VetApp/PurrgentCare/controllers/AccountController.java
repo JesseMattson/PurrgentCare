@@ -1,5 +1,7 @@
 package com.VetApp.PurrgentCare.controllers;
 
+import com.VetApp.PurrgentCare.dtos.AccountResponse;
+import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.AccountServiceInterface;
@@ -49,7 +51,7 @@ public class AccountController {
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Account updateAccount(@PathVariable("id") Integer accountId, @RequestBody Account account, @RequestBody List<Person> accountHolders) {
+    private Account updateAccount(@PathVariable("id") Integer accountId, @RequestBody Account account) {
         return accountService.updateAccount(account, accountId);
 
     }
@@ -61,5 +63,9 @@ public class AccountController {
 
     }
 
-
+    @PutMapping(BASE_URL + "/associate-people")
+    @ResponseStatus(HttpStatus.CREATED)
+    private AccountResponse accountAssociatePeople(@RequestBody AssociatePeopleWithAccountRequest associatePeopleWithAccountRequest) {
+      accountService.associatePeople(associatePeopleWithAccountRequest);
+    }
 }

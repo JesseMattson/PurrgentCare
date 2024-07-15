@@ -1,5 +1,7 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.dtos.AccountResponse;
+import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 
@@ -21,5 +23,7 @@ public interface AccountServiceInterface {
     Account updateAccount(Account newAccount, Integer accountId, List<Person> accountHolders);
 
     Account accountToggle(Integer accountId);
+
+    AccountResponse associatePeople(AssociatePeopleWithAccountRequest associatePeopleWithAccountRequest);
 }
 
