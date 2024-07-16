@@ -66,6 +66,6 @@ public class AccountController {
     @PutMapping(BASE_URL + "/associate-people")
     @ResponseStatus(HttpStatus.CREATED)
     private AccountResponse accountAssociatePeople(@RequestBody AssociatePeopleWithAccountRequest associatePeopleWithAccountRequest) {
-      accountService.associatePeople(associatePeopleWithAccountRequest);
+     return accountService.associatePeople(associatePeopleWithAccountRequest);
     }
 }

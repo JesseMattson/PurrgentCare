@@ -2,12 +2,14 @@ package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
+import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
@@ -27,10 +29,15 @@ public class AccountServiceImplementationTest {
     @Mock
     private AccountRepository mockAccountRepository;
 
+    @Mock
+    private PersonRepository mockPersonRepository;
+
+    @Mock
+    private ModelMapper mockMapper;
 
     @BeforeEach
     public void setup() {
-        this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository);
+        this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository, mockPersonRepository, mockMapper);
     }
 
     @Test

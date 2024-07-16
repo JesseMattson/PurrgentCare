@@ -20,9 +20,10 @@ public class AccountServiceImplementation implements AccountServiceInterface {
 
     private final ModelMapper mapper;
 
-    public AccountServiceImplementation(AccountRepository accountRepository, PersonRepository personRepository) {
+    public AccountServiceImplementation(AccountRepository accountRepository, PersonRepository personRepository, ModelMapper mapper) {
         this.accountRepository = accountRepository;
         this.personRepository = personRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     }
 
     @Override
-    public Account updateAccount(Account newAccount, Integer accountId, List<Person> accountHolders) {
+    public Account updateAccount(Account newAccount, Integer accountId) {
 
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
