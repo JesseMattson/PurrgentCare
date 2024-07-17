@@ -237,33 +237,61 @@ public class AccountServiceImplementationTest {
         //
     @Test
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
-        // given
-        // mock associatepeoplewithaccountrequest
-        // mock accountId
-        // mock List<PersonIds>
 
+        // Variables used everywhere
         final var accountId = new Random().nextInt(1000);
         final var personId = new Random().nextInt(1000);
-        final var peopleList = new ArrayList<Integer>(personId);
-        final AssociatePeopleWithAccountRequest dtoAssociatePeopleWithAccountRequest = new AssociatePeopleWithAccountRequest();
-        dtoAssociatePeopleWithAccountRequest.accountId = accountId;
-        dtoAssociatePeopleWithAccountRequest.personIds = peopleList;
-        final var person = new Person();
-        final var pet = new Pet();
-        final var account = new Account();
-        final var listOfPeople = new ArrayList<Person>(person);
-        final var accountResponse = new AccountResponse();
-        accountResponse.active = Boolean.TRUE;
-        accountResponse.dateCreated = new Date();
-        accountResponse.accountHolders = new ArrayList<Person>(person);
-        accountResponse.pets = new ArrayList<Pet>(pet);
+        final var active = Boolean.TRUE;
+        final var dateCreated = new Date();
 
+        // Build request object
+        final var peopleIdList = new ArrayList<Integer>(personId);
+        final var request = new AssociatePeopleWithAccountRequest();
+        request.accountId = accountId;
+        request.personIds = peopleIdList;
+
+        // Build person object
+        final var person1 = Person.builder()
+                .id(personId)
+                .build();
+
+        // Build pet object
+        final var pet1 = Pet.builder()
+                .build();
+
+        // Build original account object
+        final var originalAccount = Account.builder()
+                .id(accountId)
+                .build();
+
+        // Build updated account object
+        final var updatedAccount = Account.builder()
+                .id(accountId)
+                .active(active)
+                .dateCreated(dateCreated)
+                .pets(List.of(pet1))
+                .accountHolders(List.of(person1))
+                .build();
+
+        // Build account response object
+        final var accountResponse = new AccountResponse();
+        accountResponse.accountHolders = List.of(person1);
+        accountResponse.active = active;
+        accountResponse.pets = List.of(pet1);
+        accountResponse.dateCreated = dateCreated;
+
+        // Configure mocks for every call on dependencies within the service
         given(mockAccountRepository.findById(accountId))
-                .willReturn(Optional.of(account));
-        given(mockPersonRepository.findAllById((peopleList))
-                .willReturn(Optional.of(personId)));
+                .willReturn(Optional.of(originalAccount));
+        given(mockPersonRepository.findAllById(request.personIds))
+                .willReturn(List.of(person1));
+        given(mockAccountRepository.save(originalAccount))
+                .willReturn(updatedAccount);
+        given(mockMapper.map(updatedAccount, AccountResponse.class))
+                .willReturn(accountResponse);
+
         // when && then
-        final var actual = serviceUnderTest.associatePeople(dtoAssociatePeopleWithAccountRequest);
+        final var actual = serviceUnderTest.associatePeople(request);
 
         // then
         assertThat(actual)
