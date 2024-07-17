@@ -5,8 +5,9 @@ import java.util.List;
 public class AssociatePeopleWithAccountRequest {
     public Integer accountId;
     public List<Integer> personIds;
-}
 
+
+}
     /* TODO:  we should be getting a list of PersonIDs from the front end.
         We don't have a way to get a list of persons from a list of PersonIDs
         We don't have a way to remove a person from an account.

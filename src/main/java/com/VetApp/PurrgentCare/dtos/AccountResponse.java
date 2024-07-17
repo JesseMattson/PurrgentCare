@@ -9,11 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 public class AccountResponse {
-    private Boolean active;
-    private Date dateCreated;
+    public Boolean active;
+    public Date dateCreated;
     // TODO: Replace list of persons with personResponse Object
-    private List<Person> accountHolders;
+    public List<Person> accountHolders;
     // TODO: Replace list of pet with petResponse Object
-    private List<Pet> pets;
+    public List<Pet> pets;
     }
 

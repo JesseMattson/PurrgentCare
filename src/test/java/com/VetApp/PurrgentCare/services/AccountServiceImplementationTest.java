@@ -1,6 +1,10 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.dtos.AccountResponse;
+import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
+import com.VetApp.PurrgentCare.models.Person;
+import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,6 +22,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -122,6 +127,17 @@ public class AccountServiceImplementationTest {
         return accountList;
     }
 
+    private List<Person> buildPeopleList(Integer countOfPeople) {
+        List<Person> peopleList = new ArrayList<>(List.of());
+        var i = 1;
+        while (i <= countOfPeople) {
+            var account = mock(Person.class);
+            peopleList.add(account);
+            i++;
+        }
+        return peopleList;
+    }
+
     // attempting to create tests for updating accounts but getting
     // stuck because we do not have the ability to set accountHolders & pets
     // --Unsure of how to continue as of now.
@@ -214,5 +230,44 @@ public class AccountServiceImplementationTest {
         });
         then(exception.getMessage()).contains(String.valueOf(accountId));
 
+    }
+
+    // Test associatePeople when account exists
+        //This method adds a list of personIds to an account
+        //
+    @Test
+    public void associatePeople_whenAccountExists_returnAssociatedPeople() {
+        // given
+        // mock associatepeoplewithaccountrequest
+        // mock accountId
+        // mock List<PersonIds>
+
+        final var accountId = new Random().nextInt(1000);
+        final var personId = new Random().nextInt(1000);
+        final var peopleList = new ArrayList<Integer>(personId);
+        final AssociatePeopleWithAccountRequest dtoAssociatePeopleWithAccountRequest = new AssociatePeopleWithAccountRequest();
+        dtoAssociatePeopleWithAccountRequest.accountId = accountId;
+        dtoAssociatePeopleWithAccountRequest.personIds = peopleList;
+        final var person = new Person();
+        final var pet = new Pet();
+        final var account = new Account();
+        final var listOfPeople = new ArrayList<Person>(person);
+        final var accountResponse = new AccountResponse();
+        accountResponse.active = Boolean.TRUE;
+        accountResponse.dateCreated = new Date();
+        accountResponse.accountHolders = new ArrayList<Person>(person);
+        accountResponse.pets = new ArrayList<Pet>(pet);
+
+        given(mockAccountRepository.findById(accountId))
+                .willReturn(Optional.of(account));
+        given(mockPersonRepository.findAllById((peopleList))
+                .willReturn(Optional.of(personId)));
+        // when && then
+        final var actual = serviceUnderTest.associatePeople(dtoAssociatePeopleWithAccountRequest);
+
+        // then
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(accountResponse);
     }
 }
