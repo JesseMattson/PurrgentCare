@@ -84,7 +84,7 @@ public class AccountServiceImplementation implements AccountServiceInterface {
         var people = personRepository.findAllById(personIds);
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));;
-        account.setAccountHolders(people);
+//        account.setAccountHolders(people);
         Account updatedAccount =  accountRepository.save(account);
        AccountResponse accountResponse = mapper.map(updatedAccount, AccountResponse.class);
         return accountResponse;

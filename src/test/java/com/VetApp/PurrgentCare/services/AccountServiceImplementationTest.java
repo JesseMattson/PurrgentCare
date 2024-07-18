@@ -217,6 +217,7 @@ public class AccountServiceImplementationTest {
         // then
         assertThat(actual.getActive()).isNotEqualTo(Boolean.TRUE);
     }
+
     @Test
     public void toggleAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
@@ -233,8 +234,8 @@ public class AccountServiceImplementationTest {
     }
 
     // Test associatePeople when account exists
-        //This method adds a list of personIds to an account
-        //
+    //This method adds a list of personIds to an account
+    //
     @Test
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
 
@@ -243,9 +244,9 @@ public class AccountServiceImplementationTest {
         final var personId = new Random().nextInt(1000);
         final var active = Boolean.TRUE;
         final var dateCreated = new Date();
+        final var peopleIdList = new ArrayList<Integer>(personId);
 
         // Build request object
-        final var peopleIdList = new ArrayList<Integer>(personId);
         final var request = new AssociatePeopleWithAccountRequest();
         request.accountId = accountId;
         request.personIds = peopleIdList;
@@ -281,10 +282,10 @@ public class AccountServiceImplementationTest {
         accountResponse.dateCreated = dateCreated;
 
         // Configure mocks for every call on dependencies within the service
-        given(mockAccountRepository.findById(accountId))
-                .willReturn(Optional.of(originalAccount));
         given(mockPersonRepository.findAllById(request.personIds))
                 .willReturn(List.of(person1));
+        given(mockAccountRepository.findById(accountId))
+                .willReturn(Optional.of(originalAccount));
         given(mockAccountRepository.save(originalAccount))
                 .willReturn(updatedAccount);
         given(mockMapper.map(updatedAccount, AccountResponse.class))
@@ -297,5 +298,48 @@ public class AccountServiceImplementationTest {
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(accountResponse);
+    }
+
+    @Test
+    public void accountResponse_whenAccountNotExists_throwEntityNotFoundException() {
+        final var accountId = new Random().nextInt(1000);
+        final var personId = new Random().nextInt(1000);
+        final var active = Boolean.TRUE;
+        final var dateCreated = new Date();
+        final var peopleIdList = new ArrayList<Integer>(personId);
+
+        // Build request object
+        final var request = new AssociatePeopleWithAccountRequest();
+        request.accountId = accountId;
+        request.personIds = peopleIdList;
+
+        // Build person object
+        final var person1 = Person.builder()
+                .id(personId)
+                .build();
+
+        // Build pet object
+        final var pet1 = Pet.builder()
+                .build();
+
+        // Build updated account object
+        final var updatedAccount = Account.builder()
+                .id(accountId)
+                .active(active)
+                .dateCreated(dateCreated)
+                .pets(List.of(pet1))
+                .accountHolders(List.of(person1))
+                .build();
+
+        // Configure mocks for every call on dependencies within the service
+        given(mockPersonRepository.findAllById(request.personIds))
+                .willReturn(List.of(person1));
+        given(mockAccountRepository.findById(accountId))
+                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+
+        // when && then
+        final var exception = assertThrows(EntityNotFoundException.class, () -> {
+            serviceUnderTest.associatePeople(request);});
+        then(exception.getMessage()).contains(String.valueOf(accountId));
     }
 }
