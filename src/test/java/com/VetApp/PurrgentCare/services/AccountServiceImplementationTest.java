@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -22,7 +24,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -39,6 +40,8 @@ public class AccountServiceImplementationTest {
 
     @Mock
     private ModelMapper mockMapper;
+    @Captor
+    private ArgumentCaptor<Account> accountCaptor;
 
     @BeforeEach
     public void setup() {
@@ -233,6 +236,7 @@ public class AccountServiceImplementationTest {
 
     }
 
+
     // Test associatePeople when account exists
     //This method adds a list of personIds to an account
     //
@@ -240,50 +244,35 @@ public class AccountServiceImplementationTest {
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
 
         // Variables used everywhere
-        final var accountId = new Random().nextInt(1000);
-        final var personId = new Random().nextInt(1000);
-        final var active = Boolean.TRUE;
+        final var accountId = generateRandomInteger();
+        final var personId = generateRandomInteger();
+        final var personId2 = generateRandomInteger();
+        final var active = generateRandomBoolean();
         final var dateCreated = new Date();
-        final var peopleIdList = new ArrayList<Integer>(personId);
 
         // Build request object
-        final var request = new AssociatePeopleWithAccountRequest();
-        request.accountId = accountId;
-        request.personIds = peopleIdList;
+        final var request = generateAssociatePeopleWithAccountRequest(accountId, List.of(personId, personId2));
 
-        // Build person object
-        final var person1 = Person.builder()
-                .id(personId)
-                .build();
+        // Build person objects
+        final var person1 = generatePerson(personId);
+        final var person2 = generatePerson(personId2);
 
         // Build pet object
         final var pet1 = Pet.builder()
                 .build();
 
         // Build original account object
-        final var originalAccount = Account.builder()
-                .id(accountId)
-                .build();
+        final var originalAccount = generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1));
 
         // Build updated account object
-        final var updatedAccount = Account.builder()
-                .id(accountId)
-                .active(active)
-                .dateCreated(dateCreated)
-                .pets(List.of(pet1))
-                .accountHolders(List.of(person1))
-                .build();
+        final var updatedAccount = generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1, person2));
 
         // Build account response object
-        final var accountResponse = new AccountResponse();
-        accountResponse.accountHolders = List.of(person1);
-        accountResponse.active = active;
-        accountResponse.pets = List.of(pet1);
-        accountResponse.dateCreated = dateCreated;
+        final var accountResponse = generateAccountResponse(active, dateCreated, List.of(pet1), List.of(person1, person2));
 
         // Configure mocks for every call on dependencies within the service
         given(mockPersonRepository.findAllById(request.personIds))
-                .willReturn(List.of(person1));
+                .willReturn(List.of(person1, person2));
         given(mockAccountRepository.findById(accountId))
                 .willReturn(Optional.of(originalAccount));
         given(mockAccountRepository.save(originalAccount))
@@ -293,11 +282,16 @@ public class AccountServiceImplementationTest {
 
         // when && then
         final var actual = serviceUnderTest.associatePeople(request);
+        verify(mockAccountRepository).save(accountCaptor.capture());
+        Account capturedAccount = accountCaptor.getValue();
 
         // then
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(accountResponse);
+        assertThat(capturedAccount.getAccountHolders())
+                .usingRecursiveComparison()
+                .isEqualTo(updatedAccount.getAccountHolders());
     }
 
     @Test
@@ -339,7 +333,49 @@ public class AccountServiceImplementationTest {
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.associatePeople(request);});
+            serviceUnderTest.associatePeople(request);
+        });
         then(exception.getMessage()).contains(String.valueOf(accountId));
+    }
+
+    //Fake Date Generation
+    private Boolean generateRandomBoolean() {
+        return new Random().nextBoolean();
+    }
+
+    private Integer generateRandomInteger() {
+        return new Random().nextInt(1000);
+    }
+
+    private AssociatePeopleWithAccountRequest generateAssociatePeopleWithAccountRequest(Integer fakeAccountId, List<Integer> fakePersonIds) {
+        final var request = new AssociatePeopleWithAccountRequest();
+        request.accountId = fakeAccountId;
+        request.personIds = fakePersonIds;
+        return request;
+    }
+
+    private Person generatePerson(Integer fakePersonId) {
+        return Person.builder()
+                .id(fakePersonId)
+                .build();
+    }
+
+    private Account generateAccount(Integer fakeAccountId, Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
+        return Account.builder()
+                .id(fakeAccountId)
+                .active(fakeActive)
+                .dateCreated(fakeDateCreated)
+                .pets(fakePets)
+                .accountHolders(fakeAccountHolders)
+                .build();
+    }
+
+    private AccountResponse generateAccountResponse(Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
+        final var accountResponse = new AccountResponse();
+        accountResponse.active = fakeActive;
+        accountResponse.dateCreated = fakeDateCreated;
+        accountResponse.pets = fakePets;
+        accountResponse.accountHolders = fakeAccountHolders;
+        return accountResponse;
     }
 }
