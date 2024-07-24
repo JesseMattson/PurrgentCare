@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -22,7 +24,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -39,6 +40,8 @@ public class AccountServiceImplementationTest {
 
     @Mock
     private ModelMapper mockMapper;
+    @Captor
+    private ArgumentCaptor<Account> accountCaptor;
 
     @BeforeEach
     public void setup() {
@@ -293,11 +296,16 @@ public class AccountServiceImplementationTest {
 
         // when && then
         final var actual = serviceUnderTest.associatePeople(request);
+        verify(mockAccountRepository).save(accountCaptor.capture());
+        Account capturedAccount = accountCaptor.getValue();
 
         // then
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(accountResponse);
+        assertThat(capturedAccount.getAccountHolders())
+                .usingRecursiveComparison()
+                .isEqualTo(updatedAccount.getAccountHolders());
     }
 
     @Test
@@ -339,7 +347,8 @@ public class AccountServiceImplementationTest {
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.associatePeople(request);});
+            serviceUnderTest.associatePeople(request);
+        });
         then(exception.getMessage()).contains(String.valueOf(accountId));
     }
 }

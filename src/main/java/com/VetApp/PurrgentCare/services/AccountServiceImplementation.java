@@ -3,13 +3,10 @@ package com.VetApp.PurrgentCare.services;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +18,6 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     private final PersonRepository personRepository;
 
     private final ModelMapper mapper;
-
-
-
 
 
     public AccountServiceImplementation(AccountRepository accountRepository, PersonRepository personRepository, ModelMapper mapper) {
@@ -50,7 +44,7 @@ public class AccountServiceImplementation implements AccountServiceInterface {
 
     @Override
     public Account addAccount(Account account) {
-      return  accountRepository.save(account);
+        return accountRepository.save(account);
     }
 
     @Override
@@ -83,17 +77,12 @@ public class AccountServiceImplementation implements AccountServiceInterface {
         var accountId = associatePeopleWithAccountRequest.accountId;
         var people = personRepository.findAllById(personIds);
         Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));;
-//        account.setAccountHolders(people);
-        Account updatedAccount =  accountRepository.save(account);
-       AccountResponse accountResponse = mapper.map(updatedAccount, AccountResponse.class);
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
+        account.setAccountHolders(people);
+        Account updatedAccount = accountRepository.save(account);
+        AccountResponse accountResponse = mapper.map(updatedAccount, AccountResponse.class);
         return accountResponse;
     }
 
 }
-//    private static Account buildDefaultAccount() {
-//        final var defaultAccount = new Account();
-//        defaultAccount.setName("default");
-//        return defaultAccount;
-//    }
-//}
+
