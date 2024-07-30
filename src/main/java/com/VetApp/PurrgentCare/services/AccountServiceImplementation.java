@@ -8,6 +8,7 @@ import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     private final AccountRepository accountRepository;
 
     private final PersonRepository personRepository;
-
+    @Autowired
     private final ModelMapper mapper;
 
 
