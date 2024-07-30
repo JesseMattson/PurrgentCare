@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3dc4dead-715b-4a57-b5e5-58db83ee892b",
+		"_postman_id": "f0ac0fb8-675b-467a-8984-ce2f36f89f57",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33908379"
+		"_exporter_id": "33776713"
 	},
 	"item": [
 		{
@@ -771,7 +771,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"active\": \"True\",\r\n    \"Date\": \"07-22-2024\",\r\n    \"ListPerson\": [\"Jesse\", \"Jeffrey\", \"Randall\"],\r\n    \"ListPets\": [\"Spot\", \"Scout\", \"Roxy\"]\r\n    }",
+							"raw": "{\r\n    \"accountId\": 1,\r\n    \"personIds\": [\r\n        1,\r\n        3,\r\n        4\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -779,12 +779,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{accountBaseURL}}/associate-People",
+							"raw": "{{accountBaseURL}}/associate-people",
 							"host": [
 								"{{accountBaseURL}}"
 							],
 							"path": [
-								"associate-People"
+								"associate-people"
 							]
 						}
 					},
