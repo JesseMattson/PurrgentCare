@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,12 +30,28 @@ public class Account {
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "account", orphanRemoval = true)
     private List<Person> accountHolders;
-
     @JsonManagedReference
     @Setter
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "account", orphanRemoval = true)
     private List<Pet> pets;
+
+    public void addAccountHolder(Person accountHolder) {
+        accountHolder.setAccount(this);
+        //List would not allow addition of accountHolders because it is immutable
+        //Had to convert to ArrayList to make it mutable and then set object List
+        List<Person> accountHolders = new ArrayList<>(getAccountHolders());
+        accountHolders.add(accountHolder);
+        setAccountHolders(accountHolders);
+    }
+
+    public void addAccountHolders(List<Person> accountHolders) {
+        for (Person accountHolder : accountHolders) {
+            if (!getAccountHolders().contains(accountHolder)) {
+                addAccountHolder(accountHolder);
+            }
+        }
+    }
 
     @Override
     public String toString() {
