@@ -366,7 +366,7 @@ public class AccountServiceImplementationTest {
                 .active(fakeActive)
                 .dateCreated(fakeDateCreated)
                 .pets(fakePets)
-                .accountHolders(fakeAccountHolders)
+                .accountHolders(makeListMutable(fakeAccountHolders))
                 .build();
     }
 
@@ -377,5 +377,9 @@ public class AccountServiceImplementationTest {
         accountResponse.pets = fakePets;
         accountResponse.accountHolders = fakeAccountHolders;
         return accountResponse;
+    }
+
+    private <T> List<T> makeListMutable(List<? extends T> inputList) {
+        return new ArrayList<>(inputList);
     }
 }
