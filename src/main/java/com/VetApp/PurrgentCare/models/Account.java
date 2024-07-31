@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,11 +37,7 @@ public class Account {
 
     public void addAccountHolder(Person accountHolder) {
         accountHolder.setAccount(this);
-        //List would not allow addition of accountHolders because it is immutable
-        //Had to convert to ArrayList to make it mutable and then set object List
-        List<Person> accountHolders = new ArrayList<>(getAccountHolders());
-        accountHolders.add(accountHolder);
-        setAccountHolders(accountHolders);
+        getAccountHolders().add(accountHolder);
     }
 
     public void addAccountHolders(List<Person> accountHolders) {
