@@ -1,17 +1,19 @@
 # 🐈 Purrgent Care 🐕
+
 ___
 
 ### Description
 
-This readme provides background information regarding the Purrgent Care application, how to run it locally,
-and access the H2 in-memory database.
+This readme provides background information regarding the Purrgent Care application, how to
+[run it locally](#-running-the-application), and access the
+[H2 in-memory database](#-accessing-the-h2-database-console).
 
 ___
 
 ## 💻 Application Purpose
 
 This application provides functionality to veterinarian's offices to maintain client's information regarding
-their pets, their visits to the clinic, and diagnoses over time. Specific use cases will be built over time 
+their pets, their visits to the clinic, and diagnoses over time. Specific use cases will be built over time
 using an agile approach to continually expand functionality.
 
 ___
@@ -19,16 +21,15 @@ ___
 ## 🏛 Architecture
 
 This application is built on a [controller-service-repository architecture][mvc-doc] to provide a good separation
-of concerns. This application uses [React](https://react.dev/) for the UI portion of the application. More 
-details can be seen in the [UI README][ui-readme]. This application leverages [Java Spring Boot][spring-boot-doc] 
+of concerns. This application uses [React](https://react.dev/) for the UI portion of the application. More
+details can be seen in the [UI README][ui-readme]. This application leverages [Java Spring Boot][spring-boot-doc]
 as the back-end framework.
-
 
 ### Patterns
 
-  - [Repository pattern][repository-doc] for data access and retrieval.
-  - [DAO pattern][dao-doc] (Data Access Object) for entity management.
-  - [DTO pattern][dto-doc] (Data Transfer Object) to decouple domain models from presentation models.
+- [Repository pattern][repository-doc] for data access and retrieval.
+- [DAO pattern][dao-doc] (Data Access Object) for entity management.
+- [DTO pattern][dto-doc] (Data Transfer Object) to decouple domain models from presentation models.
 
 ___
 
@@ -57,6 +58,7 @@ mvn clean install -U
 ## Start UI
 npm start --prefix ./purrgent-care-ui
 ```
+
 - Also see commands in [makefile](./makefile)
 
 ___
@@ -67,12 +69,14 @@ ___
 ## Start Backend
 mvn spring-boot:run
 ```
+
 - Backend alternatives: [Run config][run-config] or [Command line][run-command-line]
 
 ```shell
 ## Start UI
 npm start --prefix ./purrgent-care-ui
 ```
+
 - Also see commands in [makefile](./makefile)
 
 ___
@@ -87,8 +91,8 @@ This project will leverage [git flow][git-flow-doc] for development workflow.
 
 H2 is a light weight in-memory database that enables fast local development without the leg work of wiring up
 a database, schema and connection settings. The database is only accessible while the application is running
-and can be accessed through the built-in H2 console by URL only. [Additional Documentation](https://www.jetbrains.com/help/idea/h2.html)
-
+and can be accessed through the built-in H2 console by URL
+only. [Additional Documentation](https://www.jetbrains.com/help/idea/h2.html)
 
 ### 🖥️ [Accessing the UI](http://localhost:3000/)
 
@@ -97,6 +101,7 @@ and can be accessed through the built-in H2 console by URL only. [Additional Doc
 This project requires unit testing as per the Definition of Done and meet code coverage requirements.
 
 - To run all tests run:
+
 ```shell
 ## Run Backend tests
 mvn test jacoco:report
@@ -108,13 +113,14 @@ npm test --prefix ./purrgent-care-ui
 ```
 
 - Also see commands in [makefile](./makefile)
+
 ___
 
 ## 🛠 Tools used in this project
 
 - ### ＠ [Annotations](https://medium.com/@himani.prasad016/spring-boot-annotations-2894594e3c4b):
-  - [Application annotations](https://www.geeksforgeeks.org/spring-boot-annotations/)
-  - [Model annotations](https://wkrzywiec.medium.com/project-lombok-how-to-make-your-model-class-simple-ad71319c35d5)
+    - [Application annotations](https://www.geeksforgeeks.org/spring-boot-annotations/)
+    - [Model annotations](https://wkrzywiec.medium.com/project-lombok-how-to-make-your-model-class-simple-ad71319c35d5)
 
 - ### 📘 [Markdown][markdown-doc]
 
@@ -127,18 +133,33 @@ ___
 - ### 🌶 [Lombok][lombok-doc]
 
 [mvc-doc]: https://tom-collings.medium.com/controller-service-repository-16e29a4684e5
+
 [react-doc]: https://react.dev/
+
 [spring-boot-doc]: https://spring.io/projects/spring-boot
+
 [repository-doc]: https://java-design-patterns.com/patterns/repository/
+
 [dao-doc]: https://www.baeldung.com/java-dao-vs-repository
+
 [dto-doc]: https://www.baeldung.com/java-dto-pattern
+
 [git-flow-doc]: documentation/git-flow.md
+
 [markdown-doc]: documentation/markdown.md
+
 [postman-doc]: documentation/postman.md
+
 [jacoco-doc]: documentation/jacoco.md
+
 [makefile-doc]: documentation/makefile.md
+
 [lombok-doc]: documentation/lombok.md
+
 [unit-testing-doc]: documentation/unit-testing.md
+
 [ui-readme]: purrgent-care-ui/README.md
+
 [run-config]: https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html
+
 [run-command-line]: https://www.javaguides.net/2019/05/run-spring-boot-app-from-command-line.html
