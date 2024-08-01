@@ -3,7 +3,6 @@ package com.VetApp.PurrgentCare.services;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -80,13 +79,7 @@ public class AccountServiceImplementation implements AccountServiceInterface {
         var people = personRepository.findAllById(personIds);
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
-        //Had to add this loop to set the parent relationship of each child; check for duplicate children; add any new children to the parent.
-        for (Person person : people) {
-            person.setAccount(account);
-            if (!account.getAccountHolders().contains(person)) {
-                account.getAccountHolders().add(person);
-            }
-        }
+        account.addAccountHolders(people);
         //TODO can delete this if everything is good
         //account.setAccountHolders(people);
         Account updatedAccount = accountRepository.save(account);
@@ -95,4 +88,3 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     }
 
 }
-
