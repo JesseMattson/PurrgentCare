@@ -1,3 +1,8 @@
+BASE_URL=http://localhost:8080
+PERSONS_BASE_URL=$(BASE_URL)/persons
+PET_BASE_URL=$(BASE_URL)/pets
+ACCOUNT_BASE_URL=$(BASE_URL)/accounts
+
 ## Backend section
 package-backend:
 	mvn -B package --file pom.xml -DskipTests
@@ -8,12 +13,16 @@ build-backend:
 test-backend:
 	mvn test jacoco:report
 
+test-postman:
+	newman run PurrgentCare.postman_collection.json --env-var "personsBaseURL=$(PERSONS_BASE_URL)" \
+	--env-var "petBaseURL=$(PET_BASE_URL)" --env-var "accountBaseURL=$(ACCOUNT_BASE_URL)"
+
 open-jacoco-report:
 	open target/site/jacoco/index.html
 
 test-and-coverage: test-backend open-jacoco-report
 
-compile-backend: package-backend build-backend test-backend
+compile-backend: package-backend build-backend
 
 container-backend:
 	docker build . --file Dockerfile --tag purrgent-care:latest
@@ -22,7 +31,7 @@ start-backend:
 	make build-backend
 	mvn spring-boot:run
 
-test-backend-pipeline: compile-backend container-backend
+test-backend-pipeline: compile-backend test-backend test-postman container-backend
 ## End Backend section
 
 ## Docker section
