@@ -29,24 +29,12 @@ public class Account {
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "account", orphanRemoval = true)
     private List<Person> accountHolders;
+
     @JsonManagedReference
     @Setter
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "account", orphanRemoval = true)
     private List<Pet> pets;
-
-    public void addAccountHolder(Person accountHolder) {
-        accountHolder.setAccount(this);
-        getAccountHolders().add(accountHolder);
-    }
-
-    public void addAccountHolders(List<Person> accountHolders) {
-        for (Person accountHolder : accountHolders) {
-            if (!getAccountHolders().contains(accountHolder)) {
-                addAccountHolder(accountHolder);
-            }
-        }
-    }
 
     @Override
     public String toString() {
