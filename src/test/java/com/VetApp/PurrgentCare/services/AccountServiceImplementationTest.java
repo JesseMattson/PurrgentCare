@@ -1,13 +1,21 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.dtos.AccountResponse;
+import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
+import com.VetApp.PurrgentCare.models.Person;
+import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
+import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
@@ -27,10 +35,17 @@ public class AccountServiceImplementationTest {
     @Mock
     private AccountRepository mockAccountRepository;
 
+    @Mock
+    private PersonRepository mockPersonRepository;
+
+    @Mock
+    private ModelMapper mockMapper;
+    @Captor
+    private ArgumentCaptor<Account> accountCaptor;
 
     @BeforeEach
     public void setup() {
-        this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository);
+        this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository, mockPersonRepository, mockMapper);
     }
 
     @Test
@@ -115,6 +130,17 @@ public class AccountServiceImplementationTest {
         return accountList;
     }
 
+    private List<Person> buildPeopleList(Integer countOfPeople) {
+        List<Person> peopleList = new ArrayList<>(List.of());
+        var i = 1;
+        while (i <= countOfPeople) {
+            var account = mock(Person.class);
+            peopleList.add(account);
+            i++;
+        }
+        return peopleList;
+    }
+
     // attempting to create tests for updating accounts but getting
     // stuck because we do not have the ability to set accountHolders & pets
     // --Unsure of how to continue as of now.
@@ -194,6 +220,7 @@ public class AccountServiceImplementationTest {
         // then
         assertThat(actual.getActive()).isNotEqualTo(Boolean.TRUE);
     }
+
     @Test
     public void toggleAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
@@ -207,5 +234,152 @@ public class AccountServiceImplementationTest {
         });
         then(exception.getMessage()).contains(String.valueOf(accountId));
 
+    }
+
+
+    // Test associatePeople when account exists
+    //This method adds a list of personIds to an account
+    //
+    @Test
+    public void associatePeople_whenAccountExists_returnAssociatedPeople() {
+
+        // Variables used everywhere
+        final var accountId = generateRandomInteger();
+        final var personId = generateRandomInteger();
+        final var personId2 = generateRandomInteger();
+        final var active = generateRandomBoolean();
+        final var dateCreated = new Date();
+
+        // Build request object
+        final var request = generateAssociatePeopleWithAccountRequest(accountId, List.of(personId, personId2));
+
+        // Build person objects
+        final var person1 = generatePerson(personId);
+        final var person2 = generatePerson(personId2);
+
+        // Build pet object
+        final var pet1 = Pet.builder()
+                .build();
+
+        // Build original account object
+        final var originalAccount = generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1));
+
+        // Build updated account object
+        final var updatedAccount = generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1, person2));
+
+        // Build account response object
+        final var accountResponse = generateAccountResponse(active, dateCreated, List.of(pet1), List.of(person1, person2));
+
+        // Configure mocks for every call on dependencies within the service
+        given(mockPersonRepository.findAllById(request.personIds))
+                .willReturn(List.of(person1, person2));
+        given(mockAccountRepository.findById(accountId))
+                .willReturn(Optional.of(originalAccount));
+        given(mockAccountRepository.save(originalAccount))
+                .willReturn(updatedAccount);
+        given(mockMapper.map(updatedAccount, AccountResponse.class))
+                .willReturn(accountResponse);
+
+        // when && then
+        final var actual = serviceUnderTest.associatePeople(request);
+        verify(mockAccountRepository).save(accountCaptor.capture());
+        Account capturedAccount = accountCaptor.getValue();
+
+        // then
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(accountResponse);
+        assertThat(capturedAccount.getAccountHolders())
+                .usingRecursiveComparison()
+                .isEqualTo(updatedAccount.getAccountHolders());
+    }
+
+    @Test
+    public void accountResponse_whenAccountNotExists_throwEntityNotFoundException() {
+        final var accountId = new Random().nextInt(1000);
+        final var personId = new Random().nextInt(1000);
+        final var active = Boolean.TRUE;
+        final var dateCreated = new Date();
+        final var peopleIdList = new ArrayList<Integer>(personId);
+
+        // Build request object
+        final var request = new AssociatePeopleWithAccountRequest();
+        request.accountId = accountId;
+        request.personIds = peopleIdList;
+
+        // Build person object
+        final var person1 = Person.builder()
+                .id(personId)
+                .build();
+
+        // Build pet object
+        final var pet1 = Pet.builder()
+                .build();
+
+        // Build updated account object
+        final var updatedAccount = Account.builder()
+                .id(accountId)
+                .active(active)
+                .dateCreated(dateCreated)
+                .pets(List.of(pet1))
+                .accountHolders(List.of(person1))
+                .build();
+
+        // Configure mocks for every call on dependencies within the service
+        given(mockPersonRepository.findAllById(request.personIds))
+                .willReturn(List.of(person1));
+        given(mockAccountRepository.findById(accountId))
+                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+
+        // when && then
+        final var exception = assertThrows(EntityNotFoundException.class, () -> {
+            serviceUnderTest.associatePeople(request);
+        });
+        then(exception.getMessage()).contains(String.valueOf(accountId));
+    }
+
+    //Fake Date Generation
+    private Boolean generateRandomBoolean() {
+        return new Random().nextBoolean();
+    }
+
+    private Integer generateRandomInteger() {
+        return new Random().nextInt(1000);
+    }
+
+    private AssociatePeopleWithAccountRequest generateAssociatePeopleWithAccountRequest(Integer fakeAccountId, List<Integer> fakePersonIds) {
+        final var request = new AssociatePeopleWithAccountRequest();
+        request.accountId = fakeAccountId;
+        request.personIds = fakePersonIds;
+        return request;
+    }
+
+    private Person generatePerson(Integer fakePersonId) {
+        return Person.builder()
+                .id(fakePersonId)
+                .build();
+    }
+
+    private Account generateAccount(Integer fakeAccountId, Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
+        return Account.builder()
+                .id(fakeAccountId)
+                .active(fakeActive)
+                .dateCreated(fakeDateCreated)
+                .pets(fakePets)
+                .accountHolders(makeListMutable(fakeAccountHolders))
+                .build();
+    }
+
+    private AccountResponse generateAccountResponse(Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
+        final var accountResponse = new AccountResponse();
+        accountResponse.active = fakeActive;
+        accountResponse.dateCreated = fakeDateCreated;
+        accountResponse.pets = fakePets;
+        accountResponse.accountHolders = fakeAccountHolders;
+        return accountResponse;
+    }
+
+    private <T> List<T> makeListMutable(List<? extends T> inputList) {
+        return new ArrayList<>(inputList);
     }
 }

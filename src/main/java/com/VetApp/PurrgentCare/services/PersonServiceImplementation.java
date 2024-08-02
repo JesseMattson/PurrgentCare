@@ -1,7 +1,9 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
+import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 

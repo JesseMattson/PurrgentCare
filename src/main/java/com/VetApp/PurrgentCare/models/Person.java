@@ -21,10 +21,8 @@ public class Person {
 
     @JsonBackReference
     @ManyToOne
+    @Setter
     private Account account;
-
-
-
 
 
     // Required for Serializing
