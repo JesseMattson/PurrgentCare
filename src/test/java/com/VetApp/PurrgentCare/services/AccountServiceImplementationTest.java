@@ -1,5 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.FakeDataGenerator;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
@@ -42,6 +43,8 @@ public class AccountServiceImplementationTest {
     private ModelMapper mockMapper;
     @Captor
     private ArgumentCaptor<Account> accountCaptor;
+
+    private FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
 
     @BeforeEach
     public void setup() {
@@ -244,31 +247,31 @@ public class AccountServiceImplementationTest {
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
 
         // Variables used everywhere
-        final var accountId = generateRandomInteger();
-        final var personId = generateRandomInteger();
-        final var personId2 = generateRandomInteger();
-        final var active = generateRandomBoolean();
+        final var accountId = fakeDataGenerator.generateRandomInteger();
+        final var personId = fakeDataGenerator.generateRandomInteger();
+        final var personId2 = fakeDataGenerator.generateRandomInteger();
+        final var active = fakeDataGenerator.generateRandomBoolean();
         final var dateCreated = new Date();
 
         // Build request object
-        final var request = generateAssociatePeopleWithAccountRequest(accountId, List.of(personId, personId2));
+        final var request = fakeDataGenerator.generateAssociatePeopleWithAccountRequest(accountId, List.of(personId, personId2));
 
         // Build person objects
-        final var person1 = generatePerson(personId);
-        final var person2 = generatePerson(personId2);
+        final var person1 = fakeDataGenerator.generatePerson(personId);
+        final var person2 = fakeDataGenerator.generatePerson(personId2);
 
         // Build pet object
         final var pet1 = Pet.builder()
                 .build();
 
         // Build original account object
-        final var originalAccount = generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1));
+        final var originalAccount = fakeDataGenerator.generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1));
 
         // Build updated account object
-        final var updatedAccount = generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1, person2));
+        final var updatedAccount = fakeDataGenerator.generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1, person2));
 
         // Build account response object
-        final var accountResponse = generateAccountResponse(active, dateCreated, List.of(pet1), List.of(person1, person2));
+        final var accountResponse = fakeDataGenerator.generateAccountResponse(active, dateCreated, List.of(pet1), List.of(person1, person2));
 
         // Configure mocks for every call on dependencies within the service
         given(mockPersonRepository.findAllById(request.personIds))
@@ -338,48 +341,4 @@ public class AccountServiceImplementationTest {
         then(exception.getMessage()).contains(String.valueOf(accountId));
     }
 
-    //Fake Date Generation
-    private Boolean generateRandomBoolean() {
-        return new Random().nextBoolean();
-    }
-
-    private Integer generateRandomInteger() {
-        return new Random().nextInt(1000);
-    }
-
-    private AssociatePeopleWithAccountRequest generateAssociatePeopleWithAccountRequest(Integer fakeAccountId, List<Integer> fakePersonIds) {
-        final var request = new AssociatePeopleWithAccountRequest();
-        request.accountId = fakeAccountId;
-        request.personIds = fakePersonIds;
-        return request;
-    }
-
-    private Person generatePerson(Integer fakePersonId) {
-        return Person.builder()
-                .id(fakePersonId)
-                .build();
-    }
-
-    private Account generateAccount(Integer fakeAccountId, Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
-        return Account.builder()
-                .id(fakeAccountId)
-                .active(fakeActive)
-                .dateCreated(fakeDateCreated)
-                .pets(fakePets)
-                .accountHolders(makeListMutable(fakeAccountHolders))
-                .build();
-    }
-
-    private AccountResponse generateAccountResponse(Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
-        final var accountResponse = new AccountResponse();
-        accountResponse.active = fakeActive;
-        accountResponse.dateCreated = fakeDateCreated;
-        accountResponse.pets = fakePets;
-        accountResponse.accountHolders = fakeAccountHolders;
-        return accountResponse;
-    }
-
-    private <T> List<T> makeListMutable(List<? extends T> inputList) {
-        return new ArrayList<>(inputList);
-    }
 }
