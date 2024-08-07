@@ -23,6 +23,7 @@ import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -44,7 +45,7 @@ public class AccountServiceImplementationTest {
     @Captor
     private ArgumentCaptor<Account> accountCaptor;
 
-    private FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
+    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
 
     @BeforeEach
     public void setup() {
@@ -54,8 +55,10 @@ public class AccountServiceImplementationTest {
     @Test
     public void getAccount_whenExist_returnOneAccount() {
         // given
-        final var fakeAccount = mock(Account.class);
-        final var fakeAccountId = fakeAccount.getId();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeAccount));
 
         // when
@@ -122,27 +125,9 @@ public class AccountServiceImplementationTest {
     }
 
 
-    private List<Account> buildAccountList(Integer countOfAccounts) {
-        List<Account> accountList = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= countOfAccounts) {
-            var account = mock(Account.class);
-            accountList.add(account);
-            i++;
-        }
-        return accountList;
-    }
 
-    private List<Person> buildPeopleList(Integer countOfPeople) {
-        List<Person> peopleList = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= countOfPeople) {
-            var account = mock(Person.class);
-            peopleList.add(account);
-            i++;
-        }
-        return peopleList;
-    }
+
+
 
     // attempting to create tests for updating accounts but getting
     // stuck because we do not have the ability to set accountHolders & pets
