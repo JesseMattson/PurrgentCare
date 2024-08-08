@@ -89,7 +89,7 @@ public class AccountServiceImplementationTest {
     @Test
     public void deleteAccount_whenValidInput() {
         // given
-        final var fakeAccountId = new Random().nextInt(1000);
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
 
         // when
         serviceUnderTest.deleteAccount(fakeAccountId);
