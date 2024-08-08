@@ -109,7 +109,7 @@ public class PersonServiceImplementationTest {
     @Test
     public void deletePerson_whenValidInput() {
         // given
-        final var fakePersonId = new Random().nextInt(1000);
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
 
         // when
         serviceUnderTest.deletePerson(fakePersonId);
