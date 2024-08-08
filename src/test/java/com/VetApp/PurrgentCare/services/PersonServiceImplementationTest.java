@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -38,15 +38,15 @@ public class PersonServiceImplementationTest {
     @BeforeEach
     // Allows serviceUnderTest to use new Instance (class) for each test.
     public void setup() {
-                this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository);
+        this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository);
     }
 
     @Test
     public void getPerson_whenExist_returnOnePerson() {
         // given
 
-      final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-      final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+        final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
         given(mockPersonRepository.findById(fakePersonId))
                 .willReturn(Optional.of(fakePerson));
 
@@ -76,7 +76,9 @@ public class PersonServiceImplementationTest {
     @Test
     public void getAllPersons_whenNoPersons_returnsEmptyList() {
         // given
-        final List<Person> expected = buildPersonList(0);
+        final var fakeCountOfFakePersons = 0;
+        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var expected = fakePersonList;
         given(mockPersonRepository.findAll())
                 .willReturn(expected);
 
@@ -99,11 +101,11 @@ public class PersonServiceImplementationTest {
 
         // then
         // check repo to see if person was added once
-        verify(mockPersonRepository,times(1)).save(fakePerson);
+        verify(mockPersonRepository, times(1)).save(fakePerson);
     }
 
     @Test
-    public void deletePerson_whenValidInput () {
+    public void deletePerson_whenValidInput() {
         // given
         final var fakePersonId = new Random().nextInt(1000);
 
@@ -111,17 +113,17 @@ public class PersonServiceImplementationTest {
         serviceUnderTest.deletePerson(fakePersonId);
 
         // then
-        verify(mockPersonRepository,times(1)).deleteById(fakePersonId);
+        verify(mockPersonRepository, times(1)).deleteById(fakePersonId);
 
     }
 
     @Test
-    public void updatePerson_whenPersonExists_returnsUpdatedPerson () {
+    public void updatePerson_whenPersonExists_returnsUpdatedPerson() {
         // given
         final var fakePersonId = new Random().nextInt(1000);
         final var fakeAccount = new Account();
         final var originalPerson = new Person(fakePersonId, "John notTest", fakeAccount);
-        final var updatedPerson = new Person(fakePersonId, "Gerald Test",fakeAccount);
+        final var updatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
         given(mockPersonRepository.findById(fakePersonId))
                 .willReturn(Optional.of(originalPerson));
         when(mockPersonRepository.save(any(Person.class)))
@@ -137,7 +139,7 @@ public class PersonServiceImplementationTest {
     }
 
     @Test
-    public void updatePerson_whenPersonNotExists_throwEntityNotFoundException () {
+    public void updatePerson_whenPersonNotExists_throwEntityNotFoundException() {
         // given
         final var fakePersonId = new Random().nextInt(1000);
         final var fakeAccount = new Account();
@@ -146,9 +148,9 @@ public class PersonServiceImplementationTest {
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePersonId)));
 
         // when && then
-        final var exception = assertThrows(EntityNotFoundException.class,() -> {
+        final var exception = assertThrows(EntityNotFoundException.class, () -> {
             serviceUnderTest.updatePerson(updatedPerson, fakePersonId);
-                });
+        });
         then(exception.getMessage()).contains(String.valueOf(fakePersonId));
     }
 
