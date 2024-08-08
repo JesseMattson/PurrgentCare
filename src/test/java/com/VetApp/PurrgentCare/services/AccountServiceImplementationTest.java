@@ -99,21 +99,21 @@ public class AccountServiceImplementationTest {
 
     }
 
-//    @Test
-//    public void getAllAccounts_withValidInput_returnsAllAccounts() {
-//        // given
-//        final var countOfAccounts = new Random().nextInt(1000);
-//        final var expected = buildAccountList(countOfAccounts);
-//        given(mockAccountRepository.findAll())
-//                .willReturn(expected);
-//
-//        // when
-//        final var actual = serviceUnderTest.getAllAccounts();
-//
-//        // then
-//        then(actual).isEqualTo(expected);
-//        then(actual).hasSize(countOfAccounts);
-//    }
+    @Test
+    public void getAllAccounts_withValidInput_returnsAllAccounts() {
+        // given
+        final var countOfAccounts = fakeDataGenerator.generateRandomInteger();
+        final var expected = fakeDataGenerator.generateAccountList(countOfAccounts);
+        given(mockAccountRepository.findAll())
+                .willReturn(expected);
+
+        // when
+        final var actual = serviceUnderTest.getAllAccounts();
+
+        // then
+        then(actual).isEqualTo(expected);
+        then(actual).hasSize(countOfAccounts);
+    }
 
 
 //    @Test

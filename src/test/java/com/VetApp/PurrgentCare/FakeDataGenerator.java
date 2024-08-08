@@ -69,7 +69,7 @@ public class FakeDataGenerator {
         return fakePetList;
     }
 
-    private List<Account> generateAccountList(Integer countOfFakeAccounts) {
+    public List<Account> generateAccountList(Integer countOfFakeAccounts) {
         List<Account> fakeAccountList = new ArrayList<>(List.of());
         var i = 1;
         while (i <= countOfFakeAccounts) {
