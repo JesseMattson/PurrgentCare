@@ -1,3 +1,4 @@
+
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
@@ -223,45 +224,51 @@ public class AccountServiceImplementationTest {
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
 
         // Variables used everywhere
-        final var accountId = fakeDataGenerator.generateRandomInteger();
-        final var personId = fakeDataGenerator.generateRandomInteger();
-        final var personId2 = fakeDataGenerator.generateRandomInteger();
-        final var active = fakeDataGenerator.generateRandomBoolean();
-        final var dateCreated = new Date();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakePersonId  = fakeDataGenerator.generateRandomInteger();
+        final var fakePersonId2 = fakeDataGenerator.generateRandomInteger();
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePeople = fakeDataGenerator.generateRandomInteger();
 
         // Build request object
-        final var request = fakeDataGenerator.generateAssociatePeopleWithAccountRequest(accountId, List.of(personId, personId2));
+        final var fakeRequest = fakeDataGenerator.generateAssociatePeopleWithAccountRequest(fakeAccountId, List.of(fakePersonId, fakePersonId2));
 
         // Build person objects
-        final var person1 = fakeDataGenerator.generatePerson(personId);
-        final var person2 = fakeDataGenerator.generatePerson(personId2);
+        final var fakePerson1 = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePerson2 = fakeDataGenerator.generatePerson(fakePersonId2);
 
         // Build pet object
-        final var pet1 = Pet.builder().build();
+        final var fakePet1 = fakeDataGenerator.generatePet(fakePetId);
+
+        // Build list objects
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeCountOfFakePeople);
 
         // Build original account object
-        final var originalAccount = fakeDataGenerator.generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1));
+        final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1));
 
         // Build updated account object
-        final var updatedAccount = fakeDataGenerator.generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1, person2));
+        final var fakeUpdatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1, fakePerson2));
 
         // Build account response object
-        final var accountResponse = fakeDataGenerator.generateAccountResponse(active, dateCreated, List.of(pet1), List.of(person1, person2));
-
+        final var fakeAccountResponse = fakeDataGenerator.generateAccountResponse(fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1, fakePerson2));
         // Configure mocks for every call on dependencies within the service
-        given(mockPersonRepository.findAllById(request.personIds)).willReturn(List.of(person1, person2));
-        given(mockAccountRepository.findById(accountId)).willReturn(Optional.of(originalAccount));
-        given(mockAccountRepository.save(originalAccount)).willReturn(updatedAccount);
-        given(mockMapper.map(updatedAccount, AccountResponse.class)).willReturn(accountResponse);
+        given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(List.of(fakePerson1, fakePerson2));
+        given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeOriginalAccount));
+        given(mockAccountRepository.save(fakeOriginalAccount)).willReturn(fakeUpdatedAccount);
+        given(mockMapper.map(fakeUpdatedAccount, AccountResponse.class)).willReturn(fakeAccountResponse);
 
         // when && then
-        final var actual = serviceUnderTest.associatePeople(request);
+        final var actual = serviceUnderTest.associatePeople(fakeRequest);
         verify(mockAccountRepository).save(accountCaptor.capture());
         Account capturedAccount = accountCaptor.getValue();
 
         // then
-        assertThat(actual).usingRecursiveComparison().isEqualTo(accountResponse);
-        assertThat(capturedAccount.getAccountHolders()).usingRecursiveComparison().isEqualTo(updatedAccount.getAccountHolders());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(fakeAccountResponse);
+        assertThat(capturedAccount.getAccountHolders()).usingRecursiveComparison().isEqualTo(fakeUpdatedAccount.getAccountHolders());
     }
 
     @Test
