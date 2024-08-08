@@ -73,7 +73,8 @@ public class PetServiceImplementationTest {
     @Test
     public void addPet_whenValidInput_returnsValidInput() {
         // given
-        final var fakePet = mock(Pet.class);
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakePet = fakeDataGenerator.generatePet(fakePetId);
 
         // when
         serviceUnderTest.addPet(fakePet);
