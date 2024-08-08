@@ -162,17 +162,22 @@ public class AccountServiceImplementationTest {
     @Test
     public void updateAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
-        final var accountId = new Random().nextInt(1000);
-        final var originalAccount = Account.builder().id(accountId).active(Boolean.TRUE).dateCreated(new Date()).build();
-        final var updatedAccount = Account.builder().id(accountId).active(Boolean.TRUE).dateCreated(new Date()).build();
-        ;
-        given(mockAccountRepository.findById(accountId)).willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+
+        final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
+        final var fakeUpdatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
+
+        given(mockAccountRepository.findById(fakeAccountId)).willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.updateAccount(updatedAccount, accountId);
+            serviceUnderTest.updateAccount(fakeUpdatedAccount, fakeAccountId);
         });
-        then(exception.getMessage()).contains(String.valueOf(accountId));
+        then(exception.getMessage()).contains(String.valueOf(fakeAccountId));
     }
 
 
