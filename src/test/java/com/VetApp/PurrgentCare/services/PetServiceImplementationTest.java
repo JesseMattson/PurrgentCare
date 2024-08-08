@@ -133,22 +133,29 @@ public class PetServiceImplementationTest {
     @Test
     public void updatePet_whenPetExists_returnsUpdatedPet() {
         // given
-        final var fakePetId = new Random().nextInt(1000);
-        final var fakeAccount = new Account();
-        final var originalPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
-        final var updatedPet = new Pet(fakePetId, "Maggie", "Dog", 3, "Female", fakeAccount);
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePersonList);
+        final var fakeOriginalPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
+        final var fakeUpdatedPet = new Pet(fakePetId, "Maggie", "Dog", 3, "Female", fakeAccount);
         given(mockPetRepository.findById(fakePetId))
-                .willReturn(Optional.of(originalPet));
+                .willReturn(Optional.of(fakeOriginalPet));
         when(mockPetRepository.save(any(Pet.class)))
-                .thenReturn(updatedPet);
+                .thenReturn(fakeUpdatedPet);
 
         // when
-        final var actual = serviceUnderTest.updatePet(updatedPet, fakePetId);
+        final var actual = serviceUnderTest.updatePet(fakeUpdatedPet, fakePetId);
 
         // then
         assertThat(actual)
                 .usingRecursiveComparison()
-                .isEqualTo(originalPet);
+                .isEqualTo(fakeOriginalPet);
     }
 
     @Test
