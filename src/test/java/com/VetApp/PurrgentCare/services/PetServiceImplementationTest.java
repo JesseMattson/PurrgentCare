@@ -1,6 +1,7 @@
 package com.VetApp.PurrgentCare.services;
 
 
+import com.VetApp.PurrgentCare.FakeDataGenerator;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.PetRepository;
@@ -32,6 +33,8 @@ public class PetServiceImplementationTest {
     @Mock
     private PetRepository mockPetRepository;
 
+    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
+
 
     @BeforeEach
     public void setup() {
@@ -41,8 +44,8 @@ public class PetServiceImplementationTest {
     @Test
     public void getPet_whenExist_returnOnePet() {
         // given
-        final var fakePet = mock(Pet.class);
-        final var fakePetId = fakePet.getId();
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+                final var fakePet = fakeDataGenerator.generatePet(fakePetId);
         given(mockPetRepository.findById(fakePetId)).willReturn(Optional.of(fakePet));
 
         // when
@@ -80,7 +83,7 @@ public class PetServiceImplementationTest {
     }
 
     @Test
-    public void deletePet_whenValidInput () {
+    public void deletePet_whenValidInput() {
         // given
         final var fakePetId = new Random().nextInt(1000);
 
@@ -88,10 +91,9 @@ public class PetServiceImplementationTest {
         serviceUnderTest.deletePet(fakePetId);
 
         // then
-        verify(mockPetRepository,times(1)).deleteById(fakePetId);
+        verify(mockPetRepository, times(1)).deleteById(fakePetId);
 
     }
-
 
 
     @Test
@@ -124,7 +126,7 @@ public class PetServiceImplementationTest {
         then(actual).isEqualTo(expected);
     }
 
-private List <Pet> buildPetList (Integer countOfPets) {
+    private List<Pet> buildPetList(Integer countOfPets) {
         List<Pet> petList = new ArrayList<>(List.of());
         var i = 1;
         while (i <= countOfPets) {
@@ -132,18 +134,17 @@ private List <Pet> buildPetList (Integer countOfPets) {
             petList.add(pet);
             i++;
         }
-      return petList;
-}
-
+        return petList;
+    }
 
 
     @Test
-    public void updatePet_whenPetExists_returnsUpdatedPet () {
+    public void updatePet_whenPetExists_returnsUpdatedPet() {
         // given
         final var fakePetId = new Random().nextInt(1000);
         final var fakeAccount = new Account();
         final var originalPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
-        final var updatedPet = new Pet(fakePetId, "Maggie", "Dog", 3, "Female",fakeAccount);
+        final var updatedPet = new Pet(fakePetId, "Maggie", "Dog", 3, "Female", fakeAccount);
         given(mockPetRepository.findById(fakePetId))
                 .willReturn(Optional.of(originalPet));
         when(mockPetRepository.save(any(Pet.class)))
@@ -159,16 +160,16 @@ private List <Pet> buildPetList (Integer countOfPets) {
     }
 
     @Test
-    public void updatePet_whenPetNotExists_throwEntityNotFoundException () {
+    public void updatePet_whenPetNotExists_throwEntityNotFoundException() {
         // given
         final var fakePetId = new Random().nextInt(1000);
         final var fakeAccount = new Account();
-        final var updatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male",fakeAccount);
+        final var updatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
         given(mockPetRepository.findById(fakePetId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePetId)));
 
         // when && then
-        final var exception = assertThrows(EntityNotFoundException.class,() -> {
+        final var exception = assertThrows(EntityNotFoundException.class, () -> {
             serviceUnderTest.updatePet(updatedPet, fakePetId);
         });
         then(exception.getMessage()).contains(String.valueOf(fakePetId));
