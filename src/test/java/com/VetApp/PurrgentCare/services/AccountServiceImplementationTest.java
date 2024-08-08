@@ -116,19 +116,19 @@ public class AccountServiceImplementationTest {
     }
 
 
-//    @Test
-//    public void getAllAccounts_whenNoAccounts_returnsEmptyList() {
-//        // given
-//        final List<Account> expected = buildAccountList(0);
-//        given(mockAccountRepository.findAll())
-//                .willReturn(expected);
-//
-//        // when
-//        final var actual = serviceUnderTest.getAllAccounts();
-//
-//        // then
-//        then(actual).isEqualTo(expected);
-//    }
+    @Test
+    public void getAllAccounts_whenNoAccounts_returnsEmptyList() {
+        // given
+        final var expected = fakeDataGenerator.generateAccountList(0);
+        given(mockAccountRepository.findAll())
+                .willReturn(expected);
+
+        // when
+        final var actual = serviceUnderTest.getAllAccounts();
+
+        // then
+        then(actual).isEqualTo(expected);
+    }
 
 
     // attempting to create tests for updating accounts but getting
