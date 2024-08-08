@@ -1,5 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.FakeDataGenerator;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
@@ -32,6 +33,8 @@ public class PersonServiceImplementationTest {
     @Mock
     private PersonRepository mockPersonRepository;
 
+    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
+
     @BeforeEach
     // Allows serviceUnderTest to use new Instance (class) for each test.
     public void setup() {
@@ -41,8 +44,9 @@ public class PersonServiceImplementationTest {
     @Test
     public void getPerson_whenExist_returnOnePerson() {
         // given
-        final var fakePerson = mock(Person.class);
-        final var fakePersonId = fakePerson.getId();
+
+      final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+      final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
         given(mockPersonRepository.findById(fakePersonId))
                 .willReturn(Optional.of(fakePerson));
 
