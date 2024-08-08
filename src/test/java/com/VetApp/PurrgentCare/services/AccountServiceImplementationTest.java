@@ -59,7 +59,7 @@ public class AccountServiceImplementationTest {
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
         final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
-        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive,fakeDateCreated, fakePetList, fakePeopleList);
+        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeAccount));
 
         // when
@@ -72,7 +72,12 @@ public class AccountServiceImplementationTest {
     @Test
     public void addAccount_whenValidInput_returnsValidInput() {
         // given
-        final var fakeAccount = mock(Account.class);
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
 
         // when
         serviceUnderTest.addAccount(fakeAccount);
@@ -135,47 +140,26 @@ public class AccountServiceImplementationTest {
     public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
         // given
         final var accountId = new Random().nextInt(1000);
-        final var originalAccount = Account.builder()
-                .id(accountId)
-                .active(Boolean.TRUE)
-                .dateCreated(new Date())
-                .build();
-        final var updatedAccount = Account.builder()
-                .id(accountId)
-                .active(Boolean.FALSE)
-                .dateCreated(new Date(894561))
-                .build();
-        given(mockAccountRepository.findById(accountId))
-                .willReturn(Optional.of(originalAccount));
-        when(mockAccountRepository.save(originalAccount))
-                .thenReturn(updatedAccount);
+        final var originalAccount = Account.builder().id(accountId).active(Boolean.TRUE).dateCreated(new Date()).build();
+        final var updatedAccount = Account.builder().id(accountId).active(Boolean.FALSE).dateCreated(new Date(894561)).build();
+        given(mockAccountRepository.findById(accountId)).willReturn(Optional.of(originalAccount));
+        when(mockAccountRepository.save(originalAccount)).thenReturn(updatedAccount);
 
         // when
         final var actual = serviceUnderTest.updateAccount(updatedAccount, accountId);
 
         // then
-        assertThat(actual)
-                .usingRecursiveComparison()
-                .isEqualTo(originalAccount);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(originalAccount);
     }
 
     @Test
     public void updateAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
         final var accountId = new Random().nextInt(1000);
-        final var originalAccount = Account.builder()
-                .id(accountId)
-                .active(Boolean.TRUE)
-                .dateCreated(new Date())
-                .build();
-        final var updatedAccount = Account.builder()
-                .id(accountId)
-                .active(Boolean.TRUE)
-                .dateCreated(new Date())
-                .build();
+        final var originalAccount = Account.builder().id(accountId).active(Boolean.TRUE).dateCreated(new Date()).build();
+        final var updatedAccount = Account.builder().id(accountId).active(Boolean.TRUE).dateCreated(new Date()).build();
         ;
-        given(mockAccountRepository.findById(accountId))
-                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+        given(mockAccountRepository.findById(accountId)).willThrow(new EntityNotFoundException(String.valueOf(accountId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
@@ -189,15 +173,9 @@ public class AccountServiceImplementationTest {
     public void toggleAccount_whenAccountExists_returnsToggledAccount() {
         // given
         final var accountId = new Random().nextInt(1000);
-        final var originalAccount = Account.builder()
-                .id(accountId)
-                .active(Boolean.TRUE)
-                .dateCreated(new Date())
-                .build();
-        given(mockAccountRepository.findById(accountId))
-                .willReturn(Optional.of(originalAccount));
-        when(mockAccountRepository.save(originalAccount))
-                .thenReturn(originalAccount);
+        final var originalAccount = Account.builder().id(accountId).active(Boolean.TRUE).dateCreated(new Date()).build();
+        given(mockAccountRepository.findById(accountId)).willReturn(Optional.of(originalAccount));
+        when(mockAccountRepository.save(originalAccount)).thenReturn(originalAccount);
 
         // when
         final var actual = serviceUnderTest.accountToggle(accountId);
@@ -210,8 +188,7 @@ public class AccountServiceImplementationTest {
     public void toggleAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
         final var accountId = new Random().nextInt(1000);
-        given(mockAccountRepository.findById(accountId))
-                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+        given(mockAccountRepository.findById(accountId)).willThrow(new EntityNotFoundException(String.valueOf(accountId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
@@ -243,8 +220,7 @@ public class AccountServiceImplementationTest {
         final var person2 = fakeDataGenerator.generatePerson(personId2);
 
         // Build pet object
-        final var pet1 = Pet.builder()
-                .build();
+        final var pet1 = Pet.builder().build();
 
         // Build original account object
         final var originalAccount = fakeDataGenerator.generateAccount(accountId, active, dateCreated, List.of(pet1), List.of(person1));
@@ -256,14 +232,10 @@ public class AccountServiceImplementationTest {
         final var accountResponse = fakeDataGenerator.generateAccountResponse(active, dateCreated, List.of(pet1), List.of(person1, person2));
 
         // Configure mocks for every call on dependencies within the service
-        given(mockPersonRepository.findAllById(request.personIds))
-                .willReturn(List.of(person1, person2));
-        given(mockAccountRepository.findById(accountId))
-                .willReturn(Optional.of(originalAccount));
-        given(mockAccountRepository.save(originalAccount))
-                .willReturn(updatedAccount);
-        given(mockMapper.map(updatedAccount, AccountResponse.class))
-                .willReturn(accountResponse);
+        given(mockPersonRepository.findAllById(request.personIds)).willReturn(List.of(person1, person2));
+        given(mockAccountRepository.findById(accountId)).willReturn(Optional.of(originalAccount));
+        given(mockAccountRepository.save(originalAccount)).willReturn(updatedAccount);
+        given(mockMapper.map(updatedAccount, AccountResponse.class)).willReturn(accountResponse);
 
         // when && then
         final var actual = serviceUnderTest.associatePeople(request);
@@ -271,12 +243,8 @@ public class AccountServiceImplementationTest {
         Account capturedAccount = accountCaptor.getValue();
 
         // then
-        assertThat(actual)
-                .usingRecursiveComparison()
-                .isEqualTo(accountResponse);
-        assertThat(capturedAccount.getAccountHolders())
-                .usingRecursiveComparison()
-                .isEqualTo(updatedAccount.getAccountHolders());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(accountResponse);
+        assertThat(capturedAccount.getAccountHolders()).usingRecursiveComparison().isEqualTo(updatedAccount.getAccountHolders());
     }
 
     @Test
@@ -293,28 +261,17 @@ public class AccountServiceImplementationTest {
         request.personIds = peopleIdList;
 
         // Build person object
-        final var person1 = Person.builder()
-                .id(personId)
-                .build();
+        final var person1 = Person.builder().id(personId).build();
 
         // Build pet object
-        final var pet1 = Pet.builder()
-                .build();
+        final var pet1 = Pet.builder().build();
 
         // Build updated account object
-        final var updatedAccount = Account.builder()
-                .id(accountId)
-                .active(active)
-                .dateCreated(dateCreated)
-                .pets(List.of(pet1))
-                .accountHolders(List.of(person1))
-                .build();
+        final var updatedAccount = Account.builder().id(accountId).active(active).dateCreated(dateCreated).pets(List.of(pet1)).accountHolders(List.of(person1)).build();
 
         // Configure mocks for every call on dependencies within the service
-        given(mockPersonRepository.findAllById(request.personIds))
-                .willReturn(List.of(person1));
-        given(mockAccountRepository.findById(accountId))
-                .willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+        given(mockPersonRepository.findAllById(request.personIds)).willReturn(List.of(person1));
+        given(mockAccountRepository.findById(accountId)).willThrow(new EntityNotFoundException(String.valueOf(accountId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
