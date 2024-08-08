@@ -161,15 +161,22 @@ public class PetServiceImplementationTest {
     @Test
     public void updatePet_whenPetNotExists_throwEntityNotFoundException() {
         // given
-        final var fakePetId = new Random().nextInt(1000);
-        final var fakeAccount = new Account();
-        final var updatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePersonList);
+        final var fakeUpdatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
         given(mockPetRepository.findById(fakePetId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePetId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.updatePet(updatedPet, fakePetId);
+            serviceUnderTest.updatePet(fakeUpdatedPet, fakePetId);
         });
         then(exception.getMessage()).contains(String.valueOf(fakePetId));
     }
