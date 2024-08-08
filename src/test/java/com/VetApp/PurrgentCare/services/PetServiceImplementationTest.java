@@ -100,8 +100,8 @@ public class PetServiceImplementationTest {
     @Test
     public void getAllPets_withValidInput_returnsAllPets() {
         // given
-        final var countOfPets = new Random().nextInt(1000);
-        final var expected = buildPetList(countOfPets);
+        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var expected = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
         given(mockPetRepository.findAll())
                 .willReturn(expected);
 
@@ -110,7 +110,7 @@ public class PetServiceImplementationTest {
 
         // then
         then(actual).isEqualTo(expected);
-        then(actual).hasSize(countOfPets);
+        then(actual).hasSize(fakeCountOfFakePets);
     }
 
     @Test
