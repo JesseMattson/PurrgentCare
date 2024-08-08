@@ -1,7 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
-import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,10 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -150,8 +146,15 @@ public class PersonServiceImplementationTest {
     @Test
     public void updatePerson_whenPersonNotExists_throwEntityNotFoundException() {
         // given
-        final var fakePersonId = new Random().nextInt(1000);
-        final var fakeAccount = new Account();
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePersonList);
         final var updatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
         given(mockPersonRepository.findById(fakePersonId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePersonId)));
@@ -164,15 +167,6 @@ public class PersonServiceImplementationTest {
     }
 
 
-    private List<Person> buildPersonList(Integer countOfPersons) {
-        List<Person> personList = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= countOfPersons) {
-            var person = mock(Person.class);
-            personList.add(person);
-            i++;
-        }
-        return personList;
-    }
 }
+
 
