@@ -47,10 +47,10 @@ public class FakeDataGenerator {
         return Pet.builder().id(fakePetId).build();
     }
 
-    public List<Person> generatePeopleList(Integer countOfFakePeople) {
+    public List<Person> generatePersonList(Integer countOfFakePerson) {
         List<Person> fakePeopleList = new ArrayList<>(List.of());
         var i = 1;
-        while (i <= countOfFakePeople) {
+        while (i <= countOfFakePerson) {
             var fakePerson = generatePerson(generateRandomInteger());
             fakePeopleList.add(fakePerson);
             i++;
@@ -73,7 +73,7 @@ public class FakeDataGenerator {
         List<Account> fakeAccountList = new ArrayList<>(List.of());
         var i = 1;
         while (i <= countOfFakeAccounts) {
-            var fakeAccount = generateAccount(generateRandomInteger(), generateRandomBoolean(), generateRandomDate(), generatePetList((generateRandomInteger())), generatePeopleList(generateRandomInteger()));
+            var fakeAccount = generateAccount(generateRandomInteger(), generateRandomBoolean(), generateRandomDate(), generatePetList((generateRandomInteger())), generatePersonList(generateRandomInteger()));
             fakeAccountList.add(fakeAccount);
             i++;
         }

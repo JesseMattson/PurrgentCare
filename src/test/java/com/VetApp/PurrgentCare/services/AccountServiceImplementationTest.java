@@ -59,7 +59,7 @@ public class AccountServiceImplementationTest {
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
-        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
         final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeAccount));
 
@@ -77,7 +77,7 @@ public class AccountServiceImplementationTest {
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
-        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
         final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
 
         // when
@@ -146,7 +146,7 @@ public class AccountServiceImplementationTest {
         final var fakeOriginalDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakeUpdatedDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
-        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
 
         final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeOriginalDateCreated, fakePetList, fakePeopleList);
         final var fakeUpdatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveFalse, fakeUpdatedDateCreated, fakePetList, fakePeopleList);
@@ -167,7 +167,7 @@ public class AccountServiceImplementationTest {
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
-        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
 
         final var fakeUpdatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
 
@@ -188,7 +188,7 @@ public class AccountServiceImplementationTest {
         final var fakeActiveTrue = Boolean.TRUE;
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
-        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
 
         final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeDateCreated, fakePetList, fakePeopleList);
 
@@ -245,7 +245,7 @@ public class AccountServiceImplementationTest {
 
         // Build list objects
         final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
-        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeCountOfFakePeople);
+        final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeCountOfFakePeople);
 
         // Build original account object
         final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1));
@@ -282,7 +282,7 @@ public class AccountServiceImplementationTest {
         final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
         final var fakeCountOfFakePeople = fakeDataGenerator.generateRandomInteger();
         final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
-        final var fakePersonList = fakeDataGenerator.generatePeopleList(fakeCountOfFakePeople);
+        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePeople);
 
         // Build request object
         final var fakeRequest = new AssociatePeopleWithAccountRequest();

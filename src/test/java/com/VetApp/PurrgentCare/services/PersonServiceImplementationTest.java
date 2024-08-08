@@ -60,8 +60,8 @@ public class PersonServiceImplementationTest {
     @Test
     public void getAllPersons_withValidInput_returnsAllPersons() {
         // given
-        final var countOfPersons = new Random().nextInt(1000);
-        final var expected = buildPersonList(countOfPersons);
+        final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
+        final var expected = fakeDataGenerator.generatePersonList(fakeCountOfFakePerson);
         given(mockPersonRepository.findAll())
                 .willReturn(expected);
 
@@ -70,7 +70,7 @@ public class PersonServiceImplementationTest {
 
         // then
         then(actual).isEqualTo(expected);
-        then(actual).hasSize(countOfPersons);
+        then(actual).hasSize(fakeCountOfFakePerson);
     }
 
     @Test
