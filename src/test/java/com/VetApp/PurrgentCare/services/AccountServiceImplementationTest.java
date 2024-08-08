@@ -273,35 +273,40 @@ public class AccountServiceImplementationTest {
 
     @Test
     public void accountResponse_whenAccountNotExists_throwEntityNotFoundException() {
-        final var accountId = new Random().nextInt(1000);
-        final var personId = new Random().nextInt(1000);
-        final var active = Boolean.TRUE;
-        final var dateCreated = new Date();
-        final var peopleIdList = new ArrayList<Integer>(personId);
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakeActiveTrue = Boolean.TRUE;
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakePeopleIdList = new ArrayList<Integer>(fakePersonId);
+        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePeople = fakeDataGenerator.generateRandomInteger();
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakePersonList = fakeDataGenerator.generatePeopleList(fakeCountOfFakePeople);
 
         // Build request object
-        final var request = new AssociatePeopleWithAccountRequest();
-        request.accountId = accountId;
-        request.personIds = peopleIdList;
+        final var fakeRequest = new AssociatePeopleWithAccountRequest();
+        fakeRequest.accountId = fakeAccountId;
+        fakeRequest.personIds = fakePeopleIdList;
 
         // Build person object
-        final var person1 = Person.builder().id(personId).build();
+        final var fakePerson1 = fakeDataGenerator.generatePerson(fakePersonId);
 
         // Build pet object
-        final var pet1 = Pet.builder().build();
+        final var fakePet1 = fakeDataGenerator.generatePet(fakePetId);
 
         // Build updated account object
-        final var updatedAccount = Account.builder().id(accountId).active(active).dateCreated(dateCreated).pets(List.of(pet1)).accountHolders(List.of(person1)).build();
+        final var updatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeDateCreated,fakePetList, fakePersonList);
 
         // Configure mocks for every call on dependencies within the service
-        given(mockPersonRepository.findAllById(request.personIds)).willReturn(List.of(person1));
-        given(mockAccountRepository.findById(accountId)).willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+        given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(List.of(fakePerson1));
+        given(mockAccountRepository.findById(fakeAccountId)).willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.associatePeople(request);
+            serviceUnderTest.associatePeople(fakeRequest);
         });
-        then(exception.getMessage()).contains(String.valueOf(accountId));
+        then(exception.getMessage()).contains(String.valueOf(fakeAccountId));
     }
 
 }
