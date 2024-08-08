@@ -93,7 +93,9 @@ public class PersonServiceImplementationTest {
     public void addPerson_whenValidInput_returnsValidInput() {
         // given
         // any mocks we need to simulate a person/repo etc
-        final var fakePerson = mock(Person.class);
+
+       final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+       final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
 
         // when
         // Mocked Person added
