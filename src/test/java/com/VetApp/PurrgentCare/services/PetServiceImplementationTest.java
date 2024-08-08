@@ -116,7 +116,7 @@ public class PetServiceImplementationTest {
     @Test
     public void getAllPets_whenNoPets_returnsEmptyList() {
         // given
-        final List<Pet> expected = buildPetList(0);
+        final var expected = fakeDataGenerator.generatePetList(0);
         given(mockPetRepository.findAll())
                 .willReturn(expected);
 
@@ -127,16 +127,7 @@ public class PetServiceImplementationTest {
         then(actual).isEqualTo(expected);
     }
 
-    private List<Pet> buildPetList(Integer countOfPets) {
-        List<Pet> petList = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= countOfPets) {
-            var pet = mock(Pet.class);
-            petList.add(pet);
-            i++;
-        }
-        return petList;
-    }
+
 
 
     @Test
