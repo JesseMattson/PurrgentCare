@@ -139,17 +139,24 @@ public class AccountServiceImplementationTest {
     @Test
     public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
         // given
-        final var accountId = new Random().nextInt(1000);
-        final var originalAccount = Account.builder().id(accountId).active(Boolean.TRUE).dateCreated(new Date()).build();
-        final var updatedAccount = Account.builder().id(accountId).active(Boolean.FALSE).dateCreated(new Date(894561)).build();
-        given(mockAccountRepository.findById(accountId)).willReturn(Optional.of(originalAccount));
-        when(mockAccountRepository.save(originalAccount)).thenReturn(updatedAccount);
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeActiveTrue = Boolean.TRUE;
+        final var fakeActiveFalse = Boolean.FALSE;
+        final var fakeOriginalDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakeUpdatedDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePeopleList = fakeDataGenerator.generatePeopleList(fakeDataGenerator.generateRandomInteger());
+
+        final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeOriginalDateCreated, fakePetList, fakePeopleList);
+        final var fakeUpdatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveFalse, fakeUpdatedDateCreated, fakePetList, fakePeopleList);
+        given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeOriginalAccount));
+        when(mockAccountRepository.save(fakeOriginalAccount)).thenReturn(fakeUpdatedAccount);
 
         // when
-        final var actual = serviceUnderTest.updateAccount(updatedAccount, accountId);
+        final var actual = serviceUnderTest.updateAccount(fakeUpdatedAccount, fakeAccountId);
 
         // then
-        assertThat(actual).usingRecursiveComparison().isEqualTo(originalAccount);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(fakeOriginalAccount);
     }
 
     @Test
