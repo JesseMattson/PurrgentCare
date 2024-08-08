@@ -94,8 +94,8 @@ public class PersonServiceImplementationTest {
         // given
         // any mocks we need to simulate a person/repo etc
 
-       final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-       final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+        final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
 
         // when
         // Mocked Person added
@@ -122,22 +122,29 @@ public class PersonServiceImplementationTest {
     @Test
     public void updatePerson_whenPersonExists_returnsUpdatedPerson() {
         // given
-        final var fakePersonId = new Random().nextInt(1000);
-        final var fakeAccount = new Account();
-        final var originalPerson = new Person(fakePersonId, "John notTest", fakeAccount);
-        final var updatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
+        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
+        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
+        final var fakeListPersons = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var fakeListPets = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakeListPets, fakeListPersons);
+        final var fakeOriginalPerson = new Person(fakePersonId, "John notTest", fakeAccount);
+        final var fakeUpdatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
         given(mockPersonRepository.findById(fakePersonId))
-                .willReturn(Optional.of(originalPerson));
+                .willReturn(Optional.of(fakeOriginalPerson));
         when(mockPersonRepository.save(any(Person.class)))
-                .thenReturn(updatedPerson);
+                .thenReturn(fakeUpdatedPerson);
 
         // when
-        final var actual = serviceUnderTest.updatePerson(updatedPerson, fakePersonId);
+        final var actual = serviceUnderTest.updatePerson(fakeUpdatedPerson, fakePersonId);
 
         // then
         assertThat(actual)
                 .usingRecursiveComparison()
-                .isEqualTo(originalPerson);
+                .isEqualTo(fakeOriginalPerson);
     }
 
     @Test
