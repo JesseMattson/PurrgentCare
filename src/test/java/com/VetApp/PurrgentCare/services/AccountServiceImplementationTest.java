@@ -204,14 +204,14 @@ public class AccountServiceImplementationTest {
     @Test
     public void toggleAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
-        final var accountId = new Random().nextInt(1000);
-        given(mockAccountRepository.findById(accountId)).willThrow(new EntityNotFoundException(String.valueOf(accountId)));
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        given(mockAccountRepository.findById(fakeAccountId)).willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.accountToggle(accountId);
+            serviceUnderTest.accountToggle(fakeAccountId);
         });
-        then(exception.getMessage()).contains(String.valueOf(accountId));
+        then(exception.getMessage()).contains(String.valueOf(fakeAccountId));
 
     }
 
