@@ -86,7 +86,7 @@ public class PetServiceImplementationTest {
     @Test
     public void deletePet_whenValidInput() {
         // given
-        final var fakePetId = new Random().nextInt(1000);
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
 
         // when
         serviceUnderTest.deletePet(fakePetId);
