@@ -23,13 +23,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceImplementationTest {
 
+    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
     // Visibility (private) Type (PersonServiceImpl) Name(serviceUnderTest)
     private PersonServiceImplementation serviceUnderTest;
-
     @Mock
     private PersonRepository mockPersonRepository;
-
-    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
 
     @BeforeEach
     // Allows serviceUnderTest to use new Instance (class) for each test.
@@ -125,7 +123,7 @@ public class PersonServiceImplementationTest {
         final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
         final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
         final var fakeListPersons = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
-        final var fakeListPets = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakeListPets = fakeDataGenerator.generatePetList();
         final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakeListPets, fakeListPersons);
         final var fakeOriginalPerson = new Person(fakePersonId, "John notTest", fakeAccount);
         final var fakeUpdatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
@@ -153,7 +151,7 @@ public class PersonServiceImplementationTest {
         final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
         final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
         final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakePetList = fakeDataGenerator.generatePetList();
         final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePersonList);
         final var updatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
         given(mockPersonRepository.findById(fakePersonId))
