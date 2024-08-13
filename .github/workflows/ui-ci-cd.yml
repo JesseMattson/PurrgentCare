@@ -15,7 +15,10 @@ jobs:
     strategy:
       matrix:
         node-version: ['18.x', '20.x']
-        ui-directory: './purrgent-care-ui'
+        ui-directory: ['./purrgent-care-ui/']
+    defaults:
+      run:
+        working-directory: ${{ matrix.ui-directory }}
 
     steps:
       - uses: actions/checkout@v4
@@ -23,6 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: '${{ matrix.ui-directory }}package-lock.json'
       - run: npm --prefix ${{ matrix.ui-directory }} install ${{ matrix.ui-directory }}
       - run: npm run build --prefix ${{ matrix.ui-directory }} --if-present
       - run: npm run test --prefix ${{ matrix.ui-directory }}
