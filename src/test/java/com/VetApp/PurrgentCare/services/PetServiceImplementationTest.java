@@ -112,16 +112,18 @@ public class PetServiceImplementationTest {
         // given
         final var fakePets = fakeDataGenerator.generatePetList();
         final List<PetResponse> fakePetResponses = fakeDataGenerator.generateFakePetResponses();
+
         given(mockPetRepository.findAll()).willReturn(fakePets);
-        when(mockMapper.map(any(Pet.class), eq(PetResponse.class))).thenAnswer(invocationOnMock -> {
-            Pet fakePet = invocationOnMock.getArgument(0);
-            int index = Arrays.asList(fakePets).indexOf(fakePet);
-            return fakePetResponses.get(index);
-        });
+        when(mockMapper.map(any(Pet.class), eq(PetResponse.class)))
+                .thenAnswer(invocationOnMock -> {
+                    Pet fakePet = invocationOnMock.getArgument(0);
+                    int index = Arrays.asList(fakePets).indexOf(fakePet);
+                    return fakePetResponses.get(index);
+                });
 
         // when
         final var actual = serviceUnderTest.getAllPets();
-        
+
 
         // then
         then(actual).isEqualTo(fakePetResponses);
