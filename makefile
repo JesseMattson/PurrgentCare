@@ -50,4 +50,6 @@ test-ui:
 start-ui:
 	make build-ui
 	npm start --prefix ${UI_DIRECTORY}
+
+test-ui-pipeline: build-ui test-ui
 ## End UI Section
