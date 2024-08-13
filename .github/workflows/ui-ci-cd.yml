@@ -27,6 +27,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: '${{ matrix.ui-directory }}package-lock.json'
-      - run: npm --prefix ${{ matrix.ui-directory }} install ${{ matrix.ui-directory }}
+      - run: npm install
       - run: npm run build --prefix ${{ matrix.ui-directory }} --if-present
       - run: npm run test --prefix ${{ matrix.ui-directory }}
