@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PetResponse {
+    private Integer id;
     private String name;
     private String type;
     private Integer age;

@@ -73,7 +73,7 @@ public class FakeDataGenerator {
     }
 
     public PetResponse generateFakePetResponse() {
-        return PetResponse.builder().name(generateRandomString()).type(generateRandomString()).age(generateRandomInteger()).gender(generateRandomString()).build();
+        return PetResponse.builder().id(generateRandomInteger()).name(generateRandomString()).type(generateRandomString()).age(generateRandomInteger()).gender(generateRandomString()).build();
     }
 
     public List<PetResponse> generateFakePetResponses(int count) {
