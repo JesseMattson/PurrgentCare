@@ -55,17 +55,17 @@ public class FakeDataGenerator {
                 .build();
     }
 
-    public List<Pet> generatePetList() {
-        List<Pet> fakePetList = new ArrayList<>(List.of());
-        //var fakeNumberOfPets = new Random().nextInt(1, 5);
-        var fakeNumberOfPets = 5;
-        var i = 1;
-        while (i <= fakeNumberOfPets) {
-            var fakePet = generateFakePet();
-            fakePetList.add(fakePet);
-            i++;
+    public List<Pet> generateFakePetList(int count) {
+        var fakePetList = new ArrayList<Pet>();
+        for (int i = 0; i < count; i++) {
+            fakePetList.add(generateFakePet());
         }
         return fakePetList;
+    }
+
+    public List<Pet> generateDefaultPetList() {
+        var fakeNumberOfPets = new Random().nextInt(1, 5);
+        return generateFakePetList(fakeNumberOfPets);
     }
 
     public PetRequest generateFakePetRequest() {
@@ -76,15 +76,16 @@ public class FakeDataGenerator {
         return PetResponse.builder().name(generateRandomString()).type(generateRandomString()).age(generateRandomInteger()).gender(generateRandomString()).build();
     }
 
-    public List<PetResponse> generateFakePetResponses() {
-        List<PetResponse> fakePetResponses = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= 5) {
-            var fakePetResponse = generateFakePetResponse();
-            fakePetResponses.add(fakePetResponse);
-            i++;
+    public List<PetResponse> generateFakePetResponses(int count) {
+        var fakePetResponses = new ArrayList<PetResponse>();
+        for (var i = 0; i < count; i++) {
+            fakePetResponses.add(generateFakePetResponse());
         }
         return fakePetResponses;
+    }
+
+    public List<PetResponse> generateDefaultFakePetResponses() {
+        return generateFakePetResponses(5);
     }
 
     /////
@@ -116,7 +117,7 @@ public class FakeDataGenerator {
         List<Account> fakeAccountList = new ArrayList<>(List.of());
         var i = 1;
         while (i <= countOfFakeAccounts) {
-            var fakeAccount = generateAccount(generateRandomInteger(), generateRandomBoolean(), generateRandomDate(), generatePetList(), generatePersonList(generateRandomInteger()));
+            var fakeAccount = generateAccount(generateRandomInteger(), generateRandomBoolean(), generateRandomDate(), generateDefaultPetList(), generatePersonList(generateRandomInteger()));
             fakeAccountList.add(fakeAccount);
             i++;
         }
