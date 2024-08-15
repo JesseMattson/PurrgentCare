@@ -237,8 +237,8 @@ public class AccountServiceImplementationTest {
         final var fakeRequest = fakeDataGenerator.generateAssociatePeopleWithAccountRequest(fakeAccountId, List.of(fakePersonId, fakePersonId2));
 
         // Build person objects
-        final var fakePerson1 = fakeDataGenerator.generatePerson(fakePersonId);
-        final var fakePerson2 = fakeDataGenerator.generatePerson(fakePersonId2);
+        final var fakePerson1 = fakeDataGenerator.generateFakePerson();
+        final var fakePerson2 = fakeDataGenerator.generateFakePerson();
 
         // Build pet object
         final var fakePet1 = fakeDataGenerator.generatePet(fakePetId);
@@ -290,7 +290,7 @@ public class AccountServiceImplementationTest {
         fakeRequest.personIds = fakePeopleIdList;
 
         // Build person object
-        final var fakePerson1 = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePerson1 = fakeDataGenerator.generateFakePerson();
 
         // Build pet object
         final var fakePet1 = fakeDataGenerator.generatePet(fakePetId);

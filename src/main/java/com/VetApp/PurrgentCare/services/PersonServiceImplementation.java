@@ -1,32 +1,39 @@
 package com.VetApp.PurrgentCare.services;
 
-import com.VetApp.PurrgentCare.models.Account;
+import com.VetApp.PurrgentCare.dtos.PersonRequest;
+import com.VetApp.PurrgentCare.dtos.PersonResponse;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
-import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class PersonServiceImplementation implements PersonServiceInterface {
-    private final PersonRepository personRepository;
 
-    public PersonServiceImplementation(PersonRepository personRepository) {
+    private final PersonRepository personRepository;
+    @Autowired
+    private final ModelMapper mapper;
+
+
+    public PersonServiceImplementation(PersonRepository personRepository, ModelMapper mapper) {
         this.personRepository = personRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public Person getPerson(Integer personId) {
+    public PersonResponse getPerson(Integer personId) {
 
         final var person = personRepository.findById(personId);
         if (person.isPresent()) {
-            return person.get();
+            PersonResponse personResponse = mapper.map(person, PersonResponse.class);
+            return personResponse;
         }
-        //TODO Add ErrorHandler Class
-        // throw new RuntimeException("PersonId: %d Not Found".formatted(personId));
-        return buildDefaultPerson();
+        return new PersonResponse();
     }
 
     @Override
@@ -46,11 +53,16 @@ public class PersonServiceImplementation implements PersonServiceInterface {
     }
 
     @Override
-    public Person updatePerson(Person newPerson, Integer personId) {
-        Person person = personRepository.findById(personId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(personId)));
+    public Person updatePerson(Person person, Integer personId) {
+        return null;
+    }
+
+    @Override
+    public PersonResponse updatePerson(PersonRequest personRequest, Integer personId) {
+        final Person newPerson = mapper.map(personRequest, Person.class);
+        Person person = personRepository.findById(personId).orElseThrow(() -> new EntityNotFoundException(String.valueOf(personId)));
         person.setName(newPerson.getName());
-        return personRepository.save(person);
+        return mapper.map(person, PersonResponse.class);
     }
 
 

@@ -1,6 +1,7 @@
 package com.VetApp.PurrgentCare.controllers;
 
 
+import com.VetApp.PurrgentCare.dtos.PersonResponse;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.PersonServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class PersonController {
 
     @GetMapping(BASE_URL + "/{id}") // PathVariable is used to get ID from the URL
     @ResponseStatus(HttpStatus.OK)
-    private Person getPerson(@PathVariable("id") Integer id) {
+    private PersonResponse getPerson(@PathVariable("id") Integer id) {
 
         return personService.getPerson(id);
     }

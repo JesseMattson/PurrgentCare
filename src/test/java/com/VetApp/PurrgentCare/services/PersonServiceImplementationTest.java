@@ -1,6 +1,7 @@
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
+import com.VetApp.PurrgentCare.dtos.PersonResponse;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -29,12 +31,17 @@ public class PersonServiceImplementationTest {
     @Mock
     private PersonRepository mockPersonRepository;
 
+    @Mock
+    private ModelMapper mockMapper;
+
+
+
     private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
 
     @BeforeEach
     // Allows serviceUnderTest to use new Instance (class) for each test.
     public void setup() {
-        this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository);
+        this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository, mockMapper);
     }
 
     @Test
@@ -42,15 +49,17 @@ public class PersonServiceImplementationTest {
         // given
 
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePerson = fakeDataGenerator.generateFakePerson();
+        final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
         given(mockPersonRepository.findById(fakePersonId))
                 .willReturn(Optional.of(fakePerson));
+        given(mockMapper.map(Optional.of(fakePerson), PersonResponse.class)).willReturn(fakePersonResponse);
 
         // when
         final var actual = serviceUnderTest.getPerson(fakePersonId);
 
         // then
-        then(actual).isEqualTo(fakePerson);
+        then(actual).isEqualTo(fakePersonResponse);
     }
 
     @Test
@@ -91,7 +100,7 @@ public class PersonServiceImplementationTest {
         // any mocks we need to simulate a person/repo etc
 
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePerson = fakeDataGenerator.generateFakePerson();
 
         // when
         // Mocked Person added

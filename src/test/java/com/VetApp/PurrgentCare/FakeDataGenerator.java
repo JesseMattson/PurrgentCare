@@ -2,6 +2,8 @@ package com.VetApp.PurrgentCare;
 
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
+import com.VetApp.PurrgentCare.dtos.PersonRequest;
+import com.VetApp.PurrgentCare.dtos.PersonResponse;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
@@ -12,8 +14,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static org.mockito.Mockito.mock;
 
 public class FakeDataGenerator {
     public Boolean generateRandomBoolean() {
@@ -32,6 +32,18 @@ public class FakeDataGenerator {
 
     }
 
+    public String generateRandomString() {
+
+        int length = 100;
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        Random random = new Random();
+        return random.ints(leftLimit, rightLimit + 1)
+                .limit(length)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+    }
+
     public AssociatePeopleWithAccountRequest generateAssociatePeopleWithAccountRequest(Integer fakeAccountId, List<Integer> fakePersonIds) {
         final var request = new AssociatePeopleWithAccountRequest();
         request.accountId = fakeAccountId;
@@ -39,8 +51,12 @@ public class FakeDataGenerator {
         return request;
     }
 
-    public Person generatePerson(Integer fakePersonId) {
-        return Person.builder().id(fakePersonId).build();
+    public Person generateFakePerson() {
+
+        return Person.builder()
+                .id(generateRandomInteger())
+                .name(generateRandomString())
+                .build();
     }
 
     public Pet generatePet(Integer fakePetId) {
@@ -51,7 +67,7 @@ public class FakeDataGenerator {
         List<Person> fakePeopleList = new ArrayList<>(List.of());
         var i = 1;
         while (i <= countOfFakePerson) {
-            var fakePerson = generatePerson(generateRandomInteger());
+            var fakePerson = generateFakePerson();
             fakePeopleList.add(fakePerson);
             i++;
         }
@@ -80,6 +96,15 @@ public class FakeDataGenerator {
         return fakeAccountList;
     }
 
+    public PersonRequest generateFakePersonRequest() {
+        return PersonRequest.builder().name(generateRandomString()).build();
+    }
+
+    public PersonResponse generateFakePersonResponse() {
+
+        return PersonResponse.builder().name(generateRandomString()).build();
+    }
+
 
     public Account generateAccount(Integer fakeAccountId, Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
         return Account.builder().id(fakeAccountId).active(fakeActive).dateCreated(fakeDateCreated).pets(fakePets).accountHolders(makeListMutable(fakeAccountHolders)).build();
@@ -92,7 +117,10 @@ public class FakeDataGenerator {
         accountResponse.pets = fakePets;
         accountResponse.accountHolders = fakeAccountHolders;
         return accountResponse;
+
+
     }
+
 
     public <T> List<T> makeListMutable(List<? extends T> inputList) {
         return new ArrayList<>(inputList);
