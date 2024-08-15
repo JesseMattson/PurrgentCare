@@ -9,8 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PetServiceImplementation implements PetServiceInterface {
@@ -28,7 +28,8 @@ public class PetServiceImplementation implements PetServiceInterface {
     public PetResponse getPet(Integer petId) {
         final var pet = petRepository.findById(petId);
         if (pet.isPresent()) {
-            return mapper.map(pet, PetResponse.class);
+            PetResponse petResponse = mapper.map(pet, PetResponse.class);
+            return petResponse;
         }
         return new PetResponse();
     }
@@ -49,9 +50,11 @@ public class PetServiceImplementation implements PetServiceInterface {
     @Override
     public List<PetResponse> getAllPets() {
         final List<Pet> pets = petRepository.findAll();
-        final List<PetResponse> petResponses = pets.stream()
-                .map(pet -> mapper.map(pet, PetResponse.class))
-                .collect(Collectors.toList());
+        final List<PetResponse> petResponses = new ArrayList<>();
+        for (Pet pet : pets) {
+            PetResponse petResponse = mapper.map(pet, PetResponse.class);
+            petResponses.add(petResponse);
+        }
         return petResponses;
     }
 

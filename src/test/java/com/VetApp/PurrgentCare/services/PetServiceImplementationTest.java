@@ -17,10 +17,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -53,7 +51,7 @@ public class PetServiceImplementationTest {
         final var fakePet = fakeDataGenerator.generateFakePet();
         final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
         given(mockPetRepository.findById(fakePetId)).willReturn(Optional.of(fakePet));
-        given(mockMapper.map(fakePet, PetResponse.class)).willReturn(fakePetResponse);
+        given(mockMapper.map(Optional.of(fakePet), PetResponse.class)).willReturn(fakePetResponse);
 
         // when
         final var actual = serviceUnderTest.getPet(fakePetId);
@@ -132,12 +130,12 @@ public class PetServiceImplementationTest {
     public void getAllPets_whenNoPets_returnsEmptyList() {
         // given
         final var fakePets = new ArrayList<Pet>();
-        final List<PetResponse> fakePetResponses = fakeDataGenerator.generateDefaultFakePetResponses();
+        final List<PetResponse> fakePetResponses = new ArrayList<>();
         given(mockPetRepository.findAll()).willReturn(fakePets);
-        given(fakePets.stream().map(element -> mockMapper.map(element, PetResponse.class)).collect(Collectors.toList())).willReturn(fakePetResponses);
 
         // when
         final var actual = serviceUnderTest.getAllPets();
+        verify(mockMapper, never()).map(any(), eq(PetResponse.class));
 
         // then
         then(actual).isEqualTo(fakePetResponses);
