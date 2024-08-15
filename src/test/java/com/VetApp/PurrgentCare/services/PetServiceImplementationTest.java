@@ -148,13 +148,14 @@ public class PetServiceImplementationTest {
         final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
-        final var fakeUpdatedPet = Pet.builder().name("Maggie").type("Dog").age(3).gender("Female").build();
+        final var fakeUpdatedPet = fakeDataGenerator.generateFakePet();
+        fakeUpdatedPet.setId(fakeOriginalPet.getId());
         final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
         given(mockMapper.map(fakePetRequest, Pet.class)).willReturn(fakeUpdatedPet);
         given(mockPetRepository.findById(fakePetId))
                 .willReturn(Optional.of(fakeOriginalPet));
-        when(mockPetRepository.save(fakeOriginalPet))
-                .thenReturn(fakeUpdatedPet);
+        given(mockPetRepository.save(fakeOriginalPet))
+                .willReturn(fakeUpdatedPet);
         given(mockMapper.map(fakeUpdatedPet, PetResponse.class)).willReturn(fakePetResponse);
 
         // when

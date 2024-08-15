@@ -67,7 +67,7 @@ public class PetServiceImplementation implements PetServiceInterface {
         pet.setType(newPet.getType());
         pet.setAge(newPet.getAge());
         pet.setGender(newPet.getGender());
-        petRepository.save(pet);
+        pet = petRepository.save(pet);
         return mapper.map(pet, PetResponse.class);
     }
 
