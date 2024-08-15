@@ -60,20 +60,20 @@ public class PetServiceImplementationTest {
         then(actual).isEqualTo(fakePetResponse);
     }
 
+    @Test
+    public void getPet_whenNotExist_returnEmptyPetResponse() {
+        // given
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakePetResponse = new PetResponse();
+        given(mockPetRepository.findById(fakePetId)).willReturn(Optional.empty());
 
-//        //*TODO @Test public void getPet_whenNotExist_returnDefaultPet() {
-//            // given
-//            final var fakePet = mock(Pet.class);
-//            final var fakePetId = fakePet.getId();
-//            given(mockPetRepository.findById(fakePetId))
-//                    .
-//
-//            // when
-//          serviceUnderTest.getPet(fake);
-//
-//            // then
-//            then(actual).isEqualTo(fakePet);
-//  }
+        // when
+        final var actual = serviceUnderTest.getPet(fakePetId);
+
+        // then
+        then(actual).isInstanceOf(PetResponse.class);
+        then(actual).usingRecursiveComparison().isEqualTo(fakePetResponse);
+    }
 
     @Test
     public void addPet_whenValidInput_returnsValidInput() {
