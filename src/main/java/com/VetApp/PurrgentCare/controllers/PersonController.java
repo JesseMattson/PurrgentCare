@@ -1,6 +1,7 @@
 package com.VetApp.PurrgentCare.controllers;
 
 
+import com.VetApp.PurrgentCare.dtos.PersonRequest;
 import com.VetApp.PurrgentCare.dtos.PersonResponse;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.PersonServiceInterface;
@@ -27,17 +28,17 @@ public class PersonController {
         return personService.getPerson(id);
     }
 
-    @GetMapping(BASE_URL)
-    @ResponseStatus(HttpStatus.OK)
-    private List<Person> getAllPersons() {
-
-        return personService.getAllPersons();
-    }
+//    @GetMapping(BASE_URL)
+//    @ResponseStatus(HttpStatus.OK)
+//    private List<PersonResponse> getAllPersons() {
+//
+//        return personService.getAllPersons();
+//    }
 
     @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)
-    private Person addPerson(@RequestBody Person person) {
-       return personService.addPerson(person);
+    private PersonResponse addPerson(@RequestBody PersonRequest personRequest) {
+       return personService.addPerson(personRequest);
     }
 
     @DeleteMapping(BASE_URL + "/{id}")

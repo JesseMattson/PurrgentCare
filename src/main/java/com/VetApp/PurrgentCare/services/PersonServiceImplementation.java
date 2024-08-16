@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,15 +38,24 @@ public class PersonServiceImplementation implements PersonServiceInterface {
     }
 
     @Override
-    public List<Person> getAllPersons() {
-        return personRepository.findAll();
+    public PersonResponse addPerson(PersonRequest personRequest) {
+        final Person person = mapper.map(personRequest, Person.class);
+        personRepository.save(person);
+        return mapper.map(person, PersonResponse.class);
     }
 
-    @Override
-    public Person addPerson(Person person) {
-        return personRepository.save(person);
+//    @Override
+//    public List<PersonResponse> getAllPersons() {
+//        final List<Person> personList = personRepository.findAll();
+//        final List<PersonResponse> personResponse1 = new ArrayList<>();
+//        for (Person person : personList){
+//    PersonResponse personResponse = mapper.map(person, PersonResponse.class);
+//    personResponse1.add(personResponse);
+//        }
+//        return personResponse1;
+//    }
 
-    }
+
 
     @Override
     public void deletePerson(Integer personId) {
