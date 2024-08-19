@@ -1,12 +1,9 @@
-
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Person;
-import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -32,20 +31,16 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceImplementationTest {
 
+    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
     private AccountServiceImplementation serviceUnderTest;
-
     @Mock
     private AccountRepository mockAccountRepository;
-
     @Mock
     private PersonRepository mockPersonRepository;
-
     @Mock
     private ModelMapper mockMapper;
     @Captor
     private ArgumentCaptor<Account> accountCaptor;
-
-    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
 
     @BeforeEach
     public void setup() {
@@ -58,7 +53,7 @@ public class AccountServiceImplementationTest {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
         final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
         final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeAccount));
@@ -76,7 +71,7 @@ public class AccountServiceImplementationTest {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
         final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
         final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
 
@@ -145,7 +140,7 @@ public class AccountServiceImplementationTest {
         final var fakeActiveFalse = Boolean.FALSE;
         final var fakeOriginalDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakeUpdatedDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
         final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
 
         final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeOriginalDateCreated, fakePetList, fakePeopleList);
@@ -166,7 +161,7 @@ public class AccountServiceImplementationTest {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
         final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
 
         final var fakeUpdatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePeopleList);
@@ -187,7 +182,7 @@ public class AccountServiceImplementationTest {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakeActiveTrue = Boolean.TRUE;
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeDataGenerator.generateRandomInteger());
+        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
         final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeDataGenerator.generateRandomInteger());
 
         final var fakeOriginalAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeDateCreated, fakePetList, fakePeopleList);
@@ -225,7 +220,7 @@ public class AccountServiceImplementationTest {
 
         // Variables used everywhere
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonId  = fakeDataGenerator.generateRandomInteger();
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePersonId2 = fakeDataGenerator.generateRandomInteger();
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
@@ -241,10 +236,11 @@ public class AccountServiceImplementationTest {
         final var fakePerson2 = fakeDataGenerator.generatePerson(fakePersonId2);
 
         // Build pet object
-        final var fakePet1 = fakeDataGenerator.generatePet(fakePetId);
+        final var fakePet1 = fakeDataGenerator.generateFakePet();
+        fakePet1.setId(fakePetId);
 
         // Build list objects
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
         final var fakePeopleList = fakeDataGenerator.generatePersonList(fakeCountOfFakePeople);
 
         // Build original account object
@@ -281,7 +277,7 @@ public class AccountServiceImplementationTest {
         final var fakePeopleIdList = new ArrayList<Integer>(fakePersonId);
         final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
         final var fakeCountOfFakePeople = fakeDataGenerator.generateRandomInteger();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
+        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
         final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePeople);
 
         // Build request object
@@ -293,10 +289,11 @@ public class AccountServiceImplementationTest {
         final var fakePerson1 = fakeDataGenerator.generatePerson(fakePersonId);
 
         // Build pet object
-        final var fakePet1 = fakeDataGenerator.generatePet(fakePetId);
+        final var fakePet1 = fakeDataGenerator.generateFakePet();
+        fakePet1.setId(fakePetId);
 
         // Build updated account object
-        final var updatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeDateCreated,fakePetList, fakePersonList);
+        final var updatedAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActiveTrue, fakeDateCreated, fakePetList, fakePersonList);
 
         // Configure mocks for every call on dependencies within the service
         given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(List.of(fakePerson1));
