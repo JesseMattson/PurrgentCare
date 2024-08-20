@@ -1,9 +1,6 @@
 package com.VetApp.PurrgentCare;
 
-import com.VetApp.PurrgentCare.dtos.AccountResponse;
-import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
-import com.VetApp.PurrgentCare.dtos.PetRequest;
-import com.VetApp.PurrgentCare.dtos.PetResponse;
+import com.VetApp.PurrgentCare.dtos.*;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
@@ -106,31 +103,73 @@ public class FakeDataGenerator {
         return fakePeopleList;
     }
 
+    public List<Person> generateDefaultPersonList() {
+        final var numberFakePersons = new Random().nextInt(1, 5);
+        return generatePersonList(numberFakePersons);
+    }
+
     /////
     //Account Types
     /////
-    public Account generateAccount(Integer fakeAccountId, Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
+    public Account generateFakeAccount(Integer fakeAccountId, Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
         return Account.builder().id(fakeAccountId).active(fakeActive).dateCreated(fakeDateCreated).pets(fakePets).accountHolders(makeListMutable(fakeAccountHolders)).build();
+    }
+
+    public Account generateDefaultAccount() {
+        return Account.builder()
+                .id(generateRandomInteger())
+                .active(generateRandomBoolean())
+                .dateCreated(generateRandomDate())
+                .pets(generateDefaultPetList())
+                .accountHolders(generateDefaultPersonList())
+                .build();
     }
 
     public List<Account> generateAccountList(Integer countOfFakeAccounts) {
         List<Account> fakeAccountList = new ArrayList<>(List.of());
         var i = 1;
         while (i <= countOfFakeAccounts) {
-            var fakeAccount = generateAccount(generateRandomInteger(), generateRandomBoolean(), generateRandomDate(), generateDefaultPetList(), generatePersonList(generateRandomInteger()));
+            var fakeAccount = generateFakeAccount(generateRandomInteger(), generateRandomBoolean(), generateRandomDate(), generateDefaultPetList(), generatePersonList(generateRandomInteger()));
             fakeAccountList.add(fakeAccount);
             i++;
         }
         return fakeAccountList;
     }
 
-    public AccountResponse generateAccountResponse(Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
+    public List<Account> generateDefaultAccountList() {
+        final var numberFakeAccounts = new Random().nextInt(1, 5);
+        return generateAccountList(numberFakeAccounts);
+    }
+
+    public AccountRequest generateFakeAccountRequest() {
+        return AccountRequest.builder().active(generateRandomBoolean()).dateCreated(generateRandomDate()).build();
+
+    }
+
+    public AccountResponse generateFakeAccountResponse(Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
         final var accountResponse = new AccountResponse();
         accountResponse.active = fakeActive;
         accountResponse.dateCreated = fakeDateCreated;
         accountResponse.pets = fakePets;
         accountResponse.accountHolders = fakeAccountHolders;
         return accountResponse;
+    }
+
+    public AccountResponse generateDefaultAccountResponse() {
+        final var accountResponse = new AccountResponse();
+        accountResponse.active = generateRandomBoolean();
+        accountResponse.dateCreated = generateRandomDate();
+        accountResponse.pets = generateDefaultPetList();
+        accountResponse.accountHolders = generateDefaultPersonList();
+        return accountResponse;
+    }
+
+    public List<AccountResponse> generateFakeAccountResponses(int count) {
+        var fakeAccountResponses = new ArrayList<AccountResponse>();
+        for (var i = 0; i < count; i++) {
+            fakeAccountResponses.add(generateDefaultAccountResponse());
+        }
+        return fakeAccountResponses;
     }
 
     public AssociatePeopleWithAccountRequest generateAssociatePeopleWithAccountRequest(Integer fakeAccountId, List<Integer> fakePersonIds) {
