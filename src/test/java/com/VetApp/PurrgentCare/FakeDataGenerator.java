@@ -146,21 +146,23 @@ public class FakeDataGenerator {
 
     }
 
-    public AccountResponse generateFakeAccountResponse(Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
+    public AccountResponse generateFakeAccountResponse(Integer fakeId, Boolean fakeActive, Date fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
         final var accountResponse = new AccountResponse();
-        accountResponse.active = fakeActive;
-        accountResponse.dateCreated = fakeDateCreated;
-        accountResponse.pets = fakePets;
-        accountResponse.accountHolders = fakeAccountHolders;
+        accountResponse.setId(fakeId);
+        accountResponse.setActive(fakeActive);
+        accountResponse.setDateCreated(fakeDateCreated);
+        accountResponse.setPets(fakePets);
+        accountResponse.setAccountHolders(fakeAccountHolders);
         return accountResponse;
     }
 
     public AccountResponse generateDefaultAccountResponse() {
         final var accountResponse = new AccountResponse();
-        accountResponse.active = generateRandomBoolean();
-        accountResponse.dateCreated = generateRandomDate();
-        accountResponse.pets = generateDefaultPetList();
-        accountResponse.accountHolders = generateDefaultPersonList();
+        accountResponse.setId(generateRandomInteger());
+        accountResponse.setActive(generateRandomBoolean());
+        accountResponse.setDateCreated(generateRandomDate());
+        accountResponse.setPets(generateDefaultPetList());
+        accountResponse.setAccountHolders(generateDefaultPersonList());
         return accountResponse;
     }
 

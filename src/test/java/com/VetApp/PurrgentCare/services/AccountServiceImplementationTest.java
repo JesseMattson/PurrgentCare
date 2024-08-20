@@ -253,7 +253,7 @@ public class AccountServiceImplementationTest {
         final var fakeUpdatedAccount = fakeDataGenerator.generateFakeAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1, fakePerson2));
 
         // Build account response object
-        final var fakeAccountResponse = fakeDataGenerator.generateFakeAccountResponse(fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1, fakePerson2));
+        final var fakeAccountResponse = fakeDataGenerator.generateFakeAccountResponse(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1, fakePerson2));
         // Configure mocks for every call on dependencies within the service
         given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(List.of(fakePerson1, fakePerson2));
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeOriginalAccount));
