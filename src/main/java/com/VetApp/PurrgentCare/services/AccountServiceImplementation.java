@@ -70,7 +70,7 @@ public class AccountServiceImplementation implements AccountServiceInterface {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
         account.setActive(newAccount.getActive());
         account.setDateCreated(newAccount.getDateCreated());
-        accountRepository.save(account);
+        account = accountRepository.save(account);
         return mapper.map(account, AccountResponse.class);
     }
 

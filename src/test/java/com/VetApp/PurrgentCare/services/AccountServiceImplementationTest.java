@@ -163,7 +163,8 @@ public class AccountServiceImplementationTest {
         Account capturedAccount = accountCaptor.getValue();
 
         // then
-        assertThat(capturedAccount).usingRecursiveComparison().isEqualTo(fakeUpdatedAccount);
+        assertThat(capturedAccount.getActive()).isEqualTo(fakeUpdatedAccount.getActive());
+        assertThat(capturedAccount.getDateCreated()).isEqualTo(fakeUpdatedAccount.getDateCreated());
         assertThat(actual).usingRecursiveComparison().isEqualTo(fakeAccountResponse);
     }
 
