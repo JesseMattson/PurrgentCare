@@ -79,6 +79,41 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
+    public void getAllAccounts_withValidInput_returnsAllAccounts() {
+        // given
+        final var fakeAccounts = fakeDataGenerator.generateDefaultAccountList();
+        final var fakeAccountResponses = fakeDataGenerator.generateFakeAccountResponses(fakeAccounts.size());
+        given(mockAccountRepository.findAll())
+                .willReturn(fakeAccounts);
+        for (var i = 0; i < fakeAccounts.size(); i++) {
+            given(mockMapper.map(fakeAccounts.get(i), AccountResponse.class))
+                    .willReturn(fakeAccountResponses.get(i));
+        }
+
+        // when
+        final var actual = serviceUnderTest.getAllAccounts();
+
+        // then
+        then(actual).isEqualTo(fakeAccountResponses);
+        then(actual).hasSize(fakeAccountResponses.size());
+    }
+
+    @Test
+    public void getAllAccounts_whenNoAccounts_returnsEmptyList() {
+        // given
+        final var fakeAccounts = new ArrayList<Account>();
+        final var fakeAccountResponses = new ArrayList<AccountResponse>();
+        given(mockAccountRepository.findAll()).willReturn(fakeAccounts);
+
+        // when
+        final var actual = serviceUnderTest.getAllAccounts();
+        verify(mockMapper, never()).map(any(), eq(AccountResponse.class));
+
+        // then
+        then(actual).isEqualTo(fakeAccountResponses);
+    }
+
+    @Test
     public void addAccount_whenValidInput_returnsValidInput() {
         // given
         final var fakeAccountRequest = fakeDataGenerator.generateFakeAccountRequest();
@@ -107,41 +142,6 @@ public class AccountServiceImplementationTest {
 
     }
 
-    @Test
-    public void getAllAccounts_withValidInput_returnsAllAccounts() {
-        // given
-        final var fakeAccounts = fakeDataGenerator.generateDefaultAccountList();
-        final var fakeAccountResponses = fakeDataGenerator.generateFakeAccountResponses(fakeAccounts.size());
-        given(mockAccountRepository.findAll())
-                .willReturn(fakeAccounts);
-        for (var i = 0; i < fakeAccounts.size(); i++) {
-            given(mockMapper.map(fakeAccounts.get(i), AccountResponse.class))
-                    .willReturn(fakeAccountResponses.get(i));
-        }
-
-        // when
-        final var actual = serviceUnderTest.getAllAccounts();
-
-        // then
-        then(actual).isEqualTo(fakeAccountResponses);
-        then(actual).hasSize(fakeAccountResponses.size());
-    }
-
-
-    @Test
-    public void getAllAccounts_whenNoAccounts_returnsEmptyList() {
-        // given
-        final var fakeAccounts = new ArrayList<Account>();
-        final var fakeAccountResponses = new ArrayList<AccountResponse>();
-        given(mockAccountRepository.findAll()).willReturn(fakeAccounts);
-
-        // when
-        final var actual = serviceUnderTest.getAllAccounts();
-        verify(mockMapper, never()).map(any(), eq(AccountResponse.class));
-
-        // then
-        then(actual).isEqualTo(fakeAccountResponses);
-    }
 
     @Test
     public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
@@ -177,9 +177,8 @@ public class AccountServiceImplementationTest {
                 .willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
         // when && then
-        final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.updateAccount(fakeAccountRequest, fakeAccountId);
-        });
+        final var exception = assertThrows(EntityNotFoundException.class, () ->
+                serviceUnderTest.updateAccount(fakeAccountRequest, fakeAccountId));
         then(exception.getMessage()).contains(String.valueOf(fakeAccountId));
     }
 
@@ -212,9 +211,7 @@ public class AccountServiceImplementationTest {
                 .willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
         // when && then
-        final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.accountToggle(fakeAccountId);
-        });
+        final var exception = assertThrows(EntityNotFoundException.class, () -> serviceUnderTest.accountToggle(fakeAccountId));
         then(exception.getMessage()).contains(String.valueOf(fakeAccountId));
 
     }
@@ -229,8 +226,6 @@ public class AccountServiceImplementationTest {
         final var fakeActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePeople = fakeDataGenerator.generateRandomInteger();
 
         // Build request object
         final var fakeRequest = fakeDataGenerator.generateAssociatePeopleWithAccountRequest(fakeAccountId, List.of(fakePersonId, fakePersonId2));
@@ -275,12 +270,7 @@ public class AccountServiceImplementationTest {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
-        final var fakeActiveTrue = Boolean.TRUE;
-        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
         final var fakePeopleIdList = new ArrayList<Integer>(fakePersonId);
-        final var fakeCountOfFakePeople = fakeDataGenerator.generateRandomInteger();
-        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
-        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePeople);
 
         // Build request object
         final var fakeRequest = new AssociatePeopleWithAccountRequest();
@@ -294,17 +284,13 @@ public class AccountServiceImplementationTest {
         final var fakePet1 = fakeDataGenerator.generateFakePet();
         fakePet1.setId(fakePetId);
 
-        // Build updated account object
-        final var updatedAccount = fakeDataGenerator.generateFakeAccount(fakeAccountId, fakeActiveTrue, fakeDateCreated, fakePetList, fakePersonList);
-
         // Configure mocks for every call on dependencies within the service
         given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(List.of(fakePerson1));
         given(mockAccountRepository.findById(fakeAccountId)).willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
         // when && then
-        final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.associatePeople(fakeRequest);
-        });
+        final var exception = assertThrows(EntityNotFoundException.class, () ->
+                serviceUnderTest.associatePeople(fakeRequest));
         then(exception.getMessage()).contains(String.valueOf(fakeAccountId));
     }
 
