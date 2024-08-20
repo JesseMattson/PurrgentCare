@@ -57,22 +57,22 @@ const PetEdit = () => {
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label for="name">Name</Label>
-                    <Input type="text" name="name" value={pet.name || ''}
+                    <Input id="name" type="text" name="name" value={pet.name || ''}
                            onChange={handleChange} autoComplete="name"/>
                 </FormGroup>
                 <FormGroup>
                     <Label for="type">Type</Label>
-                    <Input type="text" name="type" value={pet.type || ''}
+                    <Input id="type" type="text" name="type" value={pet.type || ''}
                            onChange={handleChange} autoComplete="type"/>
                 </FormGroup>
                 <FormGroup>
                     <Label for="age">Age</Label>
-                    <Input type="text" name="age" value={pet.age || ''}
+                    <Input id="age" type="text" name="age" value={pet.age || ''}
                            onChange={handleChange} autoComplete="age"/>
                 </FormGroup>
                 <FormGroup>
                     <Label for="gender">Gender</Label>
-                    <Input type="text" name="gender" value={pet.gender || ''}
+                    <Input id="gender" type="text" name="gender" value={pet.gender || ''}
                            onChange={handleChange} autoComplete="gender"/>
                 </FormGroup>
                 <FormGroup>
