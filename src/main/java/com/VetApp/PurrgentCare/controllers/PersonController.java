@@ -50,8 +50,8 @@ public class PersonController {
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Person updatePerson(@PathVariable("id") Integer personId, @RequestBody Person person) {
-        return personService.updatePerson(person, personId);
+    private PersonResponse updatePerson(@PathVariable("id") Integer personId, @RequestBody PersonRequest personRequest) {
+        return personService.updatePerson(personRequest, personId);
 
     }
 }

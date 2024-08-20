@@ -8,20 +8,19 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
+
 
 @Entity(name = "Person") // Specified that this is a DATABASE Entity
 public class Person {
-    @Getter
     @Id // Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto Generate Values
     private Integer id;
-    @Getter
-    @Setter
     private String name;
 
     @JsonBackReference
     @ManyToOne
-    @Setter
     private Account account;
 
 
@@ -32,4 +31,6 @@ public class Person {
     }
 
 
+    public void setId(Integer id) {
+    }
 }

@@ -9,9 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Service
 public class PersonServiceImplementation implements PersonServiceInterface {
@@ -56,22 +53,18 @@ public class PersonServiceImplementation implements PersonServiceInterface {
 //    }
 
 
-
     @Override
     public void deletePerson(Integer personId) {
         personRepository.deleteById(personId);
     }
 
-    @Override
-    public Person updatePerson(Person person, Integer personId) {
-        return null;
-    }
 
     @Override
     public PersonResponse updatePerson(PersonRequest personRequest, Integer personId) {
         final Person newPerson = mapper.map(personRequest, Person.class);
         Person person = personRepository.findById(personId).orElseThrow(() -> new EntityNotFoundException(String.valueOf(personId)));
         person.setName(newPerson.getName());
+        person = personRepository.save(person);
         return mapper.map(person, PersonResponse.class);
     }
 
