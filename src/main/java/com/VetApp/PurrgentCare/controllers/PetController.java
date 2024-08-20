@@ -1,7 +1,8 @@
 package com.VetApp.PurrgentCare.controllers;
 
 
-import com.VetApp.PurrgentCare.models.Pet;
+import com.VetApp.PurrgentCare.dtos.PetRequest;
+import com.VetApp.PurrgentCare.dtos.PetResponse;
 import com.VetApp.PurrgentCare.services.PetServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,15 +22,15 @@ public class PetController {
 
     @GetMapping(BASE_URL + "/{id}") // PathVariable is used to get ID from the URL
     @ResponseStatus(HttpStatus.OK)
-    private Pet getPet(@PathVariable("id") Integer id) {
+    private PetResponse getPet(@PathVariable("id") Integer id) {
 
         return petService.getPet(id);
     }
 
     @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)
-    private Pet addPet(@RequestBody Pet pet) {
-        return petService.addPet(pet);
+    private PetResponse addPet(@RequestBody PetRequest petRequest) {
+        return petService.addPet(petRequest);
     }
 
     @DeleteMapping(BASE_URL + "/{id}")
@@ -41,13 +42,13 @@ public class PetController {
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private Pet updatePet(@PathVariable("id") Integer petId, @RequestBody Pet pet) {
-        return petService.updatePet(pet, petId);
+    private PetResponse updatePet(@PathVariable("id") Integer petId, @RequestBody PetRequest petRequest) {
+        return petService.updatePet(petRequest, petId);
     }
 
     @GetMapping(BASE_URL)
     @ResponseStatus(HttpStatus.OK)
-    private List<Pet> getAllPets() {
+    private List<PetResponse> getAllPets() {
 
         return petService.getAllPets();
     }

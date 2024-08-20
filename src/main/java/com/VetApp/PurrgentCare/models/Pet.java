@@ -4,33 +4,25 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Statement;
-
 @Builder
 @Getter
+@Setter
 @Entity(name = "Pet")
 @NoArgsConstructor
-
 @AllArgsConstructor
-
-
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer id;
+    private Integer id;
 
-    @Setter
-    private  String name;
+    private String name;
 
-    @Setter
-    private  String type;//TODO: Add Breed
+    private String type;//TODO: Add Breed
 
-    @Setter
     private Integer age;
 
-    @Setter
-    private  String gender;
+    private String gender;
 
     @JsonBackReference
     @ManyToOne
@@ -39,6 +31,6 @@ public class Pet {
     @Override
     public String toString() {
         return "Pet [id=" + id + ", name=" + name + ", type=" + type + ", age=" + age + ", gender=" + gender
-               + "]";
+                + "]";
     }
 }
