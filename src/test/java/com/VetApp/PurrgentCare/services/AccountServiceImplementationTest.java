@@ -186,10 +186,9 @@ public class AccountServiceImplementationTest {
     public void toggleAccount_whenAccountExists_returnsToggledAccount() {
         // given
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakeAccountActive = fakeDataGenerator.generateRandomBoolean();
         final var fakeAccount = fakeDataGenerator.generateDefaultAccount();
         final var fakeAccountResponse = fakeDataGenerator.generateDefaultAccountResponse();
-        fakeAccount.setActive(fakeAccountActive);
+        final var initialAccountActive = fakeAccount.getActive();
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeAccount));
         given(mockAccountRepository.save(fakeAccount)).willReturn(fakeAccount);
         given(mockMapper.map(fakeAccount, AccountResponse.class)).willReturn(fakeAccountResponse);
@@ -198,7 +197,7 @@ public class AccountServiceImplementationTest {
         final var actual = serviceUnderTest.accountToggle(fakeAccountId);
 
         // then
-        assertThat(fakeAccount.getActive()).isNotEqualTo(fakeAccountActive);
+        assertThat(fakeAccount.getActive()).isNotEqualTo(initialAccountActive);
         assertThat(actual).isEqualTo(fakeAccountResponse);
     }
 
