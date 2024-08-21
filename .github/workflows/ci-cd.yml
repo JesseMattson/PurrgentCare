@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -60,18 +60,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '20'
 
       - name: Install Newman
         run: npm install -g newman
 
       - name: Run Postman Collection
         env:
-          PERSONS_BASE_URL: http://localhost:8080/persons
-          PET_BASE_URL: http://localhost:8080/pets
-          ACCOUNT_BASE_URL: http://localhost:8080/accounts
+          PERSONS_BASE_URL: ${{ secrets.PERSONS_BASE_URL }}
+          PETS_BASE_URL: ${{ secrets.PETS_BASE_URL }}
+          ACCOUNTS_BASE_URL: ${{ secrets.ACCOUNTS_BASE_URL }}
         run: |
-          newman run PurrgentCare.postman_collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PET_BASE_URL" --env-var "accountBaseURL=$ACCOUNT_BASE_URL"
+          newman run PurrgentCare.postman_collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PETS_BASE_URL" --env-var "accountBaseURL=$ACCOUNTS_BASE_URL"
 
       - name: Stop Spring Boot application
         run: kill $(cat spring-boot.pid)
