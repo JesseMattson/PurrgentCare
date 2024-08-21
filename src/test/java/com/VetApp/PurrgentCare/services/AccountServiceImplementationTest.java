@@ -159,12 +159,11 @@ public class AccountServiceImplementationTest {
 
         // when
         final var actual = serviceUnderTest.updateAccount(fakeAccountRequest, fakeAccountId);
-        verify(mockAccountRepository).save(accountCaptor.capture());
-        Account capturedAccount = accountCaptor.getValue();
 
         // then
-        assertThat(capturedAccount.getActive()).isEqualTo(fakeUpdatedAccount.getActive());
-        assertThat(capturedAccount.getDateCreated()).isEqualTo(fakeUpdatedAccount.getDateCreated());
+        verify(mockAccountRepository).save(accountCaptor.capture());
+        assertThat(accountCaptor.getValue().getActive()).isEqualTo(fakeUpdatedAccount.getActive());
+        assertThat(accountCaptor.getValue().getDateCreated()).isEqualTo(fakeUpdatedAccount.getDateCreated());
         assertThat(actual).usingRecursiveComparison().isEqualTo(fakeAccountResponse);
     }
 
@@ -257,12 +256,11 @@ public class AccountServiceImplementationTest {
 
         // when && then
         final var actual = serviceUnderTest.associatePeople(fakeRequest);
-        verify(mockAccountRepository).save(accountCaptor.capture());
-        Account capturedAccount = accountCaptor.getValue();
 
         // then
+        verify(mockAccountRepository).save(accountCaptor.capture());
         assertThat(actual).usingRecursiveComparison().isEqualTo(fakeAccountResponse);
-        assertThat(capturedAccount.getAccountHolders()).usingRecursiveComparison().isEqualTo(fakeUpdatedAccount.getAccountHolders());
+        assertThat(accountCaptor.getValue().getAccountHolders()).usingRecursiveComparison().isEqualTo(fakeUpdatedAccount.getAccountHolders());
     }
 
     @Test
