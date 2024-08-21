@@ -88,21 +88,21 @@ public class PersonServiceImplementationTest {
         then(actual).hasSize(fakePersonList.size());
     }
 
-//    @Test
-//    public void getAllPersons_whenNoPersons_returnsEmptyList() {
-//        // given
-//        final var fakeCountOfFakePersons = 0;
-//        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
-//        final var expected = fakePersonList;
-//        given(mockPersonRepository.findAll())
-//                .willReturn(expected);
-//
-//        // when
-//        final var actual = serviceUnderTest.getAllPersons();
-//
-//        // then
-//        then(actual).isEqualTo(expected);
-//    }
+    @Test
+    public void getAllPersons_whenNoPersons_returnsEmptyList() {
+        // given
+        final var fakeCountOfFakePersons = 0;
+        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var expected = fakePersonList;
+        given(mockPersonRepository.findAll())
+                .willReturn(expected);
+
+        // when
+        final var actual = serviceUnderTest.getAllPersons();
+
+        // then
+        then(actual).isEqualTo(expected);
+    }
 
     @Test
     public void addPerson_whenValidInput_returnsValidInput() {
