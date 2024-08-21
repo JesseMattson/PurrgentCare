@@ -67,7 +67,7 @@ public class AccountServiceImplementationTest {
     public void getAccount_whenNotExist_returnEmptyAccountResponse() {
         // given
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakeAccountResponse = new AccountResponse();
+        final var emptyAccountResponse = new AccountResponse();
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.empty());
 
         // when
@@ -75,7 +75,7 @@ public class AccountServiceImplementationTest {
 
         // then
         then(actual).isInstanceOf(AccountResponse.class);
-        then(actual).usingRecursiveComparison().isEqualTo(fakeAccountResponse);
+        then(actual).usingRecursiveComparison().isEqualTo(emptyAccountResponse);
     }
 
     @Test
@@ -101,16 +101,16 @@ public class AccountServiceImplementationTest {
     @Test
     public void getAllAccounts_whenNoAccounts_returnsEmptyList() {
         // given
-        final var fakeAccounts = new ArrayList<Account>();
-        final var fakeAccountResponses = new ArrayList<AccountResponse>();
-        given(mockAccountRepository.findAll()).willReturn(fakeAccounts);
+        final var emptyAccounts = new ArrayList<Account>();
+        final var emptyAccountResponses = new ArrayList<AccountResponse>();
+        given(mockAccountRepository.findAll()).willReturn(emptyAccounts);
 
         // when
         final var actual = serviceUnderTest.getAllAccounts();
         verify(mockMapper, never()).map(any(), eq(AccountResponse.class));
 
         // then
-        then(actual).isEqualTo(fakeAccountResponses);
+        then(actual).isEqualTo(emptyAccountResponses);
     }
 
     @Test
