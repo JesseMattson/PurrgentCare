@@ -30,53 +30,51 @@ afterEach(() => {
     fetch.mockClear();
 });
 
-/* TODO: Fix broken test
-test('renders PetList and displays pets', async () => {
+const renderComponent = () => {
     render(
         <MemoryRouter>
             <PetList />
         </MemoryRouter>
     );
+};
+
+test('renders PetList and displays pets', async () => {
+    renderComponent()
 
     // Check that the loading indicator is shown initially
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
 
     // Wait for the pets to be loaded and displayed
     await waitFor(() => {
-        expect(screen.getByText(/Buddy/i)).toBeInTheDocument();
-        expect(screen.getByText(/Mittens/i)).toBeInTheDocument();
+        expect(screen.getByText('Buddy')).toBeInTheDocument();
+        expect(screen.getByText('Mittens')).toBeInTheDocument();
     });
 
     // Check that the pet details are displayed correctly
-    expect(screen.getByText(/Dog/i)).toBeInTheDocument();
-    expect(screen.getByText(/Cat/i)).toBeInTheDocument();
-    expect(screen.getByText(/5/i)).toBeInTheDocument();
-    expect(screen.getByText(/3/i)).toBeInTheDocument();
-    expect(screen.getByText(/Male/i)).toBeInTheDocument();
-    expect(screen.getByText(/Female/i)).toBeInTheDocument();
+    expect(screen.getByText('Dog')).toBeInTheDocument();
+    expect(screen.getByText('Cat')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(screen.getByText('Male')).toBeInTheDocument();
+    expect(screen.getByText('Female')).toBeInTheDocument();
 });
-*/
 
 test('handles deletion of a pet correctly', async () => {
-    render(
-        <MemoryRouter>
-            <PetList />
-        </MemoryRouter>
-    );
+    renderComponent()
 
     // Wait for the pets to be loaded and displayed
     await waitFor(() => {
-        expect(screen.getByText(/Buddy/i)).toBeInTheDocument();
-        expect(screen.getByText(/Mittens/i)).toBeInTheDocument();
+        expect(screen.getByText('Buddy')).toBeInTheDocument();
+        expect(screen.getByText('Mittens')).toBeInTheDocument();
     });
 
     // Delete the first pet
-    fireEvent.click(screen.getAllByText(/Delete/i)[0]);
+    fireEvent.click(screen.getAllByText('Delete')[0]);
 
     // Wait for the pet to be removed from the list
     await waitFor(() => {
-        expect(screen.queryByText(/Buddy/i)).not.toBeInTheDocument();
-        expect(screen.getByText(/Mittens/i)).toBeInTheDocument();
+        expect(screen.queryByText('Buddy')).not.toBeInTheDocument();
+        expect(screen.getByText('Mittens')).toBeInTheDocument();
     });
 
     // Ensure that the DELETE fetch call was made with the correct URL
@@ -93,30 +91,22 @@ test('renders empty state when no pets are available', async () => {
         })
     );
 
-    render(
-        <MemoryRouter>
-            <PetList />
-        </MemoryRouter>
-    );
+    renderComponent()
 
     // Wait for the component to finish loading
     await waitFor(() => {
-        expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
+        expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
     });
 
     // Check that the table body is empty
-    expect(screen.queryByText(/Buddy/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Mittens/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/Pets/i)).toBeInTheDocument();
+    expect(screen.queryByText('Buddy')).not.toBeInTheDocument();
+    expect(screen.queryByText('Mittens')).not.toBeInTheDocument();
+    expect(screen.getByText('Pets')).toBeInTheDocument();
 });
 
 test('renders loading state correctly', () => {
-    render(
-        <MemoryRouter>
-            <PetList />
-        </MemoryRouter>
-    );
+    renderComponent()
 
     // Check that the loading indicator is shown initially
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
 });
