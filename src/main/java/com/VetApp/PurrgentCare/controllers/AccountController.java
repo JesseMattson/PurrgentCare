@@ -1,9 +1,8 @@
 package com.VetApp.PurrgentCare.controllers;
 
+import com.VetApp.PurrgentCare.dtos.AccountRequest;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
-import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.services.AccountServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,22 +21,22 @@ public class AccountController {
 
     @GetMapping(BASE_URL + "/{id}") // PathVariable is used to get ID from the URL
     @ResponseStatus(HttpStatus.OK)
-    private Account getAccount(@PathVariable("id") Integer id) {
+    private AccountResponse getAccount(@PathVariable("id") Integer id) {
 
         return accountService.getAccount(id);
     }
 
     @GetMapping(BASE_URL)
     @ResponseStatus(HttpStatus.OK)
-    private List<Account> getAllAccounts() {
+    private List<AccountResponse> getAllAccounts() {
 
         return accountService.getAllAccounts();
     }
 
     @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)
-    private Account addAccount(@RequestBody Account account) {
-        return accountService.addAccount(account);
+    private AccountResponse addAccount(@RequestBody AccountRequest accountRequest) {
+        return accountService.addAccount(accountRequest);
     }
 
     @Deprecated
@@ -51,14 +50,14 @@ public class AccountController {
 
     @PutMapping(BASE_URL + "/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Account updateAccount(@PathVariable("id") Integer accountId, @RequestBody Account account) {
-        return accountService.updateAccount(account, accountId);
+    private AccountResponse updateAccount(@PathVariable("id") Integer accountId, @RequestBody AccountRequest accountRequest) {
+        return accountService.updateAccount(accountRequest, accountId);
 
     }
 
     @PutMapping(BASE_URL + "/status/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    private Account accountToggle(@PathVariable("id") Integer accountId) {
+    private AccountResponse accountToggle(@PathVariable("id") Integer accountId) {
         return accountService.accountToggle(accountId);
 
     }
@@ -66,6 +65,6 @@ public class AccountController {
     @PutMapping(BASE_URL + "/associate-people")
     @ResponseStatus(HttpStatus.CREATED)
     private AccountResponse accountAssociatePeople(@RequestBody AssociatePeopleWithAccountRequest associatePeopleWithAccountRequest) {
-     return accountService.associatePeople(associatePeopleWithAccountRequest);
+        return accountService.associatePeople(associatePeopleWithAccountRequest);
     }
 }

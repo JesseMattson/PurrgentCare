@@ -160,11 +160,10 @@ public class PetServiceImplementationTest {
 
         // when
         final var actual = serviceUnderTest.updatePet(fakePetRequest, fakePetId);
-        verify(mockPetRepository).save(petCaptor.capture());
-        Pet capturedPet = petCaptor.getValue();
 
         // then
-        assertThat(capturedPet).usingRecursiveComparison().isEqualTo(fakeUpdatedPet);
+        verify(mockPetRepository).save(petCaptor.capture());
+        assertThat(petCaptor.getValue()).usingRecursiveComparison().isEqualTo(fakeUpdatedPet);
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(fakePetResponse);
