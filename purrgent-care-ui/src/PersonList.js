@@ -40,7 +40,7 @@ const PersonList = () => {
 
     const personList = persons.map(person => {
         return <tr key={person.id}>
-            <td style={{ whiteSpace: 'nowrap' }}>{person.name}</td>
+            <td id="name" style={{ whiteSpace: 'nowrap' }}>{person.name}</td>
             <td>
                 <ButtonGroup>
                     <Button size="sm" color="primary" tag={Link} to={`${PERSON_BASE_URL}/${person.id}`}>Edit</Button>
