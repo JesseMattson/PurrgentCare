@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class PersonResponse {
 
-
+    public Integer id;
 
     public String name;
 

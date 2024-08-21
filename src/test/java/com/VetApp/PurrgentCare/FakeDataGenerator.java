@@ -113,7 +113,10 @@ public class FakeDataGenerator {
 
     public PersonResponse generateFakePersonResponse() {
 
-        return PersonResponse.builder().name(generateRandomString()).build();
+        return PersonResponse.builder().
+                id(generateRandomInteger()).
+                name(generateRandomString()).
+                build();
     }
 
 
