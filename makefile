@@ -31,7 +31,8 @@ start-backend:
 	make build-backend
 	mvn spring-boot:run
 
-test-backend-pipeline: compile-backend test-backend test-postman container-backend
+#TODO use docker to run application so we can run postman without needing two terminals
+test-backend-pipeline: compile-backend test-backend container-backend
 ## End Backend section
 
 ## Docker section
