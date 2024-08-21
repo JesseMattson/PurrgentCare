@@ -107,9 +107,9 @@ public class AccountServiceImplementationTest {
 
         // when
         final var actual = serviceUnderTest.getAllAccounts();
-        verify(mockMapper, never()).map(any(), eq(AccountResponse.class));
 
         // then
+        verify(mockMapper, never()).map(any(), eq(AccountResponse.class));
         then(actual).isEqualTo(emptyAccountResponses);
     }
 
