@@ -74,6 +74,17 @@ public class FakeDataGenerator {
         return fakePeopleList;
     }
 
+    public List<PersonResponse> generatePersonResponseList(Integer countOfFakePersonResponses) {
+        List<PersonResponse> fakePersonResponseList = new ArrayList<>(List.of());
+        var i = 1;
+        while (i <= countOfFakePersonResponses) {
+            var fakePersonResponse = generateFakePersonResponse();
+            fakePersonResponseList.add(fakePersonResponse);
+            i++;
+        }
+        return fakePersonResponseList;
+    }
+
     public List<Pet> generatePetList(Integer countOfFakePets) {
         List<Pet> fakePetList = new ArrayList<>(List.of());
         var i = 1;

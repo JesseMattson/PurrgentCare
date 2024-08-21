@@ -56,8 +56,7 @@ public class PersonServiceImplementationTest {
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePerson = fakeDataGenerator.generateFakePerson();
         final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
-        given(mockPersonRepository.findById(fakePersonId))
-                .willReturn(Optional.of(fakePerson));
+        given(mockPersonRepository.findById(fakePersonId)).willReturn(Optional.of(fakePerson));
         given(mockMapper.map(Optional.of(fakePerson), PersonResponse.class)).willReturn(fakePersonResponse);
 
         // when
@@ -67,25 +66,28 @@ public class PersonServiceImplementationTest {
         then(actual).isEqualTo(fakePersonResponse);
     }
 
-    //  @Test
-//    public void getAllPersons_withValidInput_returnsAllPersons() {
-//        // given
-//        final var fakePerson = fakeDataGenerator.generateFakePerson();
-//        final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
-//        final var expected = fakeDataGenerator.generatePersonList(fakeCountOfFakePerson);
-//        final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
-//        given(mockPersonRepository.findAll())
-//                .willReturn(expected);
-//        given(mockMapper.map(fakePerson, PersonResponse.class))
-//                .willReturn(fakePersonResponse);
-//        // when
-//        final var actual = serviceUnderTest.getAllPersons();
-//
-//        // then
-//        then(actual).isEqualTo(fakePersonResponse);
-//        then(actual).hasSize(fakePersonResponse);
-//    }
-//
+    @Test
+    public void getAllPersons_withValidInput_returnsAllPersons() {
+        // given
+        final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
+        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
+        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePerson);
+        final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
+        final var expected = fakeDataGenerator.generatePersonResponseList(fakeCountOfFakePerson);
+        given(mockPersonRepository.findAll())
+                .willReturn(fakePersonList);
+        for (int i = 0; i < fakePersonList.size(); i++) {
+            given(mockMapper.map(fakePersonList.get(i), PersonResponse.class))
+                    .willReturn((expected.get(i)));
+        }
+        // when
+        final var actual = serviceUnderTest.getAllPersons();
+
+        // then
+        then(actual).isEqualTo(expected);
+        then(actual).hasSize(fakePersonList.size());
+    }
+
 //    @Test
 //    public void getAllPersons_whenNoPersons_returnsEmptyList() {
 //        // given
@@ -145,10 +147,8 @@ public class PersonServiceImplementationTest {
         fakeUpdatedPerson.setId(fakeOriginalPerson.getId());
         final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
         final var fakePersonRequest = fakeDataGenerator.generateFakePersonRequest();
-        given(mockPersonRepository.findById(fakePersonId))
-                .willReturn(Optional.of(fakeOriginalPerson));
-        given(mockPersonRepository.save(fakeOriginalPerson))
-                .willReturn(fakeUpdatedPerson);
+        given(mockPersonRepository.findById(fakePersonId)).willReturn(Optional.of(fakeOriginalPerson));
+        given(mockPersonRepository.save(fakeOriginalPerson)).willReturn(fakeUpdatedPerson);
         given(mockMapper.map(fakePersonRequest, Person.class)).willReturn(fakeUpdatedPerson);
         given(mockMapper.map(fakeUpdatedPerson, PersonResponse.class)).willReturn(fakePersonResponse);
 
@@ -158,9 +158,7 @@ public class PersonServiceImplementationTest {
         Person capturedPerson = personCaptor.getValue();
 
         // then
-        assertThat(actual)
-                .usingRecursiveComparison()
-                .isEqualTo(fakePersonResponse);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(fakePersonResponse);
     }
 
     @Test
@@ -168,8 +166,7 @@ public class PersonServiceImplementationTest {
         // given
         final var fakePersonRequest = fakeDataGenerator.generateFakePersonRequest();
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        given(mockPersonRepository.findById(fakePersonId))
-                .willThrow(new EntityNotFoundException(String.valueOf(fakePersonId)));
+        given(mockPersonRepository.findById(fakePersonId)).willThrow(new EntityNotFoundException(String.valueOf(fakePersonId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {

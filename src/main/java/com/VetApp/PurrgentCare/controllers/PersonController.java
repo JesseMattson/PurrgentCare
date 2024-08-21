@@ -28,12 +28,12 @@ public class PersonController {
         return personService.getPerson(id);
     }
 
-//    @GetMapping(BASE_URL)
-//    @ResponseStatus(HttpStatus.OK)
-//    private List<PersonResponse> getAllPersons() {
-//
-//        return personService.getAllPersons();
-//    }
+    @GetMapping(BASE_URL)
+    @ResponseStatus(HttpStatus.OK)
+    private List<PersonResponse> getAllPersons() {
+
+        return personService.getAllPersons();
+    }
 
     @PostMapping(BASE_URL)
     @ResponseStatus(HttpStatus.CREATED)

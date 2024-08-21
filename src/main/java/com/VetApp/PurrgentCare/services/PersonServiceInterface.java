@@ -11,7 +11,7 @@ import java.util.List;
 public interface PersonServiceInterface {
     PersonResponse getPerson(Integer personId);
 
-   // List<PersonResponse> getAllPersons();
+    List<PersonResponse> getAllPersons();
 
     PersonResponse addPerson(PersonRequest personRequest);
 

@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class PersonServiceImplementation implements PersonServiceInterface {
@@ -41,16 +44,16 @@ public class PersonServiceImplementation implements PersonServiceInterface {
         return mapper.map(person, PersonResponse.class);
     }
 
-//    @Override
-//    public List<PersonResponse> getAllPersons() {
-//        final List<Person> personList = personRepository.findAll();
-//        final List<PersonResponse> personResponse1 = new ArrayList<>();
-//        for (Person person : personList){
-//    PersonResponse personResponse = mapper.map(person, PersonResponse.class);
-//    personResponse1.add(personResponse);
-//        }
-//        return personResponse1;
-//    }
+    @Override
+    public List<PersonResponse> getAllPersons() {
+        final List<Person> personList = personRepository.findAll();
+        final List<PersonResponse> listPersonResponses = new ArrayList<>();
+        for (Person person : personList) {
+            PersonResponse personResponse = mapper.map(person, PersonResponse.class);
+            listPersonResponses.add(personResponse);
+        }
+        return listPersonResponses;
+    }
 
 
     @Override
