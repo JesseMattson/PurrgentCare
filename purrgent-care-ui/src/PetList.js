@@ -40,10 +40,10 @@ const PetList = () => {
 
     const petList = pets.map(pet => {
         return <tr key={pet.id}>
-            <td style={{ whiteSpace: 'nowrap' }}>{pet.name}</td>
-            <td style={{ whiteSpace: 'nowrap' }}>{pet.type}</td>
-            <td style={{ whiteSpace: 'nowrap' }}>{pet.age}</td>
-            <td style={{ whiteSpace: 'nowrap' }}>{pet.gender}</td>
+            <td id="name" style={{ whiteSpace: 'nowrap' }}>{pet.name}</td>
+            <td id="type" style={{ whiteSpace: 'nowrap' }}>{pet.type}</td>
+            <td id="age" style={{ whiteSpace: 'nowrap' }}>{pet.age}</td>
+            <td id="gender" style={{ whiteSpace: 'nowrap' }}>{pet.gender}</td>
             <td>
                 <ButtonGroup>
                     <Button size="sm" color="primary" tag={Link} to={`${PET_BASE_URL}/${pet.id}`}>Edit</Button>

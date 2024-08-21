@@ -1,0 +1,32 @@
+name: UI CI/CD Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20']
+        ui-directory: ['./purrgent-care-ui/']
+    defaults:
+      run:
+        working-directory: ${{ matrix.ui-directory }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: '${{ matrix.ui-directory }}package-lock.json'
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm run test

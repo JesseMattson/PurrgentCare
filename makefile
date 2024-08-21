@@ -46,9 +46,11 @@ build-ui:
 	npm --prefix ${UI_DIRECTORY} install ${UI_DIRECTORY}
 
 test-ui:
-	npm test --prefix ${UI_DIRECTORY} -- --coverage
+	npm run test --prefix ${UI_DIRECTORY} --coverage
 
 start-ui:
 	make build-ui
 	npm start --prefix ${UI_DIRECTORY}
+
+test-ui-pipeline: build-ui test-ui
 ## End UI Section
