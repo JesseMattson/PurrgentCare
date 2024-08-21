@@ -34,10 +34,10 @@ test('renders the AccountEdit component for adding a new account', () => {
     renderComponent();
 
     // Check that the title is "Add Account"
-    expect(screen.getByText(/Add Account/i)).toBeInTheDocument();
+    expect(screen.getByText('Add Account')).toBeInTheDocument();
 
     // Check that the active input field is empty
-    const activeInput = screen.getByLabelText(/Active/i);
+    const activeInput = screen.getByLabelText('Active');
     expect(activeInput.value).toBe('');
 });
 
@@ -54,10 +54,10 @@ test('renders the AccountEdit component for editing an existing account', async 
     renderComponent([`${ACCOUNT_BASE_URL}/1`]);
 
     // Check that the title is "Edit Account"
-    expect(await screen.findByText(/Edit Account/i)).toBeInTheDocument();
+    expect(await screen.findByText('Edit Account')).toBeInTheDocument();
 
     // Check that the active input field is populated with the fetched data
-    const activeInput = screen.getByLabelText(/Active/i);
+    const activeInput = screen.getByLabelText('Active');
     expect(activeInput.value).toBe(mockAccountData.active.toString());
 });
 
@@ -74,7 +74,7 @@ test('submits the form and navigates back to the account list', async () => {
     renderComponent();
 
     // Change the active input
-    const activeInput = screen.getByLabelText(/Active/i);
+    const activeInput = screen.getByLabelText('Active');
     fireEvent.change(activeInput, { target: { value: 'false' } });
 
     // Mock the fetch for the form submission
@@ -85,7 +85,7 @@ test('submits the form and navigates back to the account list', async () => {
     );
 
     // Submit the form
-    const saveButton = screen.getByText(/Save/i);
+    const saveButton = screen.getByText('Save');
     fireEvent.click(saveButton);
 
     // Wait for the navigation to occur
@@ -95,7 +95,7 @@ test('submits the form and navigates back to the account list', async () => {
 test('navigates back to the account list when cancel is clicked', () => {
     renderComponent();
 
-    const cancelButton = screen.getByText(/Cancel/i);
+    const cancelButton = screen.getByText('Cancel');
     fireEvent.click(cancelButton);
 
     // Verify that navigation back to account list happened

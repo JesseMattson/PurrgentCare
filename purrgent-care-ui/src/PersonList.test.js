@@ -38,7 +38,7 @@ test('renders the PersonList component and fetches data', async () => {
     renderComponent();
 
     // Check that loading indicator is shown
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
 
     // Wait for the data to be fetched and check that it's displayed
     expect(await screen.findByText('John Doe')).toBeInTheDocument();
@@ -67,7 +67,7 @@ test('handles delete action correctly', async () => {
     await screen.findByText('John Doe');
 
     // Click the delete button for John Doe
-    fireEvent.click(screen.getAllByText(/Delete/i)[0]);
+    fireEvent.click(screen.getAllByText('Delete')[0]);
 
     // Wait for the data to be updated
     await waitFor(() => {
@@ -85,7 +85,7 @@ test('handles navigation to add person page', () => {
     renderComponent();
 
     // Click the "Add person" button
-    fireEvent.click(screen.getByText(/Add person/i));
+    fireEvent.click(screen.getByText('Add person'));
 
     // Check that the navigation occurred
     expect(screen.getByText('Add Person Page')).toBeInTheDocument();
@@ -108,7 +108,7 @@ test('handles navigation to edit person page', async () => {
     await screen.findByText('John Doe');
 
     // Click the "Edit" button for John Doe
-    fireEvent.click(screen.getAllByText(/Edit/i)[0]);
+    fireEvent.click(screen.getAllByText('Edit')[0]);
 
     // Check that the navigation occurred
     expect(screen.getByText('Edit Person Page')).toBeInTheDocument();

@@ -14,7 +14,7 @@ test('renders the Home component with navbar, image, and links', () => {
     expect(getByAltText('Care')).toBeInTheDocument();
 
     // Check for the presence of the navigation links
-    expect(getByText(/Manage Accounts/i)).toBeInTheDocument();
-    expect(getByText(/Manage Customers/i)).toBeInTheDocument();
-    expect(getByText(/Manage Pets/i)).toBeInTheDocument();
+    expect(getByText('Manage Accounts')).toBeInTheDocument();
+    expect(getByText('Manage Customers')).toBeInTheDocument();
+    expect(getByText('Manage Pets')).toBeInTheDocument();
 });

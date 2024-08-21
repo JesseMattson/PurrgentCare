@@ -33,10 +33,10 @@ test('renders the PersonEdit component for adding a new person', () => {
     renderComponent();
 
     // Check that the title is "Add Person"
-    expect(screen.getByText(/Add Person/i)).toBeInTheDocument();
+    expect(screen.getByText('Add Person')).toBeInTheDocument();
 
     // Check that the name input field is empty
-    const nameInput = screen.getByLabelText(/Name/i);
+    const nameInput = screen.getByLabelText('Name');
     expect(nameInput.value).toBe('');
 });
 
@@ -53,9 +53,9 @@ test('renders the PersonEdit component for editing an existing person', async ()
     renderComponent([`${PERSON_BASE_URL}/1`]);
 
     // Check that the title is "Edit Person"
-    expect(await screen.findByText(/Edit Person/i)).toBeInTheDocument();
+    expect(await screen.findByText('Edit Person')).toBeInTheDocument();
 
     // Check that the name input field is populated with the fetched data
-    const nameInput = screen.getByLabelText(/Name/i);
+    const nameInput = screen.getByLabelText('Name');
     expect(nameInput.value).toBe(mockPersonData.name);
 });

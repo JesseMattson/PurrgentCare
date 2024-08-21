@@ -10,8 +10,8 @@ test('renders index component on default route', () => {
 
     // Check for the presence of the image and links
     expect(getByAltText('Care')).toBeInTheDocument();
-    expect(getByText(/Manage Accounts/i)).toBeInTheDocument();
-    expect(getByText(/Manage Customers/i)).toBeInTheDocument();
-    expect(getByText(/Manage Pets/i)).toBeInTheDocument();
+    expect(getByText('Manage Accounts')).toBeInTheDocument();
+    expect(getByText('Manage Customers')).toBeInTheDocument();
+    expect(getByText('Manage Pets')).toBeInTheDocument();
 });
 

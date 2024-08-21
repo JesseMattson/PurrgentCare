@@ -38,13 +38,13 @@ test('renders the PetEdit component in edit mode', async () => {
     renderComponent([`${PET_BASE_URL}/1`]);
 
     // Check that the title is "Edit Pet"
-    expect(await screen.findByText(/Edit Pet/i)).toBeInTheDocument();
+    expect(await screen.findByText('Edit Pet')).toBeInTheDocument();
 
     // Check that the form fields are populated with fetched data
-    expect(screen.getByLabelText(/Name/i).value).toBe('Buddy');
-    expect(screen.getByLabelText(/Type/i).value).toBe('Dog');
-    expect(screen.getByLabelText(/Age/i).value).toBe('5');
-    expect(screen.getByLabelText(/Gender/i).value).toBe('Male');
+    expect(screen.getByLabelText('Name').value).toBe('Buddy');
+    expect(screen.getByLabelText('Type').value).toBe('Dog');
+    expect(screen.getByLabelText('Age').value).toBe('5');
+    expect(screen.getByLabelText('Gender').value).toBe('Male');
 });
 */
 
@@ -52,23 +52,23 @@ test('renders the PetEdit component in add mode', () => {
     renderComponent([`${PET_BASE_URL}/new`]);
 
     // Check that the title is "Add Pet"
-    expect(screen.getByText(/Add Pet/i)).toBeInTheDocument();
+    expect(screen.getByText('Add Pet')).toBeInTheDocument();
 
     // Check that the form fields are empty
-    expect(screen.getByLabelText(/Name/i).value).toBe('');
-    expect(screen.getByLabelText(/Type/i).value).toBe('');
-    expect(screen.getByLabelText(/Age/i).value).toBe('');
-    expect(screen.getByLabelText(/Gender/i).value).toBe('');
+    expect(screen.getByLabelText('Name').value).toBe('');
+    expect(screen.getByLabelText('Type').value).toBe('');
+    expect(screen.getByLabelText('Age').value).toBe('');
+    expect(screen.getByLabelText('Gender').value).toBe('');
 });
 
 test('handles form submission correctly', async () => {
     renderComponent([`${PET_BASE_URL}/new`]);
 
     // Fill out the form
-    fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'Charlie' } });
-    fireEvent.change(screen.getByLabelText(/Type/i), { target: { value: 'Cat' } });
-    fireEvent.change(screen.getByLabelText(/Age/i), { target: { value: '3' } });
-    fireEvent.change(screen.getByLabelText(/Gender/i), { target: { value: 'Female' } });
+    fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Charlie' } });
+    fireEvent.change(screen.getByLabelText('Type'), { target: { value: 'Cat' } });
+    fireEvent.change(screen.getByLabelText('Age'), { target: { value: '3' } });
+    fireEvent.change(screen.getByLabelText('Gender'), { target: { value: 'Female' } });
 
     // Mock the fetch POST request
     global.fetch.mockImplementationOnce(() =>
@@ -78,11 +78,11 @@ test('handles form submission correctly', async () => {
     );
 
     // Submit the form
-    fireEvent.click(screen.getByText(/Save/i));
+    fireEvent.click(screen.getByText('Save'));
 
     // Wait for navigation
     await waitFor(() => {
-        expect(screen.getByText(/Redirected/i)).toBeInTheDocument();
+        expect(screen.getByText('Redirected')).toBeInTheDocument();
     });
 
     // Ensure the fetch was called with correct data
