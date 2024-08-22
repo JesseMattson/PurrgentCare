@@ -263,7 +263,7 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
-    public void accountResponse_whenAccountNotExists_throwEntityNotFoundException() {
+    public void associatePeople_whenAccountNotExists_throwEntityNotFoundException() {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();

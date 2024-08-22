@@ -65,14 +65,13 @@ public class PersonServiceImplementationTest {
         // then
         then(actual).isEqualTo(fakePersonResponse);
     }
+// ToDo: getPerson_whenNotExist_returnEmptyPersonResponse TEST
 
     @Test
     public void getAllPersons_withValidInput_returnsAllPersons() {
         // given
         final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePersonList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePerson);
-        final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
         final var expected = fakeDataGenerator.generateFakePersonResponseList(fakeCountOfFakePerson);
         given(mockPersonRepository.findAll())
                 .willReturn(fakePersonList);
@@ -109,7 +108,6 @@ public class PersonServiceImplementationTest {
         // given
         // any mocks we need to simulate a person/repo etc
         final var fakePersonRequest = fakeDataGenerator.generateFakePersonRequest();
-        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePerson = fakeDataGenerator.generateFakePerson();
         final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
         given(mockMapper.map(fakePersonRequest, Person.class)).willReturn(fakePerson);
@@ -122,7 +120,6 @@ public class PersonServiceImplementationTest {
         // then
         // check repo to see if person was added once
         then(actual).isEqualTo(fakePersonResponse);
-        //verify(mockMapper, times(1)).save(fakePerson);
     }
 
     @Test
@@ -154,10 +151,10 @@ public class PersonServiceImplementationTest {
 
         // when
         final var actual = serviceUnderTest.updatePerson(fakePersonRequest, fakePersonId);
-        verify(mockPersonRepository).save(personCaptor.capture());
-        Person capturedPerson = personCaptor.getValue();
 
         // then
+        verify(mockPersonRepository).save(personCaptor.capture());
+        assertThat(personCaptor.getValue().getName()).isEqualTo(fakeUpdatedPerson.getName());
         assertThat(actual).usingRecursiveComparison().isEqualTo(fakePersonResponse);
     }
 
