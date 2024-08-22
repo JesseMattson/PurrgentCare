@@ -1,19 +1,20 @@
 package com.VetApp.PurrgentCare.services;
 
-import com.VetApp.PurrgentCare.models.Pet;
+import com.VetApp.PurrgentCare.dtos.PetRequest;
+import com.VetApp.PurrgentCare.dtos.PetResponse;
 
 import java.util.List;
 
 public interface PetServiceInterface {
 
 
-    Pet getPet(Integer petId);
+    PetResponse getPet(Integer petId);
 
-    Pet addPet(Pet pet);
+    PetResponse addPet(PetRequest pet);
 
-    void deletePet (Integer petId);
+    void deletePet(Integer petId);
 
-    List<Pet> getAllPets();
+    List<PetResponse> getAllPets();
 
-    Pet updatePet (Pet pet, Integer petId);
+    PetResponse updatePet(PetRequest pet, Integer petId);
 }

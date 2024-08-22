@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "164c2e20-0ae3-4156-bc24-b50c168d6413",
+		"_postman_id": "44174691-40ad-4e24-860d-6bcbafb20804",
 		"name": "PurrgentCare",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33908379"
+		"_exporter_id": "33776713"
 	},
 	"item": [
 		{
@@ -884,12 +884,12 @@
 		},
 		{
 			"key": "petId",
-			"value": 5,
+			"value": "1",
 			"type": "string"
 		},
 		{
 			"key": "accountId",
-			"value": 6,
+			"value": "1",
 			"type": "string"
 		},
 		{

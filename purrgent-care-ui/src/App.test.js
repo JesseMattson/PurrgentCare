@@ -3,18 +3,18 @@ import App from './App';
 
 test('renders manage accounts link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/manage accounts/i);
+  const linkElement = screen.getByText('Manage Accounts');
   expect(linkElement).toBeInTheDocument();
 });
 
 test('renders manage customers link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/manage customers/i);
+  const linkElement = screen.getByText('Manage Customers');
   expect(linkElement).toBeInTheDocument();
 });
 
 test('renders manage pets link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/manage pets/i);
+  const linkElement = screen.getByText('Manage Pets');
   expect(linkElement).toBeInTheDocument();
 });

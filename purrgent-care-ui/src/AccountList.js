@@ -42,9 +42,9 @@ const AccountList = () => {
 
     const accountList = accounts.map(account => {
         return <tr key={account.id}>
-            <td style={{ whiteSpace: 'nowrap' }}>{account.id}</td>
-            <td style={{ whiteSpace: 'nowrap' }}>{account.active.toString()}</td>
-            <td style={{ whiteSpace: 'nowrap' }}>{format(account.dateCreated, 'yyyy/MM/dd')}</td>
+            <td id="id" style={{ whiteSpace: 'nowrap' }}>{account.id}</td>
+            <td id="active" style={{ whiteSpace: 'nowrap' }}>{account.active.toString()}</td>
+            <td id="dateCreated" style={{ whiteSpace: 'nowrap' }}>{format(account.dateCreated, 'yyyy/MM/dd')}</td>
             <td>
                 <ButtonGroup>
                     <Button size="sm" color={account.active ? "danger" : "success"} onClick={() =>

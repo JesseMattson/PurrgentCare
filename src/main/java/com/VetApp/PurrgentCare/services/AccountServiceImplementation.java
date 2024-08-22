@@ -1,5 +1,6 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.dtos.AccountRequest;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,24 +30,32 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     }
 
     @Override
-    public Account getAccount(Integer accountId) {
+    public AccountResponse getAccount(Integer accountId) {
 
         final var account = accountRepository.findById(accountId);
         if (account.isPresent()) {
-            return account.get();
+            return mapper.map(account, AccountResponse.class);
         }
-        return new Account();
+        return new AccountResponse();
     }
 
 
     @Override
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
+    public List<AccountResponse> getAllAccounts() {
+        final List<Account> accounts = accountRepository.findAll();
+        final List<AccountResponse> accountResponses = new ArrayList<>();
+        for (Account account : accounts) {
+            AccountResponse accountResponse = mapper.map(account, AccountResponse.class);
+            accountResponses.add(accountResponse);
+        }
+        return accountResponses;
     }
 
     @Override
-    public Account addAccount(Account account) {
-        return accountRepository.save(account);
+    public AccountResponse addAccount(AccountRequest accountRequest) {
+        final Account account = mapper.map(accountRequest, Account.class);
+        accountRepository.save(account);
+        return mapper.map(account, AccountResponse.class);
     }
 
     @Override
@@ -54,22 +64,23 @@ public class AccountServiceImplementation implements AccountServiceInterface {
     }
 
     @Override
-    public Account updateAccount(Account newAccount, Integer accountId) {
-
+    public AccountResponse updateAccount(AccountRequest accountRequest, Integer accountId) {
+        final Account newAccount = mapper.map(accountRequest, Account.class);
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
         account.setActive(newAccount.getActive());
         account.setDateCreated(newAccount.getDateCreated());
-        return accountRepository.save(account);
+        account = accountRepository.save(account);
+        return mapper.map(account, AccountResponse.class);
     }
 
     @Override
-    public Account accountToggle(Integer accountId) {
+    public AccountResponse accountToggle(Integer accountId) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
         account.setActive(!account.getActive());
-
-        return accountRepository.save(account);
+        accountRepository.save(account);
+        return mapper.map(account, AccountResponse.class);
     }
 
     @Override

@@ -55,8 +55,8 @@ const AccountEdit = () => {
             {title}
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
-                    <Label for="name">Active</Label>
-                    <Input type="text" name="active" value={account.active.toString() || ''}
+                    <Label for="active">Active</Label>
+                    <Input id="active" type="text" name="active" value={account.active.toString() || ''}
                            onChange={handleChange} autoComplete="active"/>
                 </FormGroup>
                 <FormGroup>

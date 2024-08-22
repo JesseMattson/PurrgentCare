@@ -71,9 +71,9 @@ public class PersonServiceImplementationTest {
         // given
         final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePerson);
+        final var fakePersonList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePerson);
         final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
-        final var expected = fakeDataGenerator.generatePersonResponseList(fakeCountOfFakePerson);
+        final var expected = fakeDataGenerator.generateFakePersonResponseList(fakeCountOfFakePerson);
         given(mockPersonRepository.findAll())
                 .willReturn(fakePersonList);
         for (int i = 0; i < fakePersonList.size(); i++) {
@@ -92,7 +92,7 @@ public class PersonServiceImplementationTest {
     public void getAllPersons_whenNoPersons_returnsEmptyList() {
         // given
         final var fakeCountOfFakePersons = 0;
-        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var fakePersonList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePersons);
         final var expected = fakePersonList;
         given(mockPersonRepository.findAll())
                 .willReturn(expected);

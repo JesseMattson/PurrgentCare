@@ -54,7 +54,7 @@ const PersonEdit = () => {
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label for="name">Name</Label>
-                    <Input type="text" name="name" value={person.name || ''}
+                    <Input id="name" type="text" name="name" value={person.name || ''}
                            onChange={handleChange} autoComplete="name"/>
                 </FormGroup>
                 <FormGroup>

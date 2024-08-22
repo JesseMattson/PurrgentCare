@@ -2,21 +2,23 @@ package com.VetApp.PurrgentCare.services;
 
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
-import com.VetApp.PurrgentCare.models.Account;
+import com.VetApp.PurrgentCare.dtos.PetResponse;
 import com.VetApp.PurrgentCare.models.Pet;
 import com.VetApp.PurrgentCare.repositories.PetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -28,59 +30,65 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class PetServiceImplementationTest {
 
+    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
     private PetServiceImplementation serviceUnderTest;
-
     @Mock
     private PetRepository mockPetRepository;
-
-    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
-
+    @Mock
+    private ModelMapper mockMapper;
+    @Captor
+    private ArgumentCaptor<Pet> petCaptor;
 
     @BeforeEach
     public void setup() {
-        this.serviceUnderTest = new PetServiceImplementation(mockPetRepository);
+        this.serviceUnderTest = new PetServiceImplementation(mockPetRepository, mockMapper);
     }
 
     @Test
     public void getPet_whenExist_returnOnePet() {
         // given
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
-                final var fakePet = fakeDataGenerator.generatePet(fakePetId);
+        final var fakePet = fakeDataGenerator.generateFakePet();
+        final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
         given(mockPetRepository.findById(fakePetId)).willReturn(Optional.of(fakePet));
+        given(mockMapper.map(Optional.of(fakePet), PetResponse.class)).willReturn(fakePetResponse);
 
         // when
         final var actual = serviceUnderTest.getPet(fakePetId);
 
         // then
-        then(actual).isEqualTo(fakePet);
+        then(actual).isEqualTo(fakePetResponse);
     }
 
+    @Test
+    public void getPet_whenNotExist_returnEmptyPetResponse() {
+        // given
+        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakePetResponse = new PetResponse();
+        given(mockPetRepository.findById(fakePetId)).willReturn(Optional.empty());
 
-//        //*TODO @Test public void getPet_whenNotExist_returnDefaultPet() {
-//            // given
-//            final var fakePet = mock(Pet.class);
-//            final var fakePetId = fakePet.getId();
-//            given(mockPetRepository.findById(fakePetId))
-//                    .
-//
-//            // when
-//          serviceUnderTest.getPet(fake);
-//
-//            // then
-//            then(actual).isEqualTo(fakePet);
-//  }
+        // when
+        final var actual = serviceUnderTest.getPet(fakePetId);
+
+        // then
+        then(actual).isInstanceOf(PetResponse.class);
+        then(actual).usingRecursiveComparison().isEqualTo(fakePetResponse);
+    }
 
     @Test
     public void addPet_whenValidInput_returnsValidInput() {
         // given
-        final var fakePetId = fakeDataGenerator.generateRandomInteger();
-        final var fakePet = fakeDataGenerator.generatePet(fakePetId);
+        final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
+        final var fakePet = fakeDataGenerator.generateFakePet();
+        final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
+        given(mockMapper.map(fakePetRequest, Pet.class)).willReturn(fakePet);
+        given(mockMapper.map(fakePet, PetResponse.class)).willReturn(fakePetResponse);
 
         // when
-        serviceUnderTest.addPet(fakePet);
+        final var actual = serviceUnderTest.addPet(fakePetRequest);
 
         // then
-        verify(mockPetRepository, times(1)).save(fakePet);
+        then(actual).isEqualTo(fakePetResponse);
     }
 
     @Test
@@ -100,83 +108,78 @@ public class PetServiceImplementationTest {
     @Test
     public void getAllPets_withValidInput_returnsAllPets() {
         // given
-        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
-        final var expected = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
-        given(mockPetRepository.findAll())
-                .willReturn(expected);
+        final var numberOfPets = 3;
+        final var fakePets = fakeDataGenerator.generateFakePetList(numberOfPets);
+        final List<PetResponse> fakePetResponses = fakeDataGenerator.generateFakePetResponses(numberOfPets);
+
+        given(mockPetRepository.findAll()).willReturn(fakePets);
+        for (var i = 0; i < numberOfPets; i++) {
+            given(mockMapper.map(fakePets.get(i), PetResponse.class))
+                    .willReturn(fakePetResponses.get(i));
+        }
 
         // when
         final var actual = serviceUnderTest.getAllPets();
 
         // then
-        then(actual).isEqualTo(expected);
-        then(actual).hasSize(fakeCountOfFakePets);
+        then(actual).isEqualTo(fakePetResponses);
+        then(actual).hasSize(fakePetResponses.size());
     }
 
     @Test
     public void getAllPets_whenNoPets_returnsEmptyList() {
         // given
-        final var expected = fakeDataGenerator.generatePetList(0);
-        given(mockPetRepository.findAll())
-                .willReturn(expected);
+        final var fakePets = new ArrayList<Pet>();
+        final List<PetResponse> fakePetResponses = new ArrayList<>();
+        given(mockPetRepository.findAll()).willReturn(fakePets);
 
         // when
         final var actual = serviceUnderTest.getAllPets();
+        verify(mockMapper, never()).map(any(), eq(PetResponse.class));
 
         // then
-        then(actual).isEqualTo(expected);
+        then(actual).isEqualTo(fakePetResponses);
     }
-
-
 
 
     @Test
     public void updatePet_whenPetExists_returnsUpdatedPet() {
         // given
+        final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
-        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
-        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
-        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePersonList);
-        final var fakeOriginalPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
-        final var fakeUpdatedPet = new Pet(fakePetId, "Maggie", "Dog", 3, "Female", fakeAccount);
+        final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
+        final var fakeUpdatedPet = fakeDataGenerator.generateFakePet();
+        fakeUpdatedPet.setId(fakeOriginalPet.getId());
+        final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
+        given(mockMapper.map(fakePetRequest, Pet.class)).willReturn(fakeUpdatedPet);
         given(mockPetRepository.findById(fakePetId))
                 .willReturn(Optional.of(fakeOriginalPet));
-        when(mockPetRepository.save(any(Pet.class)))
-                .thenReturn(fakeUpdatedPet);
+        given(mockPetRepository.save(fakeOriginalPet))
+                .willReturn(fakeUpdatedPet);
+        given(mockMapper.map(fakeUpdatedPet, PetResponse.class)).willReturn(fakePetResponse);
 
         // when
-        final var actual = serviceUnderTest.updatePet(fakeUpdatedPet, fakePetId);
+        final var actual = serviceUnderTest.updatePet(fakePetRequest, fakePetId);
 
         // then
+        verify(mockPetRepository).save(petCaptor.capture());
+        assertThat(petCaptor.getValue()).usingRecursiveComparison().isEqualTo(fakeUpdatedPet);
         assertThat(actual)
                 .usingRecursiveComparison()
-                .isEqualTo(fakeOriginalPet);
+                .isEqualTo(fakePetResponse);
     }
 
     @Test
     public void updatePet_whenPetNotExists_throwEntityNotFoundException() {
         // given
+        final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
-        final var fakePetList = fakeDataGenerator.generatePetList(fakeCountOfFakePets);
-        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
-        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
-        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakeAccount = fakeDataGenerator.generateAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePersonList);
-        final var fakeUpdatedPet = new Pet(fakePetId, "Tiger", "Cat", 2, "Male", fakeAccount);
         given(mockPetRepository.findById(fakePetId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePetId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.updatePet(fakeUpdatedPet, fakePetId);
+            serviceUnderTest.updatePet(fakePetRequest, fakePetId);
         });
         then(exception.getMessage()).contains(String.valueOf(fakePetId));
     }

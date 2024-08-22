@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity(name = "Account") // Specified that this is a DATABASE Entity
 public class Account {
 
@@ -19,18 +20,14 @@ public class Account {
     @Id // Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto Generate Values
     private Integer id;
-    @Setter
     private Boolean active;
-    @Setter
     private Date dateCreated;
 
     @JsonManagedReference
-    @Setter
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "account", orphanRemoval = true)
     private List<Person> accountHolders;
     @JsonManagedReference
-    @Setter
     @OneToMany(cascade = CascadeType.REMOVE,
             mappedBy = "account", orphanRemoval = true)
     private List<Pet> pets;

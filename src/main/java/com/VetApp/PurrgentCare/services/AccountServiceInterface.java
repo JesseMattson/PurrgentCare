@@ -1,26 +1,25 @@
 package com.VetApp.PurrgentCare.services;
 
+import com.VetApp.PurrgentCare.dtos.AccountRequest;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
-import com.VetApp.PurrgentCare.models.Account;
-import com.VetApp.PurrgentCare.models.Person;
 
 import java.util.List;
 
 public interface AccountServiceInterface {
 
 
-    Account getAccount(Integer personId);
+    AccountResponse getAccount(Integer accountId);
 
-    List<Account> getAllAccounts();
+    List<AccountResponse> getAllAccounts();
 
-    Account addAccount(Account account);
+    AccountResponse addAccount(AccountRequest accountRequest);
 
-    void deleteAccount(Integer personId);
+    void deleteAccount(Integer accountId);
 
-    Account updateAccount(Account account, Integer personId);
+    AccountResponse updateAccount(AccountRequest accountRequest, Integer accountId);
 
-    Account accountToggle(Integer accountId);
+    AccountResponse accountToggle(Integer accountId);
 
     AccountResponse associatePeople(AssociatePeopleWithAccountRequest associatePeopleWithAccountRequest);
 }

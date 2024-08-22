@@ -31,7 +31,8 @@ start-backend:
 	make build-backend
 	mvn spring-boot:run
 
-test-backend-pipeline: compile-backend test-backend test-postman container-backend
+#TODO use docker to run application so we can run postman without needing two terminals
+test-backend-pipeline: compile-backend test-backend container-backend
 ## End Backend section
 
 ## Docker section
@@ -45,9 +46,11 @@ build-ui:
 	npm --prefix ${UI_DIRECTORY} install ${UI_DIRECTORY}
 
 test-ui:
-	npm test --prefix ${UI_DIRECTORY} -- --coverage
+	npm run test --prefix ${UI_DIRECTORY} --coverage
 
 start-ui:
 	make build-ui
 	npm start --prefix ${UI_DIRECTORY}
+
+test-ui-pipeline: build-ui test-ui
 ## End UI Section

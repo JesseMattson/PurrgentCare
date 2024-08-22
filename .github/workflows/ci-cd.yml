@@ -12,6 +12,11 @@ permissions:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ '21' ]
+        java-distribution: [ 'temurin' ]
+        node-version: [ '20' ]
 
     services:
       mysql:
@@ -36,8 +41,8 @@ jobs:
       - name: Setup JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ matrix.java-distribution }}
           cache: maven
 
       - name: Build with Maven
@@ -60,18 +65,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: ${{ matrix.node-version }}
 
       - name: Install Newman
         run: npm install -g newman
 
       - name: Run Postman Collection
         env:
-          PERSONS_BASE_URL: http://localhost:8080/persons
-          PET_BASE_URL: http://localhost:8080/pets
-          ACCOUNT_BASE_URL: http://localhost:8080/accounts
+          PERSONS_BASE_URL: ${{ secrets.PERSONS_BASE_URL }}
+          PETS_BASE_URL: ${{ secrets.PETS_BASE_URL }}
+          ACCOUNTS_BASE_URL: ${{ secrets.ACCOUNTS_BASE_URL }}
         run: |
-          newman run PurrgentCare.postman_collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PET_BASE_URL" --env-var "accountBaseURL=$ACCOUNT_BASE_URL"
+          newman run PurrgentCare.postman_collection.json --env-var "personsBaseURL=$PERSONS_BASE_URL" --env-var "petBaseURL=$PETS_BASE_URL" --env-var "accountBaseURL=$ACCOUNTS_BASE_URL"
 
       - name: Stop Spring Boot application
         run: kill $(cat spring-boot.pid)
