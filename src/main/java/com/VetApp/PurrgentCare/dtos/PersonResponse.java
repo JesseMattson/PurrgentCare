@@ -9,8 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 public class PersonResponse {
 
-    public Integer id;
+    private Integer id;
 
-    public String name;
+    private String name;
 
 }

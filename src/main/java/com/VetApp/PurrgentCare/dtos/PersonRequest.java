@@ -11,5 +11,5 @@ import lombok.*;
 public class PersonRequest {
 
 
-    public String name;
+    private String name;
 }
