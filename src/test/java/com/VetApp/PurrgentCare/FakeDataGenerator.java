@@ -5,34 +5,12 @@ import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import org.instancio.Instancio;
-import org.instancio.Model;
-import org.instancio.generators.Generators;
 
 import java.util.Date;
 import java.util.List;
 
-import static org.instancio.Select.field;
-
 
 public class FakeDataGenerator {
-    /////
-    //Instancio Models
-    /////
-    Model<Pet> petModel = Instancio.of(Pet.class)
-            .generate(field(Pet::getId), Generators::ints)
-            .generate(field(Pet::getName), Generators::string)
-            .generate(field(Pet::getType), Generators::string)
-            .generate(field(Pet::getAge), Generators::ints)
-            .generate(field(Pet::getGender), Generators::string)
-            .toModel();
-//    Model<Pet> petModel = Instancio.of(Pet.class)
-//            .generate(field(Pet::getId), Generators::ints)
-//            .generate(field(Pet::getName), Generators::string)
-//            .generate(field(Pet::getType), Generators::string)
-//            .generate(field(Pet::getAge), Generators::ints)
-//            .generate(field(Pet::getGender), Generators::string)
-//            .toModel();
-
     /////
     //General Types
     /////

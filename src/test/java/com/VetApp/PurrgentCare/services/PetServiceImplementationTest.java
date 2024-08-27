@@ -148,9 +148,12 @@ public class PetServiceImplementationTest {
         final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
-        final var fakeUpdatedPet = fakeDataGenerator.generateFakePet();
-        fakeUpdatedPet.setId(fakeOriginalPet.getId());
-        fakeUpdatedPet.setAccount(fakeOriginalPet.getAccount());
+        final var fakeUpdatedPet = fakeOriginalPet.toBuilder()
+                .name(fakePetRequest.getName())
+                .type(fakePetRequest.getType())
+                .age(fakePetRequest.getAge())
+                .gender(fakePetRequest.getGender())
+                .build();
         final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
         given(mockMapper.map(fakePetRequest, Pet.class)).willReturn(fakeUpdatedPet);
         given(mockPetRepository.findById(fakePetId))
