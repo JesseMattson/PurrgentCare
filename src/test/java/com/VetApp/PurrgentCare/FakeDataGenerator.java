@@ -8,10 +8,8 @@ import org.instancio.Instancio;
 import org.instancio.Model;
 import org.instancio.generators.Generators;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import static org.instancio.Select.field;
 
@@ -90,134 +88,55 @@ public class FakeDataGenerator {
     /////
 
     public Person generateFakePerson() {
-
-        return Person.builder()
-                .id(generateRandomInteger())
-                .name(generateRandomString())
-                .build();
+        return Instancio.of(Person.class).create();
     }
 
     public List<Person> generateFakePersonList(Integer countOfFakePerson) {
-        List<Person> fakePeopleList = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= countOfFakePerson) {
-            var fakePerson = generateFakePerson();
-            fakePeopleList.add(fakePerson);
-            i++;
-        }
-        return fakePeopleList;
+        return Instancio.ofList(Person.class).size(countOfFakePerson).create();
     }
 
     public List<Person> generateDefaultPersonList() {
-        final var numberFakePersons = new Random().nextInt(1, 5);
-        return generateFakePersonList(numberFakePersons);
+        return Instancio.ofList(Person.class).create();
     }
 
     public PersonRequest generateFakePersonRequest() {
-        return PersonRequest.builder().name(generateRandomString()).build();
+        return Instancio.of(PersonRequest.class).create();
     }
 
     public PersonResponse generateFakePersonResponse() {
-
-        return PersonResponse.builder().
-                id(generateRandomInteger()).
-                name(generateRandomString()).
-                build();
+        return Instancio.of(PersonResponse.class).create();
     }
 
     public List<PersonResponse> generateFakePersonResponseList(Integer countOfFakePersonResponses) {
-        List<PersonResponse> fakePersonResponseList = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= countOfFakePersonResponses) {
-            var fakePersonResponse = generateFakePersonResponse();
-            fakePersonResponseList.add(fakePersonResponse);
-            i++;
-        }
-        return fakePersonResponseList;
+        return Instancio.ofList(PersonResponse.class).size(countOfFakePersonResponses).create();
     }
 
     /////
     //Account Types
     /////
 
-    public Account generateFakeAccount(Integer fakeAccountId, Boolean fakeActive, Date
-            fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
-        return Account.builder().id(fakeAccountId).active(fakeActive).dateCreated(fakeDateCreated).pets(fakePets).accountHolders(makeListMutable(fakeAccountHolders)).build();
-    }
-
     public Account generateDefaultAccount() {
-        return Account.builder()
-                .id(generateRandomInteger())
-                .active(generateRandomBoolean())
-                .dateCreated(generateRandomDate())
-                .pets(generateDefaultPetList())
-                .accountHolders(generateDefaultPersonList())
-                .build();
-    }
-
-    public List<Account> generateFakeAccountList(Integer countOfFakeAccounts) {
-        List<Account> fakeAccountList = new ArrayList<>(List.of());
-        var i = 1;
-        while (i <= countOfFakeAccounts) {
-            var fakeAccount = generateFakeAccount(generateRandomInteger(), generateRandomBoolean(), generateRandomDate(), generateDefaultPetList(), generateFakePersonList(generateRandomInteger()));
-            fakeAccountList.add(fakeAccount);
-            i++;
-        }
-        return fakeAccountList;
+        return Instancio.of(Account.class).create();
     }
 
     public List<Account> generateDefaultAccountList() {
-        final var numberFakeAccounts = new Random().nextInt(1, 5);
-        return generateFakeAccountList(numberFakeAccounts);
+        return Instancio.ofList(Account.class).create();
     }
 
     public AccountRequest generateFakeAccountRequest() {
-        return AccountRequest.builder().active(generateRandomBoolean()).dateCreated(generateRandomDate()).build();
+        return Instancio.of(AccountRequest.class).create();
 
-    }
-
-    public AccountResponse generateFakeAccountResponse(Integer fakeId, Boolean fakeActive, Date
-            fakeDateCreated, List<Pet> fakePets, List<Person> fakeAccountHolders) {
-        return AccountResponse.builder()
-                .id(fakeId)
-                .active(fakeActive)
-                .dateCreated(fakeDateCreated)
-                .pets(fakePets)
-                .accountHolders(fakeAccountHolders)
-                .build();
     }
 
     public AccountResponse generateDefaultAccountResponse() {
-        return AccountResponse.builder()
-                .id(generateRandomInteger())
-                .active(generateRandomBoolean())
-                .dateCreated(generateRandomDate())
-                .pets(generateDefaultPetList())
-                .accountHolders(generateDefaultPersonList())
-                .build();
+        return Instancio.of(AccountResponse.class).create();
     }
 
     public List<AccountResponse> generateFakeAccountResponseList(int count) {
-        var fakeAccountResponses = new ArrayList<AccountResponse>();
-        for (var i = 0; i < count; i++) {
-            fakeAccountResponses.add(generateDefaultAccountResponse());
-        }
-        return fakeAccountResponses;
+        return Instancio.ofList(AccountResponse.class).size(count).create();
     }
 
-    public AssociatePeopleWithAccountRequest generateFakeAssociatePeopleWithAccountRequest(Integer
-                                                                                                   fakeAccountId, List<Integer> fakePersonIds) {
-        final var request = new AssociatePeopleWithAccountRequest();
-        request.accountId = fakeAccountId;
-        request.personIds = fakePersonIds;
-        return request;
+    public AssociatePeopleWithAccountRequest generateFakeAssociatePeopleWithAccountRequest() {
+        return Instancio.of(AssociatePeopleWithAccountRequest.class).create();
     }
-
-    /////
-    //Helper Methods
-    /////
-    public <T> List<T> makeListMutable(List<? extends T> inputList) {
-        return new ArrayList<>(inputList);
-    }
-
 }
