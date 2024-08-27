@@ -5,13 +5,36 @@ import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import org.instancio.Instancio;
+import org.instancio.Model;
+import org.instancio.generators.Generators;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import static org.instancio.Select.field;
+
+
 public class FakeDataGenerator {
+    /////
+    //Instancio Models
+    /////
+    Model<Pet> petModel = Instancio.of(Pet.class)
+            .generate(field(Pet::getId), Generators::ints)
+            .generate(field(Pet::getName), Generators::string)
+            .generate(field(Pet::getType), Generators::string)
+            .generate(field(Pet::getAge), Generators::ints)
+            .generate(field(Pet::getGender), Generators::string)
+            .toModel();
+//    Model<Pet> petModel = Instancio.of(Pet.class)
+//            .generate(field(Pet::getId), Generators::ints)
+//            .generate(field(Pet::getName), Generators::string)
+//            .generate(field(Pet::getType), Generators::string)
+//            .generate(field(Pet::getAge), Generators::ints)
+//            .generate(field(Pet::getGender), Generators::string)
+//            .toModel();
+
     /////
     //General Types
     /////
@@ -35,46 +58,31 @@ public class FakeDataGenerator {
     //Pet Types
     /////
     public Pet generateFakePet() {
-        return Pet.builder()
-                .id(generateRandomInteger())
-                .name(generateRandomString())
-                .type(generateRandomString())
-                .age(generateRandomInteger())
-                .gender(generateRandomString())
-                .build();
+        return Instancio.of(Pet.class).create();
     }
 
     public List<Pet> generateFakePetList(int count) {
-        var fakePetList = new ArrayList<Pet>();
-        for (int i = 0; i < count; i++) {
-            fakePetList.add(generateFakePet());
-        }
-        return fakePetList;
+        return Instancio.ofList(Pet.class).size(count).create();
     }
 
     public List<Pet> generateDefaultPetList() {
-        var fakeNumberOfPets = new Random().nextInt(1, 5);
-        return generateFakePetList(fakeNumberOfPets);
+        return Instancio.ofList(Pet.class).create();
     }
 
     public PetRequest generateFakePetRequest() {
-        return PetRequest.builder().name(generateRandomString()).type(generateRandomString()).age(generateRandomInteger()).gender(generateRandomString()).build();
+        return Instancio.of(PetRequest.class).create();
     }
 
     public PetResponse generateFakePetResponse() {
-        return PetResponse.builder().id(generateRandomInteger()).name(generateRandomString()).type(generateRandomString()).age(generateRandomInteger()).gender(generateRandomString()).build();
+        return Instancio.of(PetResponse.class).create();
     }
 
     public List<PetResponse> generateFakePetResponses(int count) {
-        var fakePetResponses = new ArrayList<PetResponse>();
-        for (var i = 0; i < count; i++) {
-            fakePetResponses.add(generateFakePetResponse());
-        }
-        return fakePetResponses;
+        return Instancio.ofList(PetResponse.class).size(count).create();
     }
 
     public List<PetResponse> generateDefaultFakePetResponses() {
-        return generateFakePetResponses(5);
+        return Instancio.ofList(PetResponse.class).create();
     }
 
     /////

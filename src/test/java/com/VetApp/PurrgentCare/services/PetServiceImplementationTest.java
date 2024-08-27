@@ -150,6 +150,7 @@ public class PetServiceImplementationTest {
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
         final var fakeUpdatedPet = fakeDataGenerator.generateFakePet();
         fakeUpdatedPet.setId(fakeOriginalPet.getId());
+        fakeUpdatedPet.setAccount(fakeOriginalPet.getAccount());
         final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
         given(mockMapper.map(fakePetRequest, Pet.class)).willReturn(fakeUpdatedPet);
         given(mockPetRepository.findById(fakePetId))
