@@ -1,14 +1,18 @@
 package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
+import com.VetApp.PurrgentCare.dtos.PersonResponse;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -17,22 +21,32 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceImplementationTest {
 
-    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
     // Visibility (private) Type (PersonServiceImpl) Name(serviceUnderTest)
     private PersonServiceImplementation serviceUnderTest;
+
     @Mock
     private PersonRepository mockPersonRepository;
+
+    @Mock
+    private ModelMapper mockMapper;
+
+    @Captor
+    private ArgumentCaptor<Person> personCaptor;
+
+
+    private final FakeDataGenerator fakeDataGenerator = new FakeDataGenerator();
 
     @BeforeEach
     // Allows serviceUnderTest to use new Instance (class) for each test.
     public void setup() {
-        this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository);
+        this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository, mockMapper);
     }
 
     @Test
@@ -40,38 +54,44 @@ public class PersonServiceImplementationTest {
         // given
 
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
-        given(mockPersonRepository.findById(fakePersonId))
-                .willReturn(Optional.of(fakePerson));
+        final var fakePerson = fakeDataGenerator.generateFakePerson();
+        final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
+        given(mockPersonRepository.findById(fakePersonId)).willReturn(Optional.of(fakePerson));
+        given(mockMapper.map(Optional.of(fakePerson), PersonResponse.class)).willReturn(fakePersonResponse);
 
         // when
         final var actual = serviceUnderTest.getPerson(fakePersonId);
 
         // then
-        then(actual).isEqualTo(fakePerson);
+        then(actual).isEqualTo(fakePersonResponse);
     }
+// ToDo: getPerson_whenNotExist_returnEmptyPersonResponse TEST
 
     @Test
     public void getAllPersons_withValidInput_returnsAllPersons() {
         // given
         final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
-        final var expected = fakeDataGenerator.generatePersonList(fakeCountOfFakePerson);
+        final var fakePersonList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePerson);
+        final var expected = fakeDataGenerator.generateFakePersonResponseList(fakeCountOfFakePerson);
         given(mockPersonRepository.findAll())
-                .willReturn(expected);
-
+                .willReturn(fakePersonList);
+        for (int i = 0; i < fakePersonList.size(); i++) {
+            given(mockMapper.map(fakePersonList.get(i), PersonResponse.class))
+                    .willReturn((expected.get(i)));
+        }
         // when
         final var actual = serviceUnderTest.getAllPersons();
 
         // then
         then(actual).isEqualTo(expected);
-        then(actual).hasSize(fakeCountOfFakePerson);
+        then(actual).hasSize(fakePersonList.size());
     }
 
     @Test
     public void getAllPersons_whenNoPersons_returnsEmptyList() {
         // given
         final var fakeCountOfFakePersons = 0;
-        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
+        final var fakePersonList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePersons);
         final var expected = fakePersonList;
         given(mockPersonRepository.findAll())
                 .willReturn(expected);
@@ -87,17 +107,19 @@ public class PersonServiceImplementationTest {
     public void addPerson_whenValidInput_returnsValidInput() {
         // given
         // any mocks we need to simulate a person/repo etc
-
-        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakePerson = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePersonRequest = fakeDataGenerator.generateFakePersonRequest();
+        final var fakePerson = fakeDataGenerator.generateFakePerson();
+        final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
+        given(mockMapper.map(fakePersonRequest, Person.class)).willReturn(fakePerson);
+        given(mockMapper.map(fakePerson, PersonResponse.class)).willReturn(fakePersonResponse);
 
         // when
         // Mocked Person added
-        serviceUnderTest.addPerson(fakePerson);
+        final var actual = serviceUnderTest.addPerson(fakePersonRequest);
 
         // then
         // check repo to see if person was added once
-        verify(mockPersonRepository, times(1)).save(fakePerson);
+        then(actual).isEqualTo(fakePersonResponse);
     }
 
     @Test
@@ -117,49 +139,35 @@ public class PersonServiceImplementationTest {
     public void updatePerson_whenPersonExists_returnsUpdatedPerson() {
         // given
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
-        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
-        final var fakeListPersons = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
-        final var fakeListPets = fakeDataGenerator.generateDefaultPetList();
-        final var fakeAccount = fakeDataGenerator.generateFakeAccount(fakeAccountId, fakeActive, fakeDateCreated, fakeListPets, fakeListPersons);
-        final var fakeOriginalPerson = new Person(fakePersonId, "John notTest", fakeAccount);
-        final var fakeUpdatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
-        given(mockPersonRepository.findById(fakePersonId))
-                .willReturn(Optional.of(fakeOriginalPerson));
-        when(mockPersonRepository.save(any(Person.class)))
-                .thenReturn(fakeUpdatedPerson);
+        final var fakeOriginalPerson = fakeDataGenerator.generateFakePerson();
+        final var fakeUpdatedPerson = fakeDataGenerator.generateFakePerson();
+        fakeUpdatedPerson.setId(fakeOriginalPerson.getId());
+        final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
+        final var fakePersonRequest = fakeDataGenerator.generateFakePersonRequest();
+        given(mockPersonRepository.findById(fakePersonId)).willReturn(Optional.of(fakeOriginalPerson));
+        given(mockPersonRepository.save(fakeOriginalPerson)).willReturn(fakeUpdatedPerson);
+        given(mockMapper.map(fakePersonRequest, Person.class)).willReturn(fakeUpdatedPerson);
+        given(mockMapper.map(fakeUpdatedPerson, PersonResponse.class)).willReturn(fakePersonResponse);
 
         // when
-        final var actual = serviceUnderTest.updatePerson(fakeUpdatedPerson, fakePersonId);
+        final var actual = serviceUnderTest.updatePerson(fakePersonRequest, fakePersonId);
 
         // then
-        assertThat(actual)
-                .usingRecursiveComparison()
-                .isEqualTo(fakeOriginalPerson);
+        verify(mockPersonRepository).save(personCaptor.capture());
+        assertThat(personCaptor.getValue().getName()).isEqualTo(fakeUpdatedPerson.getName());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(fakePersonResponse);
     }
 
     @Test
     public void updatePerson_whenPersonNotExists_throwEntityNotFoundException() {
         // given
+        final var fakePersonRequest = fakeDataGenerator.generateFakePersonRequest();
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
-        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakeCountOfFakePersons = fakeDataGenerator.generateRandomInteger();
-        final var fakeCountOfFakePets = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonList = fakeDataGenerator.generatePersonList(fakeCountOfFakePersons);
-        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
-        final var fakeAccount = fakeDataGenerator.generateFakeAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, fakePersonList);
-        final var updatedPerson = new Person(fakePersonId, "Gerald Test", fakeAccount);
-        given(mockPersonRepository.findById(fakePersonId))
-                .willThrow(new EntityNotFoundException(String.valueOf(fakePersonId)));
+        given(mockPersonRepository.findById(fakePersonId)).willThrow(new EntityNotFoundException(String.valueOf(fakePersonId)));
 
         // when && then
         final var exception = assertThrows(EntityNotFoundException.class, () -> {
-            serviceUnderTest.updatePerson(updatedPerson, fakePersonId);
+            serviceUnderTest.updatePerson(fakePersonRequest, fakePersonId);
         });
         then(exception.getMessage()).contains(String.valueOf(fakePersonId));
     }

@@ -82,7 +82,7 @@ public class AccountServiceImplementationTest {
     public void getAllAccounts_withValidInput_returnsAllAccounts() {
         // given
         final var fakeAccounts = fakeDataGenerator.generateDefaultAccountList();
-        final var fakeAccountResponses = fakeDataGenerator.generateFakeAccountResponses(fakeAccounts.size());
+        final var fakeAccountResponses = fakeDataGenerator.generateFakeAccountResponseList(fakeAccounts.size());
         given(mockAccountRepository.findAll())
                 .willReturn(fakeAccounts);
         for (var i = 0; i < fakeAccounts.size(); i++) {
@@ -226,11 +226,11 @@ public class AccountServiceImplementationTest {
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
 
         // Build request object
-        final var fakeRequest = fakeDataGenerator.generateAssociatePeopleWithAccountRequest(fakeAccountId, List.of(fakePersonId, fakePersonId2));
+        final var fakeRequest = fakeDataGenerator.generateFakeAssociatePeopleWithAccountRequest(fakeAccountId, List.of(fakePersonId, fakePersonId2));
 
         // Build person objects
-        final var fakePerson1 = fakeDataGenerator.generatePerson(fakePersonId);
-        final var fakePerson2 = fakeDataGenerator.generatePerson(fakePersonId2);
+        final var fakePerson1 = fakeDataGenerator.generateFakePerson();
+        final var fakePerson2 = fakeDataGenerator.generateFakePerson();
 
         // Build pet object
         final var fakePet1 = fakeDataGenerator.generateFakePet();
@@ -263,7 +263,7 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
-    public void accountResponse_whenAccountNotExists_throwEntityNotFoundException() {
+    public void associatePeople_whenAccountNotExists_throwEntityNotFoundException() {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
@@ -275,7 +275,7 @@ public class AccountServiceImplementationTest {
         fakeRequest.personIds = fakePeopleIdList;
 
         // Build person object
-        final var fakePerson1 = fakeDataGenerator.generatePerson(fakePersonId);
+        final var fakePerson1 = fakeDataGenerator.generateFakePerson();
 
         // Build pet object
         final var fakePet1 = fakeDataGenerator.generateFakePet();
