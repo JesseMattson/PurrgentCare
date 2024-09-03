@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @Entity(name = "Pet")

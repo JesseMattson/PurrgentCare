@@ -4,6 +4,7 @@ import com.VetApp.PurrgentCare.FakeDataGenerator;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
 import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
+import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -217,39 +218,31 @@ public class AccountServiceImplementationTest {
     @Test
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
 
-        // Variables used everywhere
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonId2 = fakeDataGenerator.generateRandomInteger();
-        final var fakeActive = fakeDataGenerator.generateRandomBoolean();
-        final var fakeDateCreated = fakeDataGenerator.generateRandomDate();
-        final var fakePetId = fakeDataGenerator.generateRandomInteger();
-
         // Build request object
-        final var fakeRequest = fakeDataGenerator.generateFakeAssociatePeopleWithAccountRequest(fakeAccountId, List.of(fakePersonId, fakePersonId2));
-
-        // Build person objects
-        final var fakePerson1 = fakeDataGenerator.generateFakePerson();
-        final var fakePerson2 = fakeDataGenerator.generateFakePerson();
-
-        // Build pet object
-        final var fakePet1 = fakeDataGenerator.generateFakePet();
-        fakePet1.setId(fakePetId);
-
-        // Build list objects
-        final var fakePetList = fakeDataGenerator.generateDefaultPetList();
+        final var fakeRequest = fakeDataGenerator.generateFakeAssociatePeopleWithAccountRequest();
+        final var fakePersons = fakeDataGenerator.generateDefaultPersonList();
 
         // Build original account object
-        final var fakeOriginalAccount = fakeDataGenerator.generateFakeAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1));
+        final var fakeOriginalAccount = fakeDataGenerator.generateDefaultAccount();
+
+        //Build updated list of accountholders
+        final var fakeUpdatedAccountHolders = new ArrayList<Person>();
+        fakeUpdatedAccountHolders.addAll(fakeOriginalAccount.getAccountHolders());
+        fakeUpdatedAccountHolders.addAll(fakePersons);
 
         // Build updated account object
-        final var fakeUpdatedAccount = fakeDataGenerator.generateFakeAccount(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1, fakePerson2));
+        final var fakeUpdatedAccount = fakeOriginalAccount
+                .toBuilder()
+                .accountHolders(fakeUpdatedAccountHolders)
+                .build();
 
         // Build account response object
-        final var fakeAccountResponse = fakeDataGenerator.generateFakeAccountResponse(fakeAccountId, fakeActive, fakeDateCreated, fakePetList, List.of(fakePerson1, fakePerson2));
+        final var fakeAccountResponse = fakeDataGenerator.generateDefaultAccountResponse();
+        fakeAccountResponse.setAccountHolders(fakeUpdatedAccountHolders);
+
         // Configure mocks for every call on dependencies within the service
-        given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(List.of(fakePerson1, fakePerson2));
-        given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeOriginalAccount));
+        given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(fakePersons);
+        given(mockAccountRepository.findById(fakeRequest.accountId)).willReturn(Optional.of(fakeOriginalAccount));
         given(mockAccountRepository.save(fakeOriginalAccount)).willReturn(fakeUpdatedAccount);
         given(mockMapper.map(fakeUpdatedAccount, AccountResponse.class)).willReturn(fakeAccountResponse);
 

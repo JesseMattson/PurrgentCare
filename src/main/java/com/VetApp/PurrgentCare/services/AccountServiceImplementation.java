@@ -91,8 +91,6 @@ public class AccountServiceImplementation implements AccountServiceInterface {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(accountId)));
         account.addAccountHolders(people);
-        //TODO can delete this if everything is good
-        //account.setAccountHolders(people);
         Account updatedAccount = accountRepository.save(account);
         AccountResponse accountResponse = mapper.map(updatedAccount, AccountResponse.class);
         return accountResponse;
