@@ -48,8 +48,8 @@ public class PersonServiceImplementationTest {
     public void getPerson_whenExist_returnOnePerson() {
         // given
 
-        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
         final var fakePerson = fakeDataGenerator.generateFakePerson();
+        final var fakePersonId = fakePerson.getId();
         final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
         given(mockPersonRepository.findById(fakePersonId)).willReturn(Optional.of(fakePerson));
         given(mockMapper.map(Optional.of(fakePerson), PersonResponse.class)).willReturn(fakePersonResponse);
