@@ -69,8 +69,9 @@ public class FakeDataGenerator {
         return Instancio.of(Person.class).create();
     }
 
-    public List<Person> generateFakePersonList(Integer countOfFakePerson) {
-        return Instancio.ofList(Person.class).size(countOfFakePerson).create();
+    public List<Person> generateFakePersonList() {
+        int fakeCountOfFakePersons = Instancio.gen().ints().get();
+        return Instancio.ofList(Person.class).size(fakeCountOfFakePersons).create();
     }
 
     public List<Person> generateDefaultPersonList() {
