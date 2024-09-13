@@ -2,23 +2,31 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import AccountEdit from './AccountEdit';
-import { ACCOUNT_BASE_URL } from './constants';
+import { ACCOUNT_BASE_URL, PERSON_BASE_URL } from './constants';
 
-// Mock the fetch API
-global.fetch = jest.fn((url) => {
-    if (url.includes('1')) {
+// Mock the fetch API globally
+global.fetch = jest.fn();
+
+// Utility to mock fetch responses based on URL
+const mockFetchResponse = (url, data) => {
+    global.fetch.mockImplementationOnce((fetchUrl) => {
+        if (fetchUrl.includes(url)) {
+            return Promise.resolve({
+                json: () => Promise.resolve(data),
+            });
+        }
         return Promise.resolve({
-            json: () => Promise.resolve({
-                id: 1,
-                active: true,
-                dateCreated: '2023-01-01',
-            }),
+            json: () => Promise.resolve({}),
         });
-    }
-    return Promise.resolve({
-        json: () => Promise.resolve({}),
     });
-});
+};
+
+// Mock useNavigate globally
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockNavigate,
+}));
 
 const renderComponent = (initialEntries = [`${ACCOUNT_BASE_URL}/new`]) => {
     render(
@@ -30,54 +38,83 @@ const renderComponent = (initialEntries = [`${ACCOUNT_BASE_URL}/new`]) => {
     );
 };
 
-test('renders the AccountEdit component for adding a new account', () => {
-    renderComponent();
-
-    // Check that the title is "Add Account"
-    expect(screen.getByText('Add Account')).toBeInTheDocument();
-
-    // Check that the active input field is empty
-    const activeInput = screen.getByLabelText('Active');
-    expect(activeInput.value).toBe('');
+// Reset mocks before each test
+beforeEach(() => {
+    jest.clearAllMocks();
 });
 
-test('renders the AccountEdit component for editing an existing account', async () => {
-    const mockAccountData = { id: 1, active: true, dateCreated: '2023-01-01' };
+// Test for adding a new account
+test('renders the AccountEdit component for adding a new account', async () => {
+    // Mock the fetch call for persons (account holders dropdown)
+    mockFetchResponse(PERSON_BASE_URL, [
+        { id: 1, name: 'John Doe' },
+        { id: 2, name: 'Jane Smith' }
+    ]);
 
-    // Mock the fetch for existing account data
-    global.fetch.mockImplementationOnce(() =>
-        Promise.resolve({
-            json: () => Promise.resolve(mockAccountData),
-        })
-    );
+    renderComponent();
+
+    // Ensure fetch and state update completes
+    await waitFor(() => {
+        // Check that the title is "Add Account"
+        expect(screen.getByText('Add Account')).toBeInTheDocument();
+
+        // Check that the active input field is set to true by default
+        const activeInput = screen.getByLabelText('Active');
+        expect(activeInput.value).toBe('true');  // Expect 'true' as default value
+    });
+});
+
+// Test for editing an existing account
+test('renders the AccountEdit component for editing an existing account', async () => {
+    const mockAccountData = {
+        id: 1,
+        active: true,
+        dateCreated: '2023-01-01',
+        accountHolders: [{ id: '4' }]
+    };
+
+    // Mock the fetch calls for the existing account and persons
+    mockFetchResponse(`${ACCOUNT_BASE_URL}/1`, mockAccountData);
+    mockFetchResponse(PERSON_BASE_URL, [
+        { id: 1, name: 'John Doe' },
+        { id: 2, name: 'Jane Smith' }
+    ]);
 
     renderComponent([`${ACCOUNT_BASE_URL}/1`]);
 
-    // Check that the title is "Edit Account"
-    expect(await screen.findByText('Edit Account')).toBeInTheDocument();
+    // Wait for state updates and fetch to complete
+    await waitFor(async () => {
+        // Check that the title is "Edit Account"
+        expect(await screen.findByText('Edit Account')).toBeInTheDocument();
 
-    // Check that the active input field is populated with the fetched data
-    const activeInput = screen.getByLabelText('Active');
-    expect(activeInput.value).toBe(mockAccountData.active.toString());
+        // Check that the active input field is populated with the fetched data
+        const activeInput = screen.getByLabelText('Active');
+        expect(activeInput.value).toBe(mockAccountData.active.toString());
+    });
 });
 
-/* TOOD: Fix broken tests
+/* TODO: Fix these tests
+// Test for form submission
 test('submits the form and navigates back to the account list', async () => {
-    const mockNavigate = jest.fn();
+    const mockAccountData = { id: 1, active: true, dateCreated: '2023-01-01', accountHolders: [] };
 
-    global.fetch.mockImplementationOnce(() =>
-        Promise.resolve({
-            json: () => Promise.resolve({ id: 1, active: true }),
-        })
-    );
+    // Mock the fetch calls
+    mockFetchResponse(PERSON_BASE_URL, [
+        { id: 1, name: 'John Doe' },
+        { id: 2, name: 'Jane Smith' }
+    ]);
+    mockFetchResponse(`${ACCOUNT_BASE_URL}/1`, mockAccountData);
 
-    renderComponent();
+    renderComponent([`${ACCOUNT_BASE_URL}/1`]);
+
+    // Wait for the data to be loaded before interacting with the form
+    await waitFor(() => expect(screen.getByLabelText('Active')).toBeInTheDocument());
 
     // Change the active input
     const activeInput = screen.getByLabelText('Active');
     fireEvent.change(activeInput, { target: { value: 'false' } });
 
-    // Mock the fetch for the form submission
+    // Mock the fetch for form submission
     global.fetch.mockImplementationOnce(() =>
         Promise.resolve({
             status: 200,
@@ -88,17 +125,26 @@ test('submits the form and navigates back to the account list', async () => {
     const saveButton = screen.getByText('Save');
     fireEvent.click(saveButton);
 
-    // Wait for the navigation to occur
+    // Wait for the form submission and navigation
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith(`${ACCOUNT_BASE_URL}`));
 });
 
-test('navigates back to the account list when cancel is clicked', () => {
+// Test for cancel button functionality
+test('navigates back to the account list when cancel is clicked', async () => {
+    mockFetchResponse(PERSON_BASE_URL, [
+        { id: 1, name: 'John Doe' },
+        { id: 2, name: 'Jane Smith' }
+    ]);
+
     renderComponent();
+
+    // Wait for the data to be loaded
+    await waitFor(() => expect(screen.getByLabelText('Active')).toBeInTheDocument());
 
     const cancelButton = screen.getByText('Cancel');
     fireEvent.click(cancelButton);
 
     // Verify that navigation back to account list happened
-    expect(screen.getByText('Accounts')).toBeInTheDocument();
+    expect(mockNavigate).toHaveBeenCalledWith(`${ACCOUNT_BASE_URL}`);
 });
-*/
+ */
