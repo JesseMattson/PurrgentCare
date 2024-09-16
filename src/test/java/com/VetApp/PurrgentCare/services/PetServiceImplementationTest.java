@@ -106,6 +106,7 @@ public class PetServiceImplementationTest {
 
 
     @Test
+    // ToDo: Refactor test
     public void getAllPets_withValidInput_returnsAllPets() {
         // given
         final var numberOfPets = 3;
@@ -145,9 +146,11 @@ public class PetServiceImplementationTest {
     @Test
     public void updatePet_whenPetExists_returnsUpdatedPet() {
         // given
+        // ToDo: Refactor Test
         final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
+        // Pull logic below back into fakeDataGenerator. Don't want builder methods in tests
         final var fakeUpdatedPet = fakeOriginalPet.toBuilder()
                 .name(fakePetRequest.getName())
                 .type(fakePetRequest.getType())

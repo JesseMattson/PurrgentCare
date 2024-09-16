@@ -145,7 +145,8 @@ public class AccountServiceImplementationTest {
 
 
     @Test
-    public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
+    // ToDo: Refactor test
+        public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
         // given
         final var fakeAccountRequest = fakeDataGenerator.generateFakeAccountRequest();
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
@@ -169,6 +170,7 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
+
     public void updateAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
         final var fakeAccountRequest = fakeDataGenerator.generateFakeAccountRequest();
@@ -184,6 +186,8 @@ public class AccountServiceImplementationTest {
 
 
     @Test
+    // ToDo: Refactor test
+
     public void toggleAccount_whenAccountExists_returnsToggledAccount() {
         // given
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
@@ -216,6 +220,8 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
+    // ToDo: Refactor test
+
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
 
         // Build request object
@@ -256,6 +262,8 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
+    // ToDo: Refactor test
+
     public void associatePeople_whenAccountNotExists_throwEntityNotFoundException() {
         final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakePersonId = fakeDataGenerator.generateRandomInteger();
