@@ -44,6 +44,7 @@ public class PetServiceImplementationTest {
         this.serviceUnderTest = new PetServiceImplementation(mockPetRepository, mockMapper);
     }
 
+    // ToDo: Refactor test
     @Test
     public void getPet_whenExist_returnOnePet() {
         // given
@@ -60,6 +61,7 @@ public class PetServiceImplementationTest {
         then(actual).isEqualTo(fakePetResponse);
     }
 
+    // ToDo: Refactor test
     @Test
     public void getPet_whenNotExist_returnEmptyPetResponse() {
         // given
