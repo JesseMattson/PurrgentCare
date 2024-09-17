@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavBar';
 import { Link } from 'react-router-dom';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ACCOUNT_BASE_URL} from "./constants";
 import { format } from "date-fns";
 
@@ -47,6 +47,7 @@ const AccountList = () => {
             <td id="dateCreated" style={{ whiteSpace: 'nowrap' }}>{format(account.dateCreated, 'yyyy/MM/dd')}</td>
             <td>
                 <ButtonGroup>
+                    <Button size="sm" color="primary" tag={Link} to={`${ACCOUNT_BASE_URL}/${account.id}`}>Edit</Button>
                     <Button size="sm" color={account.active ? "danger" : "success"} onClick={() =>
                         toggle_status(account.id)}>{account.active ? "Disable" : "Enable"}</Button>
                 </ButtonGroup>

@@ -38,6 +38,13 @@ public class Account {
     }
 
     public void addAccountHolders(List<Person> accountHolders) {
+        /*TODO: Fix bug in logic here
+            SCENARIO: Initial account with accountHolder Ids: 4,5
+            ACTION: Update account to accountHolder 4.
+            RESULT: account.contains(id=4)
+                --> does not add account holder
+                --> also does not remove 5 from the account
+         */
         for (Person accountHolder : accountHolders) {
             if (!getAccountHolders().contains(accountHolder)) {
                 addAccountHolder(accountHolder);
