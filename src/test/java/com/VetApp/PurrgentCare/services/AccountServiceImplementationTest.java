@@ -48,6 +48,7 @@ public class AccountServiceImplementationTest {
         this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository, mockPersonRepository, mockMapper);
     }
 
+    // ToDo: Refactor test
     @Test
     public void getAccount_whenExist_returnOneAccount() {
         // given
@@ -64,6 +65,7 @@ public class AccountServiceImplementationTest {
         then(actual).isEqualTo(fakeAccountResponse);
     }
 
+    // ToDo: Refactor test
     @Test
     public void getAccount_whenNotExist_returnEmptyAccountResponse() {
         // given
