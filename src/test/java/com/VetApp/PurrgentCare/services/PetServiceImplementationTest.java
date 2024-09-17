@@ -48,8 +48,8 @@ public class PetServiceImplementationTest {
     @Test
     public void getPet_whenExist_returnOnePet() {
         // given
-        final var fakePetId = fakeDataGenerator.generateRandomInteger();
         final var fakePet = fakeDataGenerator.generateFakePet();
+        final var fakePetId = fakePet.getId();
         final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
         given(mockPetRepository.findById(fakePetId)).willReturn(Optional.of(fakePet));
         given(mockMapper.map(Optional.of(fakePet), PetResponse.class)).willReturn(fakePetResponse);
