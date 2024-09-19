@@ -9,6 +9,8 @@ import org.instancio.Instancio;
 import java.util.Date;
 import java.util.List;
 
+import static org.instancio.Select.field;
+
 
 public class FakeDataGenerator {
     /////
@@ -35,7 +37,16 @@ public class FakeDataGenerator {
     /////
     public Pet generateFakePet() {
         return Instancio.of(Pet.class).create();
+
     }
+
+    public Pet generateFakePet(Pet fakePet) {
+        return Instancio.of(Pet.class)
+                .set(field(Pet::getId), fakePet.getId())
+                .set(field(Pet::getAccount), fakePet.getAccount())
+                .create();
+    }
+
 
     public List<Pet> generateFakePetList(int count) {
         return Instancio.ofList(Pet.class).size(count).create();

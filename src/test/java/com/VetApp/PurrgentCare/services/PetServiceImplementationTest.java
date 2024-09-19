@@ -128,7 +128,6 @@ public class PetServiceImplementationTest {
                     .willReturn(fakePetResponses.get(i));
         }
 
-
         // when
         final var actual = serviceUnderTest.getAllPets();
 
@@ -157,26 +156,20 @@ public class PetServiceImplementationTest {
     public void updatePet_whenPetExists_returnsUpdatedPet() {
         // given
         // ToDo: Refactor Test
+        // Do we need FakePetRequest at all? Other than for Function call
         final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
-        final var fakePetId = fakeDataGenerator.generateRandomInteger();
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
-        // Pull logic below back into fakeDataGenerator. Don't want builder methods in tests
-        final var fakeUpdatedPet = fakeOriginalPet.toBuilder()
-                .name(fakePetRequest.getName())
-                .type(fakePetRequest.getType())
-                .age(fakePetRequest.getAge())
-                .gender(fakePetRequest.getGender())
-                .build();
+        final var fakeUpdatedPet = fakeDataGenerator.generateFakePet(fakeOriginalPet);
         final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
         given(mockMapper.map(fakePetRequest, Pet.class)).willReturn(fakeUpdatedPet);
-        given(mockPetRepository.findById(fakePetId))
+        given(mockPetRepository.findById(fakeOriginalPet.getId()))
                 .willReturn(Optional.of(fakeOriginalPet));
         given(mockPetRepository.save(fakeOriginalPet))
                 .willReturn(fakeUpdatedPet);
         given(mockMapper.map(fakeUpdatedPet, PetResponse.class)).willReturn(fakePetResponse);
 
         // when
-        final var actual = serviceUnderTest.updatePet(fakePetRequest, fakePetId);
+        final var actual = serviceUnderTest.updatePet(fakePetRequest, fakeOriginalPet.getId());
 
         // then
         verify(mockPetRepository).save(petCaptor.capture());
