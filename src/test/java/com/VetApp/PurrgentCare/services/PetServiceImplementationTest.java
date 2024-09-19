@@ -119,15 +119,15 @@ public class PetServiceImplementationTest {
     // ToDo: Refactor test
     public void getAllPets_withValidInput_returnsAllPets() {
         // given
-        final var numberOfPets = 3;
-        final var fakePets = fakeDataGenerator.generateFakePetList(numberOfPets);
-        final List<PetResponse> fakePetResponses = fakeDataGenerator.generateFakePetResponses(numberOfPets);
-
+        final var fakeNumberOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakePets = fakeDataGenerator.generateFakePetList(fakeNumberOfFakePets);
+        final List<PetResponse> fakePetResponses = fakeDataGenerator.generateFakePetResponses(fakeNumberOfFakePets);
         given(mockPetRepository.findAll()).willReturn(fakePets);
-        for (var i = 0; i < numberOfPets; i++) {
+        for (var i = 0; i < fakeNumberOfFakePets; i++) {
             given(mockMapper.map(fakePets.get(i), PetResponse.class))
                     .willReturn(fakePetResponses.get(i));
         }
+
 
         // when
         final var actual = serviceUnderTest.getAllPets();
