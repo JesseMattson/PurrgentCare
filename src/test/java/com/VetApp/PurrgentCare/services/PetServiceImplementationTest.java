@@ -157,6 +157,7 @@ public class PetServiceImplementationTest {
         // given
         // ToDo: Refactor Test
         // Do we need FakePetRequest at all? Other than for Function call
+        // What do we need the response for?
         final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
         final var fakeUpdatedPet = fakeDataGenerator.generateFakePet(fakeOriginalPet);
@@ -177,6 +178,7 @@ public class PetServiceImplementationTest {
         assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(fakePetResponse);
+
     }
 
     @Test

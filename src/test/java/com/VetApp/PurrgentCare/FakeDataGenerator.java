@@ -40,6 +40,11 @@ public class FakeDataGenerator {
 
     }
 
+    /**
+     * Generate fake pet based on exisiting fake pet that is passed in.
+     * @param fakePet
+     * @return Pet object based on original pet with changed params.
+     */
     public Pet generateFakePet(Pet fakePet) {
         return Instancio.of(Pet.class)
                 .set(field(Pet::getId), fakePet.getId())
