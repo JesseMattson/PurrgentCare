@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,17 +92,17 @@ public class PersonServiceImplementationTest {
     @Test
     public void getAllPersons_whenNoPersons_returnsEmptyList() {
         // given
-        final var fakeCountOfFakePersons = 0;
-        final var fakePersonList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePersons);
-        final var expected = fakePersonList;
-        given(mockPersonRepository.findAll())
-                .willReturn(expected);
+
+        final var fakePersons = new ArrayList<Person>();
+        final List<PersonResponse> fakePersonResponses = new ArrayList<>();
+                given(mockPersonRepository.findAll())
+                .willReturn(fakePersons);
 
         // when
         final var actual = serviceUnderTest.getAllPersons();
 
         // then
-        then(actual).isEqualTo(expected);
+        then(actual).isEqualTo(fakePersonResponses);
     }
 
     @Test
