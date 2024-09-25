@@ -2,6 +2,7 @@ package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
 import com.VetApp.PurrgentCare.dtos.PersonResponse;
+import com.VetApp.PurrgentCare.dtos.PetResponse;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -48,6 +50,8 @@ public class PersonServiceImplementationTest {
     @Test
     public void getPerson_whenExist_returnOnePerson() {
         // given
+
+
         final var fakePerson = fakeDataGenerator.generateFakePerson();
         final var fakePersonId = fakePerson.getId();
         final var fakePersonResponse = fakeDataGenerator.generateFakePersonResponse();
@@ -67,21 +71,20 @@ public class PersonServiceImplementationTest {
 
     public void getAllPersons_withValidInput_returnsAllPersons() {
         // given
-        final var fakeCountOfFakePersonList = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePersonList);
-        final var expected = fakeDataGenerator.generateFakePersonResponseList(fakePersonList.size());
-        given(mockPersonRepository.findAll())
-                .willReturn(fakePersonList);
-        for (int i = 0; i < fakePersonList.size(); i++) {
-            given(mockMapper.map(fakePersonList.get(i), PersonResponse.class))
-                    .willReturn((expected.get(i)));
+        final var fakeNumberOfFakePets = fakeDataGenerator.generateRandomInteger();
+        final var fakePersons = fakeDataGenerator.generateFakePersonList(fakeNumberOfFakePets);
+        final List<PersonResponse> fakePersonResponses = fakeDataGenerator.generateFakePersonResponseList(fakeNumberOfFakePets);
+        given(mockPersonRepository.findAll()).willReturn(fakePersons);
+        for (var i = 0; i < fakeNumberOfFakePets; i++) {
+            given(mockMapper.map(fakePersons.get(i), PersonResponse.class))
+                    .willReturn(fakePersonResponses.get(i));
         }
         // when
         final var actual = serviceUnderTest.getAllPersons();
 
         // then
-        then(actual).isEqualTo(expected);
-        then(actual).hasSize(fakePersonList.size());
+        then(actual).isEqualTo(fakePersonResponses);
+        then(actual).hasSize(fakePersonResponses.size());
     }
 
     // ToDo: Refactor test

@@ -85,6 +85,18 @@ public class FakeDataGenerator {
         return Instancio.of(Person.class).create();
     }
 
+        /**
+         * Generate fake pet based on exisiting fake pet that is passed in.
+         * @param fakePerson
+         * @return Pet object based on original pet with changed params.
+         */
+        public Person generateFakePerson(Person fakePerson) {
+            return Instancio.of(Person.class)
+                    .set(field(Person::getId), fakePerson.getId())
+                    .set(field(Person::getAccount), fakePerson.getAccount())
+                    .create();
+        }
+
     public List<Person> generateFakePersonList(Integer countOfFakePerson) {
         return Instancio.ofList(Person.class).size(countOfFakePerson).create();
     }
