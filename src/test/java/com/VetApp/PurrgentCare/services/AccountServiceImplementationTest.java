@@ -52,8 +52,9 @@ public class AccountServiceImplementationTest {
     @Test
     public void getAccount_whenExist_returnOneAccount() {
         // given
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+
         final var fakeAccount = fakeDataGenerator.generateDefaultAccount();
+        final var fakeAccountId = fakeAccount.getId();
         final var fakeAccountResponse = fakeDataGenerator.generateDefaultAccountResponse();
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeAccount));
         given(mockMapper.map(Optional.of(fakeAccount), AccountResponse.class)).willReturn(fakeAccountResponse);
