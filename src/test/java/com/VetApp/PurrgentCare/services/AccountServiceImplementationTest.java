@@ -248,10 +248,7 @@ public class AccountServiceImplementationTest {
         fakeUpdatedAccountHolders.addAll(fakePersons);
 
         // Build updated account object
-        final var fakeUpdatedAccount = fakeOriginalAccount
-                .toBuilder()
-                .accountHolders(fakeUpdatedAccountHolders)
-                .build();
+        final var fakeUpdatedAccount = fakeDataGenerator.generateFakeAccount(fakeOriginalAccount);
 
         // Build account response object
         final var fakeAccountResponse = fakeDataGenerator.generateFakeAccountResponse();
