@@ -201,8 +201,8 @@ public class AccountServiceImplementationTest {
 
     public void toggleAccount_whenAccountExists_returnsToggledAccount() {
         // given
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakeAccount = fakeDataGenerator.generateFakeAccount();
+        final var fakeAccountId = fakeAccount.getId();
         final var fakeAccountResponse = fakeDataGenerator.generateFakeAccountResponse();
         final var initialAccountActive = fakeAccount.getActive();
         given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeAccount));
