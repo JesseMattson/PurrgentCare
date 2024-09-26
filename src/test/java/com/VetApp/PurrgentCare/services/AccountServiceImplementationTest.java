@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -273,15 +274,18 @@ public class AccountServiceImplementationTest {
     // ToDo: Refactor test
 
     public void associatePeople_whenAccountNotExists_throwEntityNotFoundException() {
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
-        final var fakePersonId = fakeDataGenerator.generateRandomInteger();
-        final var fakePetId = fakeDataGenerator.generateRandomInteger();
-        final var fakePeopleIdList = new ArrayList<Integer>(fakePersonId);
+        final var fakeAccountId = fakeDataGenerator.generateFakeAccount().getId();
+        final var fakePersonId = fakeDataGenerator.generateFakePerson().getId();
+        final var fakePetId = fakeDataGenerator.generateFakePet().getId();
+        final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
+        final var fakePeopleIdList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePerson);
 
         // Build request object
-        final var fakeRequest = new AssociatePeopleWithAccountRequest();
+        final var fakeRequest = fakeDataGenerator.generateFakeAssociatePeopleWithAccountRequest();
         fakeRequest.accountId = fakeAccountId;
-        fakeRequest.personIds = fakePeopleIdList;
+        fakeRequest.personIds = fakePeopleIdList.stream()
+                .map(Person::getId)
+                .collect(Collectors.toList());
 
         // Build person object
         final var fakePerson1 = fakeDataGenerator.generateFakePerson();
