@@ -158,18 +158,20 @@ public class AccountServiceImplementationTest {
     public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
         // given
         final var fakeAccountRequest = fakeDataGenerator.generateFakeAccountRequest();
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakeOriginalAccount = fakeDataGenerator.generateFakeAccount();
-        final var fakeUpdatedAccount = fakeDataGenerator.generateFakeAccount();
-        fakeUpdatedAccount.setId(fakeOriginalAccount.getId());
+        final var fakeUpdatedAccount = fakeDataGenerator.generateFakeAccount(fakeOriginalAccount);
         final var fakeAccountResponse = fakeDataGenerator.generateFakeAccountResponse();
-        given(mockMapper.map(fakeAccountRequest, Account.class)).willReturn(fakeUpdatedAccount);
-        given(mockAccountRepository.findById(fakeAccountId)).willReturn(Optional.of(fakeOriginalAccount));
-        given(mockAccountRepository.save(fakeOriginalAccount)).willReturn(fakeUpdatedAccount);
-        given(mockMapper.map(fakeUpdatedAccount, AccountResponse.class)).willReturn(fakeAccountResponse);
+        given(mockMapper.map(fakeAccountRequest, Account.class))
+                .willReturn(fakeUpdatedAccount);
+        given(mockAccountRepository.findById(fakeOriginalAccount.getId()))
+                .willReturn(Optional.of(fakeOriginalAccount));
+        given(mockAccountRepository.save(fakeOriginalAccount))
+                .willReturn(fakeUpdatedAccount);
+        given(mockMapper.map(fakeUpdatedAccount, AccountResponse.class))
+                .willReturn(fakeAccountResponse);
 
         // when
-        final var actual = serviceUnderTest.updateAccount(fakeAccountRequest, fakeAccountId);
+        final var actual = serviceUnderTest.updateAccount(fakeAccountRequest, fakeOriginalAccount.getId());
 
         // then
         verify(mockAccountRepository).save(accountCaptor.capture());

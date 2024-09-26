@@ -162,12 +162,14 @@ public class PetServiceImplementationTest {
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
         final var fakeUpdatedPet = fakeDataGenerator.generateFakePet(fakeOriginalPet);
         final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
-        given(mockMapper.map(fakePetRequest, Pet.class)).willReturn(fakeUpdatedPet);
+        given(mockMapper.map(fakePetRequest, Pet.class))
+                .willReturn(fakeUpdatedPet);
         given(mockPetRepository.findById(fakeOriginalPet.getId()))
                 .willReturn(Optional.of(fakeOriginalPet));
         given(mockPetRepository.save(fakeOriginalPet))
                 .willReturn(fakeUpdatedPet);
-        given(mockMapper.map(fakeUpdatedPet, PetResponse.class)).willReturn(fakePetResponse);
+        given(mockMapper.map(fakeUpdatedPet, PetResponse.class))
+                .willReturn(fakePetResponse);
 
         // when
         final var actual = serviceUnderTest.updatePet(fakePetRequest, fakeOriginalPet.getId());
