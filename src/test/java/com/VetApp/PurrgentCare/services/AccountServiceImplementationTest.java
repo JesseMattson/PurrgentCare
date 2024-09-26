@@ -49,7 +49,6 @@ public class AccountServiceImplementationTest {
         this.serviceUnderTest = new AccountServiceImplementation(mockAccountRepository, mockPersonRepository, mockMapper);
     }
 
-    // ToDo: Refactor test
     @Test
     public void getAccount_whenExist_returnOneAccount() {
         // given
@@ -67,7 +66,6 @@ public class AccountServiceImplementationTest {
         then(actual).isEqualTo(fakeAccountResponse);
     }
 
-    // ToDo: Refactor test
     @Test
     public void getAccount_whenNotExist_returnEmptyAccountResponse() {
         // given
@@ -155,7 +153,6 @@ public class AccountServiceImplementationTest {
 
 
     @Test
-    // ToDo: Refactor test
     public void updateAccount_whenAccountExists_returnsUpdatedAccount() {
         // given
         final var fakeAccountRequest = fakeDataGenerator.generateFakeAccountRequest();
@@ -198,7 +195,6 @@ public class AccountServiceImplementationTest {
 
 
     @Test
-    // ToDo: Refactor test
 
     public void toggleAccount_whenAccountExists_returnsToggledAccount() {
         // given
@@ -232,7 +228,6 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
-    // ToDo: Refactor test
 
     public void associatePeople_whenAccountExists_returnAssociatedPeople() {
 
@@ -271,11 +266,9 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
-    // ToDo: Refactor test
 
     public void associatePeople_whenAccountNotExists_throwEntityNotFoundException() {
         final var fakeAccountId = fakeDataGenerator.generateFakeAccount().getId();
-        final var fakePersonId = fakeDataGenerator.generateFakePerson().getId();
         final var fakePetId = fakeDataGenerator.generateFakePet().getId();
         final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
         final var fakePeopleIdList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePerson);

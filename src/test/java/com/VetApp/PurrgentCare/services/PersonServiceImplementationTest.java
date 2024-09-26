@@ -46,7 +46,6 @@ public class PersonServiceImplementationTest {
         this.serviceUnderTest = new PersonServiceImplementation(mockPersonRepository, mockMapper);
     }
 
-    // ToDo: Refactor test
     @Test
     public void getPerson_whenExist_returnOnePerson() {
         // given
@@ -67,7 +66,6 @@ public class PersonServiceImplementationTest {
 // ToDo: getPerson_whenNotExist_returnEmptyPersonResponse TEST
 
     @Test
-    // ToDo: Refactor test
 
     public void getAllPersons_withValidInput_returnsAllPersons() {
         // given
@@ -86,7 +84,6 @@ public class PersonServiceImplementationTest {
         then(actual).hasSize(fakePersonResponses.size());
     }
 
-    // ToDo: Refactor test
     @Test
     public void getAllPersons_whenNoPersons_returnsEmptyList() {
         // given
@@ -135,8 +132,6 @@ public class PersonServiceImplementationTest {
     }
 
     @Test
-    // ToDo: Refactor test
-
     public void updatePerson_whenPersonExists_returnsUpdatedPerson() {
         // given
         final var fakePersonRequest = fakeDataGenerator.generateFakePersonRequest();

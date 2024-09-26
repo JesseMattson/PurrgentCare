@@ -44,7 +44,6 @@ public class PetServiceImplementationTest {
         this.serviceUnderTest = new PetServiceImplementation(mockPetRepository, mockMapper);
     }
 
-    // ToDo: Refactor test
     @Test
     public void getPet_whenExist_returnOnePet() {
         // given
@@ -61,7 +60,6 @@ public class PetServiceImplementationTest {
         then(actual).isEqualTo(fakePetResponse);
     }
 
-    // ToDo: Refactor test
     @Test
     public void getPet_whenNotExist_returnEmptyPetResponse() {
         // given
@@ -116,7 +114,6 @@ public class PetServiceImplementationTest {
 
 
     @Test
-    // ToDo: Refactor test
     public void getAllPets_withValidInput_returnsAllPets() {
         // given
         final var fakeNumberOfFakePets = fakeDataGenerator.generateRandomInteger();
@@ -155,9 +152,6 @@ public class PetServiceImplementationTest {
     @Test
     public void updatePet_whenPetExists_returnsUpdatedPet() {
         // given
-        // ToDo: Refactor Test
-        // Do we need FakePetRequest at all? Other than for Function call
-        // What do we need the response for?
         final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
         final var fakeOriginalPet = fakeDataGenerator.generateFakePet();
         final var fakeUpdatedPet = fakeDataGenerator.generateFakePet(fakeOriginalPet);
