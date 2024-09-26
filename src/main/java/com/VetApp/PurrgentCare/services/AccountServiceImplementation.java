@@ -34,7 +34,8 @@ public class AccountServiceImplementation implements AccountServiceInterface {
 
         final var account = accountRepository.findById(accountId);
         if (account.isPresent()) {
-            return mapper.map(account, AccountResponse.class);
+            AccountResponse accountResponse =  mapper.map(account, AccountResponse.class);
+            return accountResponse;
         }
         return new AccountResponse();
     }
