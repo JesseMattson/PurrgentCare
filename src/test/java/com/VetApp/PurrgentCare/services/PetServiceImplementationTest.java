@@ -187,7 +187,7 @@ public class PetServiceImplementationTest {
     public void updatePet_whenPetNotExists_throwEntityNotFoundException() {
         // given
         final var fakePetRequest = fakeDataGenerator.generateFakePetRequest();
-        final var fakePetId = fakeDataGenerator.generateRandomInteger();
+        final var fakePetId = fakeDataGenerator.generateFakePet().getId();
         given(mockPetRepository.findById(fakePetId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakePetId)));
 

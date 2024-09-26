@@ -185,7 +185,7 @@ public class AccountServiceImplementationTest {
     public void updateAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
         final var fakeAccountRequest = fakeDataGenerator.generateFakeAccountRequest();
-        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
+        final var fakeAccountId = fakeDataGenerator.generateFakeAccount().getId();
         given(mockAccountRepository.findById(fakeAccountId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
