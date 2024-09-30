@@ -2,7 +2,6 @@ package com.VetApp.PurrgentCare.services;
 
 import com.VetApp.PurrgentCare.FakeDataGenerator;
 import com.VetApp.PurrgentCare.dtos.AccountResponse;
-import com.VetApp.PurrgentCare.dtos.AssociatePeopleWithAccountRequest;
 import com.VetApp.PurrgentCare.models.Account;
 import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.repositories.AccountRepository;
@@ -269,7 +268,6 @@ public class AccountServiceImplementationTest {
 
     public void associatePeople_whenAccountNotExists_throwEntityNotFoundException() {
         final var fakeAccountId = fakeDataGenerator.generateFakeAccount().getId();
-        final var fakePetId = fakeDataGenerator.generateFakePet().getId();
         final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
         final var fakePeopleIdList = fakeDataGenerator.generateFakePersonList(fakeCountOfFakePerson);
 
@@ -283,9 +281,6 @@ public class AccountServiceImplementationTest {
         // Build person object
         final var fakePerson1 = fakeDataGenerator.generateFakePerson();
 
-        // Build pet object
-        final var fakePet1 = fakeDataGenerator.generateFakePet();
-        fakePet1.setId(fakePetId);
 
         // Configure mocks for every call on dependencies within the service
         given(mockPersonRepository.findAllById(fakeRequest.personIds)).willReturn(List.of(fakePerson1));
