@@ -68,9 +68,10 @@ public class AccountServiceImplementationTest {
     @Test
     public void getAccount_whenNotExist_returnEmptyAccountResponse() {
         // given
-        final var fakeAccount = fakeDataGenerator.generateFakeAccount();
-        final var fakeAccountId = fakeAccount.getId();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         final var fakeAccountResponse = fakeDataGenerator.generateFakeAccountResponse();
+        // ToDo: Make a method inside fakdDataGenerator to create a null account response.
+            // Could also just do a new AccountResponse
         fakeAccountResponse.setId(null);
         fakeAccountResponse.setActive(null);
         fakeAccountResponse.setDateCreated(null);
@@ -181,8 +182,9 @@ public class AccountServiceImplementationTest {
 
     public void updateAccount_whenAccountNotExists_throwEntityNotFoundException() {
         // given
+        // ToDo: comb through tests and see if we're pulling in classes if not Exists
         final var fakeAccountRequest = fakeDataGenerator.generateFakeAccountRequest();
-        final var fakeAccountId = fakeDataGenerator.generateFakeAccount().getId();
+        final var fakeAccountId = fakeDataGenerator.generateRandomInteger();
         given(mockAccountRepository.findById(fakeAccountId))
                 .willThrow(new EntityNotFoundException(String.valueOf(fakeAccountId)));
 
@@ -265,7 +267,6 @@ public class AccountServiceImplementationTest {
     }
 
     @Test
-
     public void associatePeople_whenAccountNotExists_throwEntityNotFoundException() {
         final var fakeAccountId = fakeDataGenerator.generateFakeAccount().getId();
         final var fakeCountOfFakePerson = fakeDataGenerator.generateRandomInteger();
