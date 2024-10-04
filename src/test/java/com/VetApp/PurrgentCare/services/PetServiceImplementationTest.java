@@ -64,13 +64,7 @@ public class PetServiceImplementationTest {
     public void getPet_whenNotExist_returnEmptyPetResponse() {
         // given
         final var fakePetId = fakeDataGenerator.generateRandomInteger();
-        final var fakePetResponse = fakeDataGenerator.generateFakePetResponse();
-        fakePetResponse.setId(null);
-        fakePetResponse.setName(null);
-        fakePetResponse.setType(null);
-        fakePetResponse.setAge(null);
-        fakePetResponse.setGender(null);
-
+        final var fakePetResponse = fakeDataGenerator.generateFakePetResponse(1);
         given(mockPetRepository.findById(fakePetId)).willReturn(Optional.empty());
 
         // when

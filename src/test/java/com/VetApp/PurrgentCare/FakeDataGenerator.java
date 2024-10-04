@@ -69,6 +69,16 @@ public class FakeDataGenerator {
     public PetResponse generateFakePetResponse() {
         return Instancio.of(PetResponse.class).create();
     }
+    /**
+     * Generate null petResponse.
+     *
+     * @param numberOfNullFakePetResponses
+     * @return Pet object based on original pet with changed params.
+     */
+    public PetResponse generateFakePetResponse(Integer numberOfNullFakePetResponses) {
+        return Instancio.ofBlank(PetResponse.class)
+                .create();
+    }
 
     public List<PetResponse> generateFakePetResponses(int count) {
         return Instancio.ofList(PetResponse.class).size(count).create();
@@ -87,10 +97,10 @@ public class FakeDataGenerator {
     }
 
     /**
-     * Generate fake pet based on exisiting fake pet that is passed in.
+     * Generate fake person based on exisiting fake pet that is passed in.
      *
      * @param fakePerson
-     * @return Pet object based on original pet with changed params.
+     * @return Person object based on original pet with changed params.
      */
     public Person generateFakePerson(Person fakePerson) {
         return Instancio.of(Person.class)
