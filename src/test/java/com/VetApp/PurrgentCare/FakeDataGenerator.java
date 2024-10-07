@@ -58,10 +58,6 @@ public class FakeDataGenerator {
         return Instancio.ofList(Pet.class).size(count).create();
     }
 
-    public List<Pet> generateDefaultPetList() {
-        return Instancio.ofList(Pet.class).create();
-    }
-
     public PetRequest generateFakePetRequest() {
         return Instancio.of(PetRequest.class).create();
     }
@@ -69,13 +65,8 @@ public class FakeDataGenerator {
     public PetResponse generateFakePetResponse() {
         return Instancio.of(PetResponse.class).create();
     }
-    /**
-     * Generate null petResponse.
-     *
-     * @param numberOfNullFakePetResponses
-     * @return Pet object based on original pet with changed params.
-     */
-    public PetResponse generateFakePetResponse(Integer numberOfNullFakePetResponses) {
+
+    public PetResponse generateEmptyPetResponse( ) {
         return Instancio.ofBlank(PetResponse.class)
                 .create();
     }
