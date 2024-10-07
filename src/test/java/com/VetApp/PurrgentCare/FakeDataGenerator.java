@@ -6,7 +6,6 @@ import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import org.instancio.Instancio;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.instancio.Select.field;
@@ -16,20 +15,9 @@ public class FakeDataGenerator {
     /////
     //General Types
     /////
-    public Boolean generateRandomBoolean() {
-        return Instancio.gen().booleans().get();
-    }
 
     public Integer generateRandomInteger() {
         return Instancio.gen().ints().get();
-    }
-
-    public String generateRandomString() {
-        return Instancio.gen().string().get();
-    }
-
-    public Date generateRandomDate() {
-        return Instancio.gen().temporal().date().get();
     }
 
     /////
@@ -66,7 +54,7 @@ public class FakeDataGenerator {
         return Instancio.of(PetResponse.class).create();
     }
 
-    public PetResponse generateEmptyPetResponse( ) {
+    public PetResponse generateEmptyPetResponse() {
         return Instancio.ofBlank(PetResponse.class)
                 .create();
     }
@@ -75,9 +63,6 @@ public class FakeDataGenerator {
         return Instancio.ofList(PetResponse.class).size(count).create();
     }
 
-    public List<PetResponse> generateDefaultFakePetResponses() {
-        return Instancio.ofList(PetResponse.class).create();
-    }
 
     /////
     //Person Types
