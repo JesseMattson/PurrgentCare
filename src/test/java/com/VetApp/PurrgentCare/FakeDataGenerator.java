@@ -6,28 +6,18 @@ import com.VetApp.PurrgentCare.models.Person;
 import com.VetApp.PurrgentCare.models.Pet;
 import org.instancio.Instancio;
 
-import java.util.Date;
 import java.util.List;
+
+import static org.instancio.Select.field;
 
 
 public class FakeDataGenerator {
     /////
     //General Types
     /////
-    public Boolean generateRandomBoolean() {
-        return Instancio.gen().booleans().get();
-    }
 
     public Integer generateRandomInteger() {
         return Instancio.gen().ints().get();
-    }
-
-    public String generateRandomString() {
-        return Instancio.gen().string().get();
-    }
-
-    public Date generateRandomDate() {
-        return Instancio.gen().temporal().date().get();
     }
 
     /////
@@ -35,14 +25,25 @@ public class FakeDataGenerator {
     /////
     public Pet generateFakePet() {
         return Instancio.of(Pet.class).create();
+
     }
+
+    /**
+     * Generate fake pet based on exisiting fake pet that is passed in.
+     *
+     * @param fakePet
+     * @return Pet object based on original pet with changed params.
+     */
+    public Pet generateFakePet(Pet fakePet) {
+        return Instancio.of(Pet.class)
+                .set(field(Pet::getId), fakePet.getId())
+                .set(field(Pet::getAccount), fakePet.getAccount())
+                .create();
+    }
+
 
     public List<Pet> generateFakePetList(int count) {
         return Instancio.ofList(Pet.class).size(count).create();
-    }
-
-    public List<Pet> generateDefaultPetList() {
-        return Instancio.ofList(Pet.class).create();
     }
 
     public PetRequest generateFakePetRequest() {
@@ -53,13 +54,15 @@ public class FakeDataGenerator {
         return Instancio.of(PetResponse.class).create();
     }
 
+    public PetResponse generateEmptyPetResponse() {
+        return Instancio.ofBlank(PetResponse.class)
+                .create();
+    }
+
     public List<PetResponse> generateFakePetResponses(int count) {
         return Instancio.ofList(PetResponse.class).size(count).create();
     }
 
-    public List<PetResponse> generateDefaultFakePetResponses() {
-        return Instancio.ofList(PetResponse.class).create();
-    }
 
     /////
     //Person Types
@@ -67,6 +70,19 @@ public class FakeDataGenerator {
 
     public Person generateFakePerson() {
         return Instancio.of(Person.class).create();
+    }
+
+    /**
+     * Generate fake person based on exisiting fake pet that is passed in.
+     *
+     * @param fakePerson
+     * @return Person object based on original pet with changed params.
+     */
+    public Person generateFakePerson(Person fakePerson) {
+        return Instancio.of(Person.class)
+                .set(field(Person::getId), fakePerson.getId())
+                .set(field(Person::getAccount), fakePerson.getAccount())
+                .create();
     }
 
     public List<Person> generateFakePersonList(Integer countOfFakePerson) {
@@ -93,11 +109,19 @@ public class FakeDataGenerator {
     //Account Types
     /////
 
-    public Account generateDefaultAccount() {
+    public Account generateFakeAccount() {
         return Instancio.of(Account.class).create();
     }
 
-    public List<Account> generateDefaultAccountList() {
+    public Account generateFakeAccount(Account fakeAccount) {
+        return Instancio.of(Account.class)
+                .set(field(Account::getId), fakeAccount.getId())
+                .set(field(Account::getPets), fakeAccount.getPets())
+                .set(field(Account::getAccountHolders), fakeAccount.getAccountHolders())
+                .create();
+    }
+
+    public List<Account> generatefakeAccountList() {
         return Instancio.ofList(Account.class).create();
     }
 
@@ -106,7 +130,7 @@ public class FakeDataGenerator {
 
     }
 
-    public AccountResponse generateDefaultAccountResponse() {
+    public AccountResponse generateFakeAccountResponse() {
         return Instancio.of(AccountResponse.class).create();
     }
 
