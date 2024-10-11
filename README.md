@@ -132,6 +132,8 @@ ___
 
 - ### 🌶 [Lombok][lombok-doc]
 
+- ### ⚗ [Instancio][instancio-doc]
+
 [mvc-doc]: https://tom-collings.medium.com/controller-service-repository-16e29a4684e5
 
 [react-doc]: https://react.dev/
@@ -155,6 +157,8 @@ ___
 [makefile-doc]: documentation/makefile.md
 
 [lombok-doc]: documentation/lombok.md
+
+[instancio-doc]: documentation/instancio.md
 
 [unit-testing-doc]: documentation/unit-testing.md
 
