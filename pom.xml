@@ -137,7 +137,6 @@
         <profile>
             <id>local-shippo</id>
             <activation>
-                <!-- Activates this profile if the environment variable LOCAL_SHIPPO is set to "true" -->
                 <property>
                     <name>env.LOCAL_SHIPPO</name>
                     <value>true</value>
@@ -150,7 +149,11 @@
                     <version>0.4.0</version>
                 </dependency>
             </dependencies>
+            <build>
+                <directory>src/local-test/java</directory>
+            </build>
         </profile>
     </profiles>
+
 
 </project>
