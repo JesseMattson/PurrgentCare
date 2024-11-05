@@ -78,12 +78,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.shippo</groupId>
-            <artifactId>sdk</artifactId>
-            <version>0.4.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.instancio</groupId>
             <artifactId>instancio-core</artifactId>
             <version>5.0.1</version>
@@ -138,5 +132,25 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <profiles>
+        <profile>
+            <id>local-shippo</id>
+            <activation>
+                <!-- Activates this profile if the environment variable LOCAL_SHIPPO is set to "true" -->
+                <property>
+                    <name>env.LOCAL_SHIPPO</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.shippo</groupId>
+                    <artifactId>sdk</artifactId>
+                    <version>0.4.0</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>
