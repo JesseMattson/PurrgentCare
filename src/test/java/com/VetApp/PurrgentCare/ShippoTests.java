@@ -5,10 +5,13 @@ import com.shippo.sdk.models.components.AddressCreateRequest;
 import com.shippo.sdk.models.errors.SDKError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
+@EnabledIfEnvironmentVariable(named = "SHIPPO_API_KEY", matches = ".+")
 public class ShippoTests {
 
     private final String apiKey = System.getenv("SHIPPO_API_KEY");
+    private final String addressObjectId = "fd14e6dc2fd444128e76f5dbd1f01f21";
     private Shippo sdk;
 
     @BeforeEach
@@ -61,7 +64,7 @@ public class ShippoTests {
     @Test
     public void getAddressTest() throws Exception {
         final var response = sdk.addresses().get()
-                .addressId("1")
+                .addressId(addressObjectId)
                 .shippoApiVersion("2018-02-08")
                 .call();
         System.out.println(response);
@@ -70,7 +73,7 @@ public class ShippoTests {
     @Test
     public void validateAddressTest() throws Exception {
         final var response = sdk.addresses().validate()
-                .addressId("1")
+                .addressId(addressObjectId)
                 .shippoApiVersion("2018-02-08")
                 .call();
         System.out.println(response);
