@@ -76,7 +76,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        
 
         <dependency>
             <groupId>org.instancio</groupId>
@@ -133,5 +132,28 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <profiles>
+        <profile>
+            <id>local-shippo</id>
+            <activation>
+                <property>
+                    <name>env.LOCAL_SHIPPO</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.shippo</groupId>
+                    <artifactId>sdk</artifactId>
+                    <version>0.4.0</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <directory>src/local-test/java</directory>
+            </build>
+        </profile>
+    </profiles>
+
 
 </project>

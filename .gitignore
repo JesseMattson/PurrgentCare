@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Local Testing ###
+src/local-test/java/classes/
+src/local-test/java/generated*
+src/local-test/java/maven-status/
+src/local-test/java/surefire
+src/local-test/java/surefire-reports/
+src/local-test/java/test-classes/
+src/local-test/java/jacoco.exec
