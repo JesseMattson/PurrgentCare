@@ -96,10 +96,41 @@ public class ShippoTests {
     }
 
     @Test
+    @Disabled
+    public void createShippoAccountTest() throws Exception {
+        final var response = sdk.shippoAccounts().create()
+                .shippoApiVersion("2018-02-08")
+                .shippoAccountUpdateRequest(ShippoAccountUpdateRequest.builder()
+                        .email("hippo@shippo.com")
+                        .firstName("Shippo")
+                        .lastName("Meister")
+                        .companyName("Acme")
+                        .build())
+                .call();
+        System.out.println(response);
+    }
+
+    @Test
     public void getShippoAccountTest() throws Exception {
         final var response = sdk.shippoAccounts().get()
                 .shippoAccountId(shippoAccountObjectId)
                 .shippoApiVersion("2018-02-08")
+                .call();
+        System.out.println(response);
+    }
+
+    @Test
+    @Disabled
+    public void updateShippoAccountTest() throws Exception {
+        final var response = sdk.shippoAccounts().update()
+                .shippoAccountId(shippoAccountObjectId)
+                .shippoApiVersion("2018-02-08")
+                .shippoAccountUpdateRequest(ShippoAccountUpdateRequest.builder()
+                        .email("hippo@shippo.com")
+                        .firstName("Shippo")
+                        .lastName("Meister")
+                        .companyName("Acme")
+                        .build())
                 .call();
         System.out.println(response);
     }
